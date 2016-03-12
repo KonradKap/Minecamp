@@ -12,9 +12,10 @@
 #include "ofApp.h"
 #include "ofEvents.h"
 
-#include "GameState.h"
-#include "ButtonModel.h"
-#include "Button.h"
+#include "Game/GameState.h"
+#include "Game/Play.h"
+#include "Game/Menu/ButtonModel.h"
+#include "Game/Menu/Button.h"
 
 class Menu : public GameState
 {
@@ -24,7 +25,7 @@ public:
 	virtual ~Menu();
 
 	GameState* update(float elapsed_time);
-	void handleInput();
+	//void handleInput();
 	void draw() const;
 
 	const int TITLE_OFFSET = 50;

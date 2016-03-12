@@ -15,7 +15,7 @@ public:
 	//GameState(const GameState& gs);
 	virtual ~GameState() {}
 
-	virtual void handleInput() = 0;
+	//virtual void handleInput() = 0;
 	virtual GameState* update(float elapsed_time) = 0;
 	virtual void draw() const = 0;
 private:

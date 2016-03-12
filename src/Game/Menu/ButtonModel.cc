@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "ButtonModel.h"
+#include "Game/Menu/ButtonModel.h"
 
 ButtonModel::ButtonModel(const std::string& directory, const std::string& font_filename, const int font_size) :
 	image_({ofImage(directory + "/pressed.png"), ofImage(directory + "/inactive.png"), ofImage(directory + "/active.png")}),

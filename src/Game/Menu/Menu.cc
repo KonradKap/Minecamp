@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "Menu.h"
+#include "Game/Menu/Menu.h"
 
 Menu::Menu() :
 	GameState(),
@@ -28,6 +28,7 @@ Menu::~Menu()
 }
 //TODO: Buttons, switching states to Play, Load, Options etc.
 //Recieving messages from buttons
+//Maybe use listener pattern to send messages to game?
 GameState* Menu::update(float elapsed_time)
 {
 	switch(chosen_option_)
@@ -35,18 +36,18 @@ GameState* Menu::update(float elapsed_time)
 	case NOTHING:
 		return this;
 	case PLAY:
-		return nullptr;
+		return new Play();
 	case QUIT:
 		return nullptr;
 	default:
 		return nullptr;
 	}
 }
-
+/*
 void Menu::handleInput()
 {
 }
-
+*/
 void Menu::draw() const
 {
 	background_.draw(0, 0, ofApp::WINDOW_X_SIZE, ofApp::WINDOW_Y_SIZE);

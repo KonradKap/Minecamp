@@ -19,7 +19,7 @@ class Game
 
 		~Game();
 
-		void handleInput();
+		//void handleInput();
 		bool update(float elapsed_time);
 		void draw() const;
 
@@ -29,7 +29,7 @@ class Game
 
 };
 
-#include "GameState.h"
-#include "Menu.h"
+#include "Game/GameState.h"
+#include "Game/Menu/Menu.h"
 
 #endif /* SRC_GAME_GAME_H_ */

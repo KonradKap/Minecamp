@@ -40,7 +40,7 @@ private:
 	ofTrueTypeFont font_;
 };
 
-#include "Button.h"
+#include "Game/Menu/Button.h"
 
 
 #endif /* SRC_GAME_BUTTONMODEL_H_ */

@@ -6,7 +6,7 @@
  */
 
 #include <iostream>
-#include "Button.h"
+#include "Game/Menu/Button.h"
 
 Button::Button() :
 	state_(ButtonModel::INACTIVE), position_(), title_(), base_()

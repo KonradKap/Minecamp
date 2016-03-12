@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Game/Game.h"
 
 Game::Game() :
 	state_(new Menu())		//Menu is the default start
@@ -9,12 +9,12 @@ Game::~Game()
 {
 	delete state_;
 }
-
+/*
 void Game::handleInput()
 {
 	state_->handleInput();
 }
-
+*/
 ///TODO: Make this reversible using stack
 ///We want the ability to pause the Game
 ///Also keep in mind that GameState::Play is the heaviest of them all
