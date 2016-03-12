@@ -26,6 +26,7 @@
 *.exe
 *.out
 *.app
+bin/Minecamp_debug
 
 #Others
 *.d

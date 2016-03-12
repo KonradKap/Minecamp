@@ -2,22 +2,27 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+    timer_ = 0.0f;
+    ofResetElapsedTimeCounter();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+	float elapsedTime = ofGetElapsedTimef() - timer_;
+	if(!game_.update(elapsedTime))
+	{
+		ofGetMainLoop()->shouldClose(0);
+	}
+	timer_ = ofGetElapsedTimef();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	ofDrawRectangle(10, 10, 10, 10);
+	game_.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
 }
 
 //--------------------------------------------------------------
