@@ -10,12 +10,17 @@
 Menu::Menu() :
 	GameState(),
 	chosen_option_(NOTHING),
-	background_("../../resources/game/background_2.png"),
-	title_("../../resources/game/title.png"),
-	model_("../../resources/game/menu_button_2", "../../resources/fonts/menu_font.ttf", 14),
+	background_(),
+	title_(),
+	model_(),
 	play_button_(ofVec2f(0, 0), "Play", &model_),
 	quit_button_(ofVec2f(0, 0), "Quit", &model_)
 {
+	const MenuPathManager MANAGER;
+	background_.load(MANAGER.get(MenuResources::BACKGROUND_T));
+	title_.load(MANAGER.get(MenuResources::TITLE_T));
+	model_.setup(MANAGER.get(MenuResources::BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
+
 	const ofVec2f BUTTON_POSITION(ofApp::WINDOW_X_SIZE/2 - model_.getSize().x/2, BUTTONSET_OFFSET);
 	play_button_.setPosition(BUTTON_POSITION);
 	quit_button_.setPosition(BUTTON_POSITION + ofVec2f(0.0f, BUTTON_OFFSET + model_.getSize().y/2));

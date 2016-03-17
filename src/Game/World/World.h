@@ -10,6 +10,8 @@
 
 #include <array>
 
+#include "Game/World/BlockModel.h"
+
 class BlockModel;
 
 class World
@@ -20,8 +22,9 @@ public:
 	static const int Z_SIZE = 256;
 private:
 	typedef std::array< std::array < std::array <const BlockModel*, Z_SIZE>, Y_SIZE>, X_SIZE> Map3d;
-	//std::map<int, BlockModel> dictionary_;
+
 	Map3d map_;
+	std::array<BlockModel, (size_t)BlockType::COUNT> models;
 };
 
 

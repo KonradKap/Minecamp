@@ -16,6 +16,7 @@
 #include "Game/Play.h"
 #include "Game/Menu/ButtonModel.h"
 #include "Game/Menu/Button.h"
+#include "Game/Menu/MenuPathManager.h"
 
 class Menu : public GameState
 {
@@ -31,6 +32,7 @@ public:
 	const int TITLE_OFFSET = 50;
 	const int BUTTON_OFFSET = 25;
 	const int BUTTONSET_OFFSET = 250;
+	const int FONT_SIZE = 14;
 private:
 	void onPlayPressed();
 	void onQuitPressed();

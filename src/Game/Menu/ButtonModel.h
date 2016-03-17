@@ -26,10 +26,16 @@ public:
 		COUNT
 	};
 
+	ButtonModel();
 	ButtonModel(const std::string& directory, const std::string& font_filename, const int font_size);
+	ButtonModel(const ButtonModel& source);
 	~ButtonModel();
 
+	ButtonModel& operator= (const ButtonModel&) = default;
+
 	ofVec2f getSize() const;
+
+	void setup(const std::string& directory, const std::string& font_filename, const int font_size);
 
 	const std::array<ofImage, ButtonState::COUNT>& getImageArray() const;
 	const ofTrueTypeFont& getFont() const;

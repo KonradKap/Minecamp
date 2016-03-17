@@ -4,7 +4,8 @@
 #include <iostream>
 
 //========================================================================
-int main( ){
+int main( )
+{
 	ofGLFWWindowSettings settings;
 	settings.setGLVersion(3, 2);
 	settings.width = ofApp::WINDOW_X_SIZE;

@@ -7,11 +7,23 @@
 
 #include "Game/Menu/ButtonModel.h"
 
+ButtonModel::ButtonModel() :
+	image_(),
+	font_()
+{
+}
+
 ButtonModel::ButtonModel(const std::string& directory, const std::string& font_filename, const int font_size) :
-	image_({ofImage(directory + "/pressed.png"), ofImage(directory + "/inactive.png"), ofImage(directory + "/active.png")}),
+	image_({ofImage(directory + "pressed.png"), ofImage(directory + "inactive.png"), ofImage(directory + "active.png")}),
 	font_()
 {
 	font_.load(font_filename, font_size);
+}
+
+ButtonModel::ButtonModel(const ButtonModel& source) :
+	image_(source.image_),
+	font_(source.font_)
+{
 }
 
 ButtonModel::~ButtonModel()
@@ -21,6 +33,11 @@ ButtonModel::~ButtonModel()
 ofVec2f ButtonModel::getSize() const
 {
 	return ofVec2f(image_[0].getWidth(), image_[0].getHeight());
+}
+
+void ButtonModel::setup(const std::string& directory, const std::string& font_filename, const int font_size)
+{
+	*this = ButtonModel(directory, font_filename, font_size);
 }
 
 const std::array<ofImage, ButtonModel::COUNT>& ButtonModel::getImageArray() const
