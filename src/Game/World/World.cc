@@ -130,12 +130,12 @@ BlockModel& World::getBlock(const trio_i& position)
 	return *map_[position.x][position.y][position.z];
 }
 
-const ofMesh& World::getBuffer(const trio_i& position) const
+const ofMesh& World::getBuffer(const trio_i& position, BlockType type) const
 {
-	return const_cast<World*>(this)->getBuffer(position);
+	return const_cast<World*>(this)->getBuffer(position, type);
 }
 
-ofMesh& World::getBuffer(const trio_i& position)
+ofMesh& World::getBuffer(const trio_i& position, BlockType type)
 {
-	return buffer_[position.x][position.y][position.z];
+	return buffer_[position.x][position.y][position.z][unsigned(type)];
 }

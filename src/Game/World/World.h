@@ -49,8 +49,8 @@ private:
 	void addToMesh(const trio_i& position, Side side);
 	const BlockModel& getBlock(const trio_i& position) const;
 	BlockModel& getBlock(const trio_i& position);
-	const ofMesh& getBuffer(const trio_i& position) const;
-	ofMesh& getBuffer(const trio_i& position);
+	const ofMesh& getBuffer(const trio_i& position, BlockType type) const;
+	ofMesh& getBuffer(const trio_i& position, BlockType type);
 
 	typedef std::array< std::array < std::array <BlockModel*, Z_SIZE>, Y_SIZE>, X_SIZE> map_t;
 	map_t map_;
