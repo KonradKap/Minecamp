@@ -10,18 +10,29 @@
 
 #include <memory>
 
+#include "ofImage.h"
+
 #include "BlockPathManager.h"
 
 class BlockModel
 {
 public:
 	BlockModel();
-	BlockModel(const BlockType type);
+	BlockModel(const BlockType type, const std::string& path);
 	BlockModel(const BlockModel& bm);
 	~BlockModel();
 
 	bool isSolid() const;
 	bool isLiquid() const;
+	bool isGas() const;
+	bool isTransparent() const;
+
+	ofTexture& getTexture();
+	const ofTexture& getTexture() const;
+
+	BlockType getType() const;
+
+	static const int SIZE = 16;
 private:
 	enum BlockForm
 	{
@@ -29,14 +40,16 @@ private:
 		LIQUID, //Can swim, can't mine
 		GAS, //Basically the air block
 	};
+	BlockType type_;
 	BlockForm form_;
-	std::unique_ptr<ofTexture> side_texture_;
-	std::unique_ptr<ofTexture> top_texture_;
+	ofImage image_;
 	bool transparency_;
-
-	ofFilePath ofp;
 };
-
-
+/*
+bool operator< (const BlockModel& arg1, const BlockModel& arg2)
+{
+	return false;
+}
+*/
 
 #endif /* SRC_GAME_WORLD_BLOCKMODEL_H_ */

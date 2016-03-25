@@ -18,7 +18,7 @@ void Game::handleInput()
 ///TODO: Make this reversible using stack
 ///We want the ability to pause the Game
 ///Also keep in mind that GameState::Play is the heaviest of them all
-///And thus it is not advised to copy it
+///And thus it is not advised to reallocate it
 bool Game::update(float elapsed_time)
 {
 	GameState* newState = state_->update(elapsed_time);

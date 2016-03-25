@@ -26,6 +26,11 @@ GameState* Play::update(float elapsed_time)
 
 void Play::draw() const
 {
+	cam.begin();
+
+		w_.draw();
+
+	cam.end();
 }
 
 

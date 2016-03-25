@@ -8,7 +8,10 @@
 #ifndef SRC_PLAY_H_
 #define SRC_PLAY_H_
 
+#include "ofEasyCam.h"
+
 #include "Game/GameState.h"
+#include "Game/World/World.h"
 
 //TODO: This
 class Play : public GameState
@@ -21,7 +24,8 @@ public:
 	virtual GameState* update(float elapsed_time);
 	virtual void draw() const;
 private:
-
+	World w_;
+	mutable ofEasyCam cam;
 };
 
 

@@ -8,6 +8,8 @@
 #ifndef SRC_GAME_GAMESTATE_H_
 #define SRC_GAME_GAMESTATE_H_
 
+
+//TODO: Loading state
 class GameState
 {
 public:
