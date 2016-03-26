@@ -22,6 +22,8 @@ World::~World()
 
 void World::setup()
 {
+	ofDisableArbTex();
+	ofEnableDepthTest();
 	BlockPathManager manager;
 	models_ = {
 				BlockModel(BlockType::AIR, manager.get(BlockType::AIR)),
@@ -49,13 +51,49 @@ void World::setup()
 
 void World::setupBuffer()
 {
+	ofSetColor( 255, 255, 255 );
+
+	const std::array<ofVec3f, 8> VERTICES =
+	{
+		ofVec3f(0, 			   	  0, 				0				),
+		ofVec3f(BlockModel::SIZE, 0, 				0				),
+		ofVec3f(0, 			      BlockModel::SIZE, 0			 	),
+		ofVec3f(0, 			      0, 				BlockModel::SIZE),
+		ofVec3f(BlockModel::SIZE, BlockModel::SIZE, 0				),
+		ofVec3f(BlockModel::SIZE, 0, 				BlockModel::SIZE),
+		ofVec3f(0, 			      BlockModel::SIZE, BlockModel::SIZE),
+		ofVec3f(BlockModel::SIZE, BlockModel::SIZE, BlockModel::SIZE)
+	};
+
+	const std::array<std::array<ofVec3f, 6>, unsigned(Side::COUNT)> SIDE_VERTICES =
+	{
+		std::array<ofVec3f, 6>({VERTICES[3], VERTICES[5], VERTICES[7], VERTICES[3], VERTICES[6], VERTICES[7]}),
+		std::array<ofVec3f, 6>({VERTICES[0], VERTICES[1], VERTICES[4], VERTICES[0], VERTICES[2], VERTICES[4]}),
+		std::array<ofVec3f, 6>({VERTICES[0], VERTICES[1], VERTICES[5], VERTICES[0], VERTICES[3], VERTICES[5]}),
+		std::array<ofVec3f, 6>({VERTICES[2], VERTICES[4], VERTICES[7], VERTICES[2], VERTICES[6], VERTICES[7]}),
+		std::array<ofVec3f, 6>({VERTICES[0], VERTICES[3], VERTICES[6], VERTICES[0], VERTICES[2], VERTICES[6]}),
+		std::array<ofVec3f, 6>({VERTICES[1], VERTICES[4], VERTICES[7], VERTICES[1], VERTICES[5], VERTICES[7]})
+	};
+
+/*
+	for(unsigned x = 0; x < buffer_.size(); ++x)
+		for(unsigned y = 0; y < buffer_[x].size(); ++y)
+			for(unsigned z = 0; z < buffer_[x][y].size(); ++z)
+				for(size_t i = 0; i < size_t(BlockType::COUNT); ++i)
+				{
+					//buffer_[x][y][z][i].
+					//buffer_[x][y][z][i].setMode(OF_PRIMITIVE_TRIANGLES);
+					//buffer_[x][y][z][i].addTexCoords({ofVec2f(0, 0), ofVec2f(16, 0), ofVec2f(0, 16), ofVec2f(16, 16)});
+				}
+*/
+
 	for(unsigned x = 0; x < map_.size(); ++x)
 		for(unsigned y = 0; y < map_[x].size(); ++y)
 			for(unsigned z = 0; z < map_[x][y].size(); ++z)
 			{
 				for(unsigned i = 0; i < unsigned(Side::COUNT); ++i)
 					if(isVisible(trio_i(x, y, z), Side(i)))
-						addToMesh(trio_i(x, y, z), Side(i));
+						addToMesh(trio_i(x, y, z), SIDE_VERTICES[i]);
 			}
 }
 
@@ -75,11 +113,11 @@ void World::draw() const
 	for(const auto& itX : buffer_)
 		for(const auto& itY : itX)
 			for(const auto& itZ : itY)
-				for(size_t i = 0; i < size_t(BlockType::COUNT); ++i)
+				for(unsigned i = 0; i < unsigned(BlockType::COUNT); ++i)
 				{
-					models_[i].getTexture().bind();
+					models_[i].getTexture().getTexture().bind();
 					itZ[i].draw();
-					models_[i].getTexture().unbind();
+					models_[i].getTexture().getTexture().unbind();
 				}
 }
 
@@ -103,7 +141,7 @@ bool World::isVisible(const trio_i& position, Side side) const
 
 	if(NEXT.x >= X_SIZE or NEXT.x < 0 or
 	   NEXT.y >= Y_SIZE or NEXT.y < 0 or
-	   NEXT.z >= Z_SIZE or NEXT.x < 0)
+	   NEXT.z >= Z_SIZE or NEXT.z < 0)
 		return true;
 	if(getBlock(position).isSolid())
 		return getBlock(NEXT).isTransparent();
@@ -111,13 +149,18 @@ bool World::isVisible(const trio_i& position, Side side) const
 		return getBlock(NEXT).isGas();
 	return false;
 }
-//TODO: MAKE IT WORK FFS
-//TODO: also come up with a way to make it work
-void World::addToMesh(const trio_i& position, Side side)
+//TODO: Make it use VBO for more FPS-es
+void World::addToMesh(const trio_i& position, const std::array<ofVec3f, 6>& shift)
 {
 	const trio_i BUFFER = trio_i(position.x/CHUNK_SIZE, position.y/CHUNK_SIZE, position.z/CHUNK_SIZE);
-	const trio_i MESH_POSITION = trio_i(position.x*BlockModel::SIZE, position.y*BlockModel::SIZE, position.z*BlockModel::SIZE);
+	const ofVec3f MESH_POSITION = ofVec3f(position.x*BlockModel::SIZE, position.y*BlockModel::SIZE, position.z*BlockModel::SIZE);
+	const BlockType TYPE = getBlock(position).getType();
 
+	ofMesh& mesh = getBuffer(BUFFER, TYPE);
+	for(const auto& it : shift)
+		mesh.addVertex(MESH_POSITION + it);
+
+	mesh.addTexCoords({ofVec2f(0, 0), ofVec2f(1, 0), ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(0, 1), ofVec2f(1, 1)});
 }
 
 const BlockModel& World::getBlock(const trio_i& position) const

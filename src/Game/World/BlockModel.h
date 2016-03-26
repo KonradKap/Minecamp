@@ -27,8 +27,8 @@ public:
 	bool isGas() const;
 	bool isTransparent() const;
 
-	ofTexture& getTexture();
-	const ofTexture& getTexture() const;
+	ofImage& getTexture();
+	const ofImage& getTexture() const;
 
 	BlockType getType() const;
 

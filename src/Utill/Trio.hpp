@@ -76,9 +76,9 @@ template<class T>
 		switch(side)
 		{
 		case Side::TOP:
-			return trio<int>(0, 1, 0);
-		case Side::BOTTOM:
 			return trio<int>(0, -1, 0);
+		case Side::BOTTOM:
+			return trio<int>(0, 1, 0);
 		case Side::FRONT:
 			return trio<int>(0, 0, 1);
 		case Side::BACK:

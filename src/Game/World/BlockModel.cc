@@ -74,14 +74,14 @@ bool BlockModel::isTransparent() const
 	return transparency_;
 }
 
-ofTexture& BlockModel::getTexture()
+ofImage& BlockModel::getTexture()
 {
-	return image_.getTexture();
+	return image_;
 }
 
-const ofTexture& BlockModel::getTexture() const
+const ofImage& BlockModel::getTexture() const
 {
-	return image_.getTexture();
+	return image_;
 }
 
 BlockType BlockModel::getType() const

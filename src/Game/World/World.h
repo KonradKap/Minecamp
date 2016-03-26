@@ -17,6 +17,7 @@
 #include "ofVbo.h"
 #include "ofVboMesh.h"
 #include "of3dPrimitives.h"
+#include "ofGraphics.h"
 
 #include "Game/World/BlockModel.h"
 
@@ -46,7 +47,7 @@ public:
 private:
 	bool isVisible(const trio_i& position, Side side) const;
 	void setupBuffer();
-	void addToMesh(const trio_i& position, Side side);
+	void addToMesh(const trio_i& position, const std::array<ofVec3f, 6>& shift);
 	const BlockModel& getBlock(const trio_i& position) const;
 	BlockModel& getBlock(const trio_i& position);
 	const ofMesh& getBuffer(const trio_i& position, BlockType type) const;
