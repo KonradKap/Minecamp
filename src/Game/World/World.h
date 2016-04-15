@@ -22,7 +22,6 @@
 #include "Game/World/BlockModel.h"
 
 
-//TODO: Make all of the fun(int x, int y, int z) use triple instead
 class World
 {
 public:
@@ -40,9 +39,9 @@ public:
 	void onBlockDestruction(const trio_i& position);
 	void onBlockPlacement(const trio_i& position, BlockType type);
 
-	static const int X_SIZE = 256;
-	static const int Y_SIZE = 256;
-	static const int Z_SIZE = 256;
+	static const int X_SIZE = 16;
+	static const int Y_SIZE = 16;
+	static const int Z_SIZE = 16;
 	static const int CHUNK_SIZE = 16;
 private:
 	bool isVisible(const trio_i& position, Side side) const;

@@ -41,9 +41,9 @@ template<class T>
 template<class T>
 	void swap(trio<T>& t1, trio<T>& t2)
 	{
-		swap(t1.x, t2.x);
-		swap(t1.y, t2.y);
-		swap(t1.z, t2.z);
+		std::swap(t1.x, t2.x);
+		std::swap(t1.y, t2.y);
+		std::swap(t1.z, t2.z);
 	}
 
 
@@ -68,6 +68,7 @@ template<class T>
 		x -= arg.x;
 		y -= arg.y;
 		z -= arg.z;
+		return *this;
 	}
 
 template<class T>

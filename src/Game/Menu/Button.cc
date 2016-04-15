@@ -84,8 +84,6 @@ void Button::onMousePress(ofMouseEventArgs& parameter)
 		state_ = ButtonModel::PRESSED;
 }
 
-//TODO: come up with an idea to send back message of button being pressed
-//another use of a listener pattern?
 void Button::onMouseRelease(ofMouseEventArgs& parameter)
 {
 	if(state_ == ButtonModel::PRESSED and parameter.button == OF_MOUSE_BUTTON_LEFT)

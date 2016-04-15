@@ -34,7 +34,6 @@ public:
 	ButtonModel::ButtonState getState() const;
 
 	bool contains(const ofVec2f& point);
-//TODO: overload with position given
 	void draw() const;
 
 	ofEvent<void> pressed;

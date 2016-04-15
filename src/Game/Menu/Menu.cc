@@ -33,7 +33,7 @@ Menu::~Menu()
 }
 //TODO: Buttons, switching states to Play, Load, Options etc.
 //Recieving messages from buttons
-//Maybe use listener pattern to send messages to game?
+//Maybe use listener pattern to send messages to game
 GameState* Menu::update(float elapsed_time)
 {
 	switch(chosen_option_)

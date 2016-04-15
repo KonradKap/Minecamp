@@ -61,7 +61,12 @@
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-# PROJECT_EXCLUSIONS =
+ PROJECT_EXCLUSIONS =
+ PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/bin%
+ PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/src/Tests
+ PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/%.xcodeproj
+# PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/src/App
+ PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/obj%
 
 ################################################################################
 # PROJECT LINKER FLAGS
@@ -127,8 +132,8 @@
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-# PROJECT_OPTIMIZATION_CFLAGS_RELEASE = 
-# PROJECT_OPTIMIZATION_CFLAGS_DEBUG = 
+# PROJECT_OPTIMIZATION_CFLAGS_RELEASE = -o0
+# PROJECT_OPTIMIZATION_CFLAGS_DEBUG = -o3
 
 ################################################################################
 # PROJECT COMPILERS
