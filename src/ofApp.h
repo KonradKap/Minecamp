@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OF_APP_H_
+#define OF_APP_H_
 
 #include <cassert>
 
@@ -31,3 +32,5 @@ private:
 	Game game_;
 	float timer_;
 };
+
+#endif //OF_APP_H_

@@ -35,11 +35,6 @@ ofVec2f ButtonModel::getSize() const
 	return ofVec2f(image_[0].getWidth(), image_[0].getHeight());
 }
 
-void ButtonModel::setup(const std::string& directory, const std::string& font_filename, const int font_size)
-{
-	*this = ButtonModel(directory, font_filename, font_size);
-}
-
 const std::array<ofImage, ButtonModel::COUNT>& ButtonModel::getImageArray() const
 {
 	return image_;

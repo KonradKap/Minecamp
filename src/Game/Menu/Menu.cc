@@ -19,7 +19,7 @@ Menu::Menu() :
 	const MenuPathManager MANAGER;
 	background_.load(MANAGER.get(MenuResources::BACKGROUND_T));
 	title_.load(MANAGER.get(MenuResources::TITLE_T));
-	model_.setup(MANAGER.get(MenuResources::BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
+	model_ = ButtonModel(MANAGER.get(MenuResources::BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
 
 	const ofVec2f BUTTON_POSITION(ofApp::WINDOW_X_SIZE/2 - model_.getSize().x/2, BUTTONSET_OFFSET);
 	play_button_.setPosition(BUTTON_POSITION);
