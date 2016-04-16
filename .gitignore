@@ -27,6 +27,7 @@
 *.out
 *.app
 bin/Minecamp_debug
+bin/Minecamp
 
 #Others
 *.d
