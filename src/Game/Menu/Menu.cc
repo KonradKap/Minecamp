@@ -9,12 +9,11 @@
 
 Menu::Menu() :
 	GameState(),
-	chosen_option_(NOTHING),
 	background_(),
 	title_(),
 	model_(),
-	play_button_(ofVec2f(0, 0), "Play", &model_),
-	quit_button_(ofVec2f(0, 0), "Quit", &model_)
+	buttons_({Button(ofVec2f(0, 0), "Play", &model_),
+			  Button(ofVec2f(0, 0), "Quit", &model_)})
 {
 	const MenuPathManager MANAGER;
 	background_.load(MANAGER.get(MenuResources::BACKGROUND_T));
@@ -22,10 +21,10 @@ Menu::Menu() :
 	model_ = ButtonModel(MANAGER.get(MenuResources::BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
 
 	const ofVec2f BUTTON_POSITION(ofApp::WINDOW_X_SIZE/2 - model_.getSize().x/2, BUTTONSET_OFFSET);
-	play_button_.setPosition(BUTTON_POSITION);
-	quit_button_.setPosition(BUTTON_POSITION + ofVec2f(0.0f, BUTTON_OFFSET + model_.getSize().y/2));
-	ofAddListener(play_button_.pressed, this, &Menu::onPlayPressed);
-	ofAddListener(quit_button_.pressed, this, &Menu::onQuitPressed);
+	buttons_[unsigned(ButtonType::PLAY)].setPosition(BUTTON_POSITION);
+	buttons_[unsigned(ButtonType::QUIT)].setPosition(BUTTON_POSITION + ofVec2f(0.0f, BUTTON_OFFSET + model_.getSize().y/2));
+	ofAddListener(buttons_[unsigned(ButtonType::PLAY)].getEvent(), this, &Menu::onPlayPressed);
+	ofAddListener(buttons_[unsigned(ButtonType::QUIT)].getEvent(), this, &Menu::onQuitPressed);
 }
 
 Menu::~Menu()
@@ -34,8 +33,9 @@ Menu::~Menu()
 //TODO: Buttons, switching states to Play, Load, Options etc.
 //Recieving messages from buttons
 //Maybe use listener pattern to send messages to game
-GameState* Menu::update(float elapsed_time)
+void Menu::update(float elapsed_time)
 {
+	/*
 	switch(chosen_option_)
 	{
 	case NOTHING:
@@ -47,28 +47,39 @@ GameState* Menu::update(float elapsed_time)
 	default:
 		return nullptr;
 	}
+	*/
 }
-/*
-void Menu::handleInput()
+
+const ofImage& Menu::getBackground() const
 {
+	return background_;
 }
-*/
-void Menu::draw() const
+
+const ofImage& Menu::getTitle() const
 {
-	background_.draw(0, 0, ofApp::WINDOW_X_SIZE, ofApp::WINDOW_Y_SIZE);
-	title_.draw(ofApp::WINDOW_X_SIZE/2 - title_.getWidth()/2, TITLE_OFFSET);
-	play_button_.draw();
-	quit_button_.draw();
+	return title_;
+}
+
+const Button& Menu::getButton(const ButtonType type) const
+{
+	return buttons_[unsigned(type)];
+}
+
+std::unique_ptr<View> Menu::getDefaultView() const
+{
+	return std::unique_ptr<View>(new MenuView(*this));
 }
 
 void Menu::onPlayPressed()
 {
-	chosen_option_ = PLAY;
+	GameStateType play = GameStateType::PLAY;
+	ofNotifyEvent(GameState::getEvent(), play, this);
 }
 
 void Menu::onQuitPressed()
 {
-	chosen_option_ = QUIT;
+	GameStateType quit = GameStateType::QUIT;
+	ofNotifyEvent(GameState::getEvent(), quit, this);
 }
 
 

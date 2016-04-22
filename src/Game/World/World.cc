@@ -107,7 +107,8 @@ void World::saveToFile(std::ofstream& file)
 {
 	assert(false);
 }
-	//TODO:
+
+/*//TODO:
 void World::draw() const
 {
 	for(const auto& itX : buffer_)
@@ -120,6 +121,7 @@ void World::draw() const
 					models_[i].getTexture().getTexture().unbind();
 				}
 }
+*/
 
 //TODO: Update buffer on these
 void World::onBlockDestruction(const trio_i& position)
@@ -173,6 +175,11 @@ BlockModel& World::getBlock(const trio_i& position)
 	return *map_[position.x][position.y][position.z];
 }
 
+const World::buffer_t& World::getBuffer() const
+{
+	return buffer_;
+}
+
 const ofMesh& World::getBuffer(const trio_i& position, BlockType type) const
 {
 	return const_cast<World*>(this)->getBuffer(position, type);
@@ -181,4 +188,9 @@ const ofMesh& World::getBuffer(const trio_i& position, BlockType type) const
 ofMesh& World::getBuffer(const trio_i& position, BlockType type)
 {
 	return buffer_[position.x][position.y][position.z][unsigned(type)];
+}
+
+const BlockModel& World::getModel(const BlockType type) const
+{
+	return models_[unsigned(type)];
 }

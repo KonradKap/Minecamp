@@ -28,19 +28,22 @@ public:
 	void setTitle(const std::string& new_title);
 	const std::string& getTitle() const;
 
-	void setup();
 	void bindModel(const ButtonModel* const base);
+	const ButtonModel* getModel() const;
 
 	ButtonModel::ButtonState getState() const;
+	ofEvent<void>& getEvent();
 
 	bool contains(const ofVec2f& point);
-	void draw() const;
 
-	ofEvent<void> pressed;
 private:
+	void setup();
+
 	void onMouseMove(ofMouseEventArgs& parameter);
 	void onMousePress(ofMouseEventArgs& parameter);
 	void onMouseRelease(ofMouseEventArgs& parameter);
+
+	ofEvent<void> pressed_;
 
 	ButtonModel::ButtonState state_;
 	ofVec2f position_;

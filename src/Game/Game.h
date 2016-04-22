@@ -9,27 +9,30 @@
 #define SRC_GAME_GAME_H_
 
 #include <cassert>
+#include <memory>
 
+enum class GameStateType;
 class GameState;
+class View;
 
 class Game
 {
-	public:
-		Game();
+public:
+	Game();
 
-		~Game();
+	~Game();
 
-		//void handleInput();
-		bool update(float elapsed_time);
-		void draw() const;
+	void update(float elapsed_time);
+	void draw() const;
 
-	private:
-//TODO: Make this a unique_ptr?
-		GameState* state_;
-
+private:
+	void onStateSwitch(GameStateType& type);
+	std::unique_ptr<GameState> state_;
+	std::unique_ptr<View> view_;
 };
 
-#include "Game/GameState.h"
-#include "Game/Menu/Menu.h"
+#include "Game/GameStateFactory.h"
+#include "Game/GameStateType.h"
+#include "View.h"
 
 #endif /* SRC_GAME_GAME_H_ */

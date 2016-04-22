@@ -25,6 +25,14 @@
 class World
 {
 public:
+	static const int X_SIZE = 16;
+	static const int Y_SIZE = 16;
+	static const int Z_SIZE = 16;
+	static const int CHUNK_SIZE = 16;
+
+	typedef std::array< std::array < std::array <BlockModel*, Z_SIZE>, Y_SIZE>, X_SIZE> map_t;
+	typedef std::array< std::array< std::array <std::array <ofMesh, size_t(BlockType::COUNT)>, Z_SIZE/CHUNK_SIZE>, Y_SIZE/CHUNK_SIZE>, X_SIZE/CHUNK_SIZE> buffer_t;
+
 	World();
 	World(const World& w) = delete;
 	~World();
@@ -34,30 +42,27 @@ public:
 	void loadFromFile(std::ifstream& file);
 	void saveToFile(std::ofstream& file);
 
-	void draw() const;
+//	void draw() const;
 
 	void onBlockDestruction(const trio_i& position);
 	void onBlockPlacement(const trio_i& position, BlockType type);
 
-	static const int X_SIZE = 16;
-	static const int Y_SIZE = 16;
-	static const int Z_SIZE = 16;
-	static const int CHUNK_SIZE = 16;
+	const BlockModel& getBlock(const trio_i& position) const;
+
+	const buffer_t& getBuffer() const;
+	const ofMesh& getBuffer(const trio_i& position, BlockType type) const;
+
+	const BlockModel& getModel(const BlockType type) const;
 private:
 	bool isVisible(const trio_i& position, Side side) const;
 	void setupBuffer();
 	void addToMesh(const trio_i& position, const std::array<ofVec3f, 6>& shift);
-	const BlockModel& getBlock(const trio_i& position) const;
+
 	BlockModel& getBlock(const trio_i& position);
-	const ofMesh& getBuffer(const trio_i& position, BlockType type) const;
 	ofMesh& getBuffer(const trio_i& position, BlockType type);
 
-	typedef std::array< std::array < std::array <BlockModel*, Z_SIZE>, Y_SIZE>, X_SIZE> map_t;
 	map_t map_;
-
 	std::array<BlockModel, size_t(BlockType::COUNT)> models_;
-
-	typedef std::array< std::array< std::array <std::array <ofMesh, size_t(BlockType::COUNT)>, Z_SIZE/CHUNK_SIZE>, Y_SIZE/CHUNK_SIZE>, X_SIZE/CHUNK_SIZE> buffer_t;
 	buffer_t buffer_;
 };
 

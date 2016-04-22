@@ -9,10 +9,12 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 	float elapsedTime = ofGetElapsedTimef() - timer_;
-	if(!game_.update(elapsedTime))
+	game_.update(elapsedTime);
+	/*
 	{
 		ofGetMainLoop()->shouldClose(0);
 	}
+	*/
 	timer_ = ofGetElapsedTimef();
 }
 

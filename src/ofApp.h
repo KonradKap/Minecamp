@@ -3,9 +3,10 @@
 
 #include <cassert>
 
+#include "Game/Game.h"
+
 #include "ofMain.h"
 
-#include "Game/Game.h"
 
 class ofApp : public ofBaseApp
 {

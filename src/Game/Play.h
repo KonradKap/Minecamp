@@ -8,10 +8,9 @@
 #ifndef SRC_PLAY_H_
 #define SRC_PLAY_H_
 
-#include "ofEasyCam.h"
-
 #include "Game/GameState.h"
 #include "Game/World/World.h"
+#include "Game/PlayView.h"
 
 //TODO: This
 class Play : public GameState
@@ -21,11 +20,11 @@ public:
 	Play(const Play& p);
 	virtual ~Play();
 
-	virtual GameState* update(float elapsed_time);
-	virtual void draw() const;
+	void update(float elapsed_time);
+	std::unique_ptr<View> getDefaultView() const;
 private:
 	World w_;
-	mutable ofEasyCam cam;
+	//mutable ofEasyCam cam;
 };
 
 

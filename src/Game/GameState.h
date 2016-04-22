@@ -8,19 +8,26 @@
 #ifndef SRC_GAME_GAMESTATE_H_
 #define SRC_GAME_GAMESTATE_H_
 
+#include <memory>
 
-//TODO: Loading state
+#include "ofEvents.h"
+
+#include "View.h"
+#include "Game/GameStateType.h"
+
 class GameState
 {
 public:
-	GameState() {}
-	//GameState(const GameState& gs);
+	GameState() : event_() {}
 	virtual ~GameState() {}
 
 	//virtual void handleInput() = 0;
-	virtual GameState* update(float elapsed_time) = 0;
-	virtual void draw() const = 0;
+	virtual void update(float elapsed_time) = 0;
+	virtual std::unique_ptr<View> getDefaultView() const = 0;
+
+	ofEvent<GameStateType>& getEvent() { return event_; }
 private:
+	ofEvent<GameStateType> event_;
 };
 
 

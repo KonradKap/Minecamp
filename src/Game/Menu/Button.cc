@@ -60,9 +60,19 @@ const std::string& Button::getTitle() const
 	return title_;
 }
 
+ofEvent<void>& Button::getEvent()
+{
+	return pressed_;
+}
+
 void Button::bindModel(const ButtonModel* const base)
 {
 	base_ = base;
+}
+
+const ButtonModel* Button::getModel() const
+{
+	return base_;
 }
 
 ButtonModel::ButtonState Button::getState() const
@@ -91,7 +101,7 @@ void Button::onMouseRelease(ofMouseEventArgs& parameter)
 		if(contains(parameter))
 		{
 			state_ = ButtonModel::ACTIVE;
-			ofNotifyEvent(pressed, this);
+			ofNotifyEvent(pressed_, this);
 			return;
 		}
 		state_ = ButtonModel::INACTIVE;
@@ -107,11 +117,11 @@ bool Button::contains(const ofVec2f& point)
 		return false;
 	return true;
 }
-
+/*
 void Button::draw() const
 {
 	base_->drawModel(*this);
 }
-
+*/
 
 

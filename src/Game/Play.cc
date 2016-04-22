@@ -19,11 +19,16 @@ Play::~Play()
 {
 }
 
-GameState* Play::update(float elapsed_time)
+void Play::update(float elapsed_time)
 {
-	return this;
+	return;
 }
 
+std::unique_ptr<View> Play::getDefaultView() const
+{
+	return std::unique_ptr<View>(new PlayView(w_));
+}
+/*
 void Play::draw() const
 {
 	cam.begin();
@@ -32,7 +37,7 @@ void Play::draw() const
 
 	cam.end();
 }
-
+*/
 
 
 

@@ -1,40 +1,37 @@
 #include "Game/Game.h"
 
 Game::Game() :
-	state_(new Menu())		//Menu is the default start
+	state_(new Menu()),		//Menu is the default start
+	view_(state_->getDefaultView())
 {
+	ofAddListener(state_->getEvent(), this, &Game::onStateSwitch);
 }
 
 Game::~Game()
 {
-	delete state_;
 }
-/*
-void Game::handleInput()
-{
-	state_->handleInput();
-}
-*/
+
 ///TODO: Make this reversible using stack
 ///We want the ability to pause the Game
 ///Also keep in mind that GameState::Play is the heaviest of them all
 ///And thus it is not advised to reallocate it
-bool Game::update(float elapsed_time)
+void Game::update(float elapsed_time)
 {
-	GameState* newState = state_->update(elapsed_time);
-	if(newState == nullptr)
-	{
-		return false;
-	}
-	if(newState != state_)
-	{
-		delete state_;
-		state_ = newState;
-	}
-	return true;
+	state_->update(elapsed_time);
 }
 
 void Game::draw() const
 {
-	state_->draw();
+	view_->draw();
+}
+
+void Game::onStateSwitch(GameStateType& type)
+{
+	if(type == GameStateType::QUIT)
+	{
+		ofGetMainLoop()->shouldClose(0);
+		return;
+	}
+	state_ = GameStateFactory::getInstance().getState(type);
+	view_  = state_->getDefaultView();
 }
