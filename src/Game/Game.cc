@@ -11,7 +11,7 @@ Game::~Game()
 {
 }
 
-///TODO: Make this reversible using stack
+///TODO: Make this reversible
 ///We want the ability to pause the Game
 ///Also keep in mind that GameState::Play is the heaviest of them all
 ///And thus it is not advised to reallocate it
@@ -27,11 +27,13 @@ void Game::draw() const
 
 void Game::onStateSwitch(GameStateType& type)
 {
+	ofRemoveListener(state_->getEvent(), this, &Game::onStateSwitch);
 	if(type == GameStateType::QUIT)
 	{
 		ofGetMainLoop()->shouldClose(0);
 		return;
 	}
 	state_ = GameStateFactory::getInstance().getState(type);
+	ofAddListener(state_->getEvent(), this, &Game::onStateSwitch);
 	view_  = state_->getDefaultView();
 }

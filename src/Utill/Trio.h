@@ -24,10 +24,10 @@ template<class T>
 			explicit trio(const trio<W>& t);
 		trio(T x, T y, T z);
 		~trio();
-
+/*
 		template<class W>
-			friend void swap(trio<W>& t1, trio<W>& t2);
-
+			void swap(trio<W>& t1, trio<W>& t2);
+*/
 		trio& operator=(trio arg);
 		trio& operator+=(const trio& arg);
 		trio& operator-=(const trio& arg);
