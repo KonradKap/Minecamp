@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "Game/Menu/ButtonModel.h"
+#include "Menu/ButtonModel.h"
 
 ButtonModel::ButtonModel() :
 	image_(),

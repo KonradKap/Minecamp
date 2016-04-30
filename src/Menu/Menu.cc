@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "Game/Menu/Menu.h"
+#include "Menu/Menu.h"
 
 Menu::Menu() :
 	GameState(),

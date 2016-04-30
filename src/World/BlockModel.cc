@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "Game/World/BlockModel.h"
+#include "World/BlockModel.h"
 
 BlockModel::BlockModel() :
 	type_(BlockType::COUNT),

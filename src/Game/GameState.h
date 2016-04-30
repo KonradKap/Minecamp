@@ -12,7 +12,7 @@
 
 #include "ofEvents.h"
 
-#include "View.h"
+#include "Utill/View.h"
 #include "Game/GameStateType.h"
 
 class GameState

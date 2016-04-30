@@ -11,7 +11,7 @@
 #include "ofEasyCam.h"
 
 #include "View.h"
-#include "Game/World/World.h"
+#include "World/World.h"
 
 class PlayView : public View
 {

@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "Game/Play.h"
+#include "Play/Play.h"
 
 Play::Play()
 {

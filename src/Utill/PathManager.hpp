@@ -8,8 +8,6 @@
 #ifndef SRC_PATHMANAGER_HPP_
 #define SRC_PATHMANAGER_HPP_
 
-#include "PathManager.h"
-
 template<class T>
 PathManager<T>::~PathManager()
 {

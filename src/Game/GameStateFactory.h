@@ -11,9 +11,11 @@
 #include <memory>
 
 #include "Game/GameStateType.h"
-#include "Game/Menu/Menu.h"
-#include "Game/Play.h"
+#include "Menu/Menu.h"
+#include "Play/Play.h"
 
+
+//TODO: Consider this not being a singleton, but a Game member
 class GameStateFactory
 {
 public:

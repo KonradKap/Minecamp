@@ -44,7 +44,7 @@ private:
 	ofTrueTypeFont font_;
 };
 
-#include "Game/Menu/Button.h"
+#include "Menu/Button.h"
 
 
 #endif /* SRC_GAME_BUTTONMODEL_H_ */

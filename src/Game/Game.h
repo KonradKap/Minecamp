@@ -12,6 +12,7 @@
 #include <memory>
 
 enum class GameStateType;
+
 class GameState;
 class View;
 
@@ -33,6 +34,6 @@ private:
 
 #include "Game/GameStateFactory.h"
 #include "Game/GameStateType.h"
-#include "View.h"
+#include "Utill/View.h"
 
 #endif /* SRC_GAME_GAME_H_ */

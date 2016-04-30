@@ -8,7 +8,7 @@
 #ifndef SRC_TRIO_H_
 #define SRC_TRIO_H_
 
-#include "Side.h"
+#include "Utill/Side.h"
 
 //OF sucks with its ofVec3f class
 template<class T>

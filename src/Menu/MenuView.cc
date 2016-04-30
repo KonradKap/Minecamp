@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "Game/Menu/MenuView.h"
+#include "Menu/MenuView.h"
 
 MenuView::MenuView(const Menu& m) :
 	View(), source_(m)

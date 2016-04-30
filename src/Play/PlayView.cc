@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "Game/PlayView.h"
+#include "Play/PlayView.h"
 
 PlayView::PlayView(const World& world) :
 	View(), source_(world)

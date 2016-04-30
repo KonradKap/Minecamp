@@ -19,7 +19,7 @@
 #include "of3dPrimitives.h"
 #include "ofGraphics.h"
 
-#include "Game/World/BlockModel.h"
+#include "World/BlockModel.h"
 
 
 class World

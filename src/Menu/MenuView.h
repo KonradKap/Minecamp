@@ -8,8 +8,8 @@
 #ifndef SRC_GAME_MENU_MENUVIEW_H_
 #define SRC_GAME_MENU_MENUVIEW_H_
 
-#include "View.h"
-#include "Game/Menu/Menu.h"
+#include "Utill/View.h"
+#include "Menu/Menu.h"
 
 class MenuView : public View
 {

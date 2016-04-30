@@ -12,7 +12,7 @@
 
 #include "ofImage.h"
 
-#include "BlockPathManager.h"
+#include "World/BlockPathManager.h"
 
 class BlockModel
 {

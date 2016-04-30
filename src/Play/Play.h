@@ -9,8 +9,8 @@
 #define SRC_PLAY_H_
 
 #include "Game/GameState.h"
-#include "Game/World/World.h"
-#include "Game/PlayView.h"
+#include "World/World.h"
+#include "Play/PlayView.h"
 
 //TODO: This
 class Play : public GameState

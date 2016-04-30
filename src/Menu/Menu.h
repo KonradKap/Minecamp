@@ -15,10 +15,10 @@
 #include "ofEvents.h"
 
 #include "Game/GameState.h"
-#include "Game/Play.h"
-#include "Game/Menu/ButtonModel.h"
-#include "Game/Menu/Button.h"
-#include "Game/Menu/MenuPathManager.h"
+#include "Play/Play.h"
+#include "Menu/ButtonModel.h"
+#include "Menu/Button.h"
+#include "Menu/MenuPathManager.h"
 
 class MenuView;
 
@@ -56,7 +56,7 @@ private:
 	std::array<Button, unsigned(ButtonType::COUNT)> buttons_;
 };
 
-#include "Game/Menu/MenuView.h"
+#include "Menu/MenuView.h"
 
 
 #endif /* SRC_GAME_MENU_H_ */

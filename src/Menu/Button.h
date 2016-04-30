@@ -12,7 +12,7 @@
 
 #include "ofEvents.h"
 
-#include "Game/Menu/ButtonModel.h"
+#include "Menu/ButtonModel.h"
 
 class Button
 {

@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "Game/World/World.h"
+#include "World/World.h"
 
 World::World() :
 	map_(),
