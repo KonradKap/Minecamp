@@ -38,7 +38,7 @@ private:
 	{
 		SOLID, //Can mine it, can walk on it
 		LIQUID, //Can swim, can't mine
-		GAS, //Basically the air block
+		GAS, //Can't mine, can walk through
 	};
 	BlockType type_;
 	BlockForm form_;

@@ -7,18 +7,27 @@
 
 #include "Play/PlayView.h"
 
-PlayView::PlayView(const World& world) :
+PlayView::PlayView(const WorldManager& world) :
 	View(), source_(world)
 {
+	//std::cout << "Kappa" << std::endl;
+	//ofDisableArbTex();
+	ofEnableDepthTest();
 }
 
 PlayView::PlayView(const PlayView& pw) :
 	View(pw), source_(pw.source_)
 {
+	//std::cout << "Kappa" << std::endl;
+	//ofDisableArbTex();
+	ofEnableDepthTest();
 }
 
 PlayView::~PlayView()
 {
+	//std::cout << "Keepo" << std::endl;
+	//ofEnableArbTex();
+	ofDisableDepthTest();
 }
 
 void PlayView::draw() const

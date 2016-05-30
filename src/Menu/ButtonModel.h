@@ -38,7 +38,7 @@ public:
 	const std::array<ofImage, ButtonState::COUNT>& getImageArray() const;
 	const ofTrueTypeFont& getFont() const;
 
-	void drawModel(const Button& button) const;
+	//void drawModel(const Button& button) const;
 private:
 	std::array<ofImage, ButtonState::COUNT> image_;
 	ofTrueTypeFont font_;

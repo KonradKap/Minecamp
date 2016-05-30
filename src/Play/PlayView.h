@@ -8,21 +8,21 @@
 #ifndef SRC_GAME_PLAYVIEW_H_
 #define SRC_GAME_PLAYVIEW_H_
 
+#include "../World/WorldManager.h"
 #include "ofEasyCam.h"
 
 #include "View.h"
-#include "World/World.h"
 
 class PlayView : public View
 {
 public:
-	PlayView(const World& world);
+	PlayView(const WorldManager& world);
 	PlayView(const PlayView& pw);
 	~PlayView();
 
 	void draw() const;
 private:
-	const World& source_;
+	const WorldManager& source_;
 	mutable ofEasyCam cam_; //temporary
 };
 

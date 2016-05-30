@@ -7,7 +7,8 @@
 
 #include "Play/Play.h"
 
-Play::Play()
+Play::Play() :
+	GameState(), w_()
 {
 }
 

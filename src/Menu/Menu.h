@@ -49,6 +49,9 @@ private:
 	void onPlayPressed();
 	void onQuitPressed();
 
+	void setUpPaths();
+	void setUpButtons();
+
 	ofImage background_;
 	ofImage title_;
 

@@ -15,11 +15,20 @@ Menu::Menu() :
 	buttons_({Button(ofVec2f(0, 0), "Play", &model_),
 			  Button(ofVec2f(0, 0), "Quit", &model_)})
 {
+	setUpPaths();
+	setUpButtons();
+}
+
+void Menu::setUpPaths()
+{
 	const MenuPathManager MANAGER;
 	background_.load(MANAGER.get(MenuResources::BACKGROUND_T));
 	title_.load(MANAGER.get(MenuResources::TITLE_T));
 	model_ = ButtonModel(MANAGER.get(MenuResources::BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
+}
 
+void Menu::setUpButtons()
+{
 	const ofVec2f BUTTON_POSITION(ofApp::WINDOW_X_SIZE/2 - model_.getSize().x/2, BUTTONSET_OFFSET);
 	buttons_[unsigned(ButtonType::PLAY)].setPosition(BUTTON_POSITION);
 	buttons_[unsigned(ButtonType::QUIT)].setPosition(BUTTON_POSITION + ofVec2f(0.0f, BUTTON_OFFSET + model_.getSize().y/2));
@@ -30,6 +39,7 @@ Menu::Menu() :
 Menu::~Menu()
 {
 }
+
 //TODO: Buttons, switching states to Play, Load, Options etc.
 //Recieving messages from buttons
 //Maybe use listener pattern to send messages to game

@@ -8,8 +8,8 @@
 #ifndef SRC_PLAY_H_
 #define SRC_PLAY_H_
 
+#include "../World/WorldManager.h"
 #include "Game/GameState.h"
-#include "World/World.h"
 #include "Play/PlayView.h"
 
 //TODO: This
@@ -23,7 +23,7 @@ public:
 	void update(float elapsed_time);
 	std::unique_ptr<View> getDefaultView() const;
 private:
-	World w_;
+	WorldManager w_;
 	//mutable ofEasyCam cam;
 };
 
