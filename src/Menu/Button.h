@@ -14,6 +14,7 @@
 
 #include "Menu/ButtonModel.h"
 
+//TODO: change that const ptr to const reference
 class Button
 {
 public:
@@ -32,7 +33,7 @@ public:
 	const ButtonModel* getModel() const;
 
 	ButtonModel::ButtonState getState() const;
-	ofEvent<void>& getEvent();
+	ofEvent<const Button&>& getEvent();
 
 	bool contains(const ofVec2f& point);
 
@@ -43,7 +44,7 @@ private:
 	void onMousePress(ofMouseEventArgs& parameter);
 	void onMouseRelease(ofMouseEventArgs& parameter);
 
-	ofEvent<void> pressed_;
+	ofEvent<const Button&> pressed_;
 
 	ButtonModel::ButtonState state_;
 	ofVec2f position_;

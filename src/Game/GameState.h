@@ -10,10 +10,10 @@
 
 #include <memory>
 
+#include "GameStateEventType.h"
 #include "ofEvents.h"
 
 #include "Utill/View.h"
-#include "Game/GameStateType.h"
 
 class GameState
 {
@@ -25,9 +25,9 @@ public:
 	virtual void update(float elapsed_time) = 0;
 	virtual std::unique_ptr<View> getDefaultView() const = 0;
 
-	ofEvent<GameStateType>& getEvent() { return event_; }
+	ofEvent<const GameStateEventType&>& getEvent() { return event_; }
 private:
-	ofEvent<GameStateType> event_;
+	ofEvent<const GameStateEventType&> event_;
 };
 
 

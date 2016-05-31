@@ -25,10 +25,10 @@ void Game::draw() const
 	view_->draw();
 }
 
-void Game::onStateSwitch(GameStateType& type)
+void Game::onStateSwitch(const GameStateEventType& type)
 {
 	ofRemoveListener(state_->getEvent(), this, &Game::onStateSwitch);
-	if(type == GameStateType::QUIT)
+	if(type == GameStateEventType::QUIT)
 	{
 		ofGetMainLoop()->shouldClose(0);
 		return;

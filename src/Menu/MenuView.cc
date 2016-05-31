@@ -25,8 +25,10 @@ void MenuView::draw() const
 {
 	drawBackground(source_.getBackground());
 	drawTitle(source_.getTitle());
-	drawButton(source_.getButton(Menu::ButtonType::PLAY));
-	drawButton(source_.getButton(Menu::ButtonType::QUIT));
+	for(const auto& it : source_.getButtons())
+		drawButton(it);
+	//drawButton(source_.getButton(Menu::ButtonType::PLAY));
+	//drawButton(source_.getButton(Menu::ButtonType::QUIT));
 }
 
 void MenuView::drawButton(const Button& button) const

@@ -8,7 +8,7 @@
 #ifndef SRC_PLAY_H_
 #define SRC_PLAY_H_
 
-#include "../World/WorldManager.h"
+#include "World/World.h"
 #include "Game/GameState.h"
 #include "Play/PlayView.h"
 
@@ -16,14 +16,14 @@
 class Play : public GameState
 {
 public:
-	Play();
-	Play(const Play& p);
+	Play(int save_state);
+	Play(const Play& p) = delete;
 	virtual ~Play();
 
 	void update(float elapsed_time);
 	std::unique_ptr<View> getDefaultView() const;
 private:
-	WorldManager w_;
+	World w_;
 	//mutable ofEasyCam cam;
 };
 

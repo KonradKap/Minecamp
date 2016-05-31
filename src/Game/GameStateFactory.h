@@ -10,7 +10,7 @@
 
 #include <memory>
 
-#include "Game/GameStateType.h"
+#include "GameStateEventType.h"
 #include "Menu/Menu.h"
 #include "Play/Play.h"
 
@@ -21,7 +21,7 @@ class GameStateFactory
 public:
 	static GameStateFactory& getInstance();
 
-	std::unique_ptr<GameState> getState(GameStateType type) const;
+	std::unique_ptr<GameState> getState(GameStateEventType type) const;
 
 	~GameStateFactory();
 private:

@@ -42,8 +42,8 @@ public:
 
 	void registerListeners(Player& p);
 
-	void loadFromFile(std::ifstream& file);
-	void saveToFile(std::ofstream& file);
+	void loadFromFile(std::istream& file);
+	void saveToFile(std::ostream& file);
 
 	void loadDefaultWorld();
 
@@ -54,7 +54,7 @@ public:
 
 	const BlockModel& getModel(const BlockType type) const;
 private:
-	void onBlockDestruction(blockEventArgs& args);
+	void onBlockDestruction(vec3Di& args);
 	void onBlockPlacement(blockEventArgs& args);
 
 	bool isVisible(const vec3Di& position, Side side) const;
@@ -63,6 +63,7 @@ private:
 	void setupModels();
 
 	void reloadChunk(const vec3Di& position);
+	void clearChunk(const vec3Di& position);
 	void addToMesh(const vec3Di& position, const std::array<ofVec3f, 6>& shift);
 
 	BlockModel& getBlock(const vec3Di& position);

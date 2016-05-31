@@ -13,6 +13,7 @@ PlayView::PlayView(const WorldManager& world) :
 	//std::cout << "Kappa" << std::endl;
 	//ofDisableArbTex();
 	ofEnableDepthTest();
+	//ofDisableAntiAliasing();
 }
 
 PlayView::PlayView(const PlayView& pw) :
@@ -21,6 +22,7 @@ PlayView::PlayView(const PlayView& pw) :
 	//std::cout << "Kappa" << std::endl;
 	//ofDisableArbTex();
 	ofEnableDepthTest();
+	//ofDisableAntiAliasing();
 }
 
 PlayView::~PlayView()
@@ -28,6 +30,7 @@ PlayView::~PlayView()
 	//std::cout << "Keepo" << std::endl;
 	//ofEnableArbTex();
 	ofDisableDepthTest();
+	//ofEnableAntiAliasing();
 }
 
 void PlayView::draw() const

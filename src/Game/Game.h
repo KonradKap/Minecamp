@@ -11,7 +11,7 @@
 #include <cassert>
 #include <memory>
 
-enum class GameStateType;
+enum class GameStateEventType;
 
 class GameState;
 class View;
@@ -27,13 +27,13 @@ public:
 	void draw() const;
 
 private:
-	void onStateSwitch(GameStateType& type);
+	void onStateSwitch(const GameStateEventType& type);
 	std::unique_ptr<GameState> state_;
 	std::unique_ptr<View> view_;
 };
 
 #include "Game/GameStateFactory.h"
-#include "Game/GameStateType.h"
+#include "GameStateEventType.h"
 #include "Utill/View.h"
 
 #endif /* SRC_GAME_GAME_H_ */

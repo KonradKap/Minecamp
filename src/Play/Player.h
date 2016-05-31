@@ -18,10 +18,10 @@ public:
 
 
 	ofEvent<WorldManager::blockEventArgs>& getPlacedBlockEvent();
-	ofEvent<WorldManager::blockEventArgs>& getDestroyedBlockEvent();
+	ofEvent<vec3Di>& getDestroyedBlockEvent();
 private:
 	ofEvent<WorldManager::blockEventArgs> placedBlockEvent_;
-	ofEvent<WorldManager::blockEventArgs> destroyedBlockEvent_;
+	ofEvent<vec3Di> destroyedBlockEvent_;
 };
 
 

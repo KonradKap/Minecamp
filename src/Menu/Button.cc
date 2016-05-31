@@ -60,7 +60,7 @@ const std::string& Button::getTitle() const
 	return title_;
 }
 
-ofEvent<void>& Button::getEvent()
+ofEvent<const Button&>& Button::getEvent()
 {
 	return pressed_;
 }
@@ -101,7 +101,7 @@ void Button::onMouseRelease(ofMouseEventArgs& parameter)
 		if(contains(parameter))
 		{
 			state_ = ButtonModel::ACTIVE;
-			ofNotifyEvent(pressed_, this);
+			ofNotifyEvent(pressed_, *this, this);
 			return;
 		}
 		state_ = ButtonModel::INACTIVE;

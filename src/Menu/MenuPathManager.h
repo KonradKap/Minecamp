@@ -14,7 +14,8 @@ enum class MenuResources
 {
 	BACKGROUND_T,
 	TITLE_T,
-	BUTTON_D,
+	WIDE_BUTTON_D,
+	SMALL_BUTTON_D,
 	FONT_F
 };
 
@@ -26,7 +27,8 @@ public:
 				{
 						{MenuResources::BACKGROUND_T, texture("background_2.png")},
 						{MenuResources::TITLE_T, texture("title.png")},
-						{MenuResources::BUTTON_D, ofFilePath::addTrailingSlash(texture("menu_button_2"))},
+						{MenuResources::WIDE_BUTTON_D, ofFilePath::addTrailingSlash(texture("menu_button_2"))},
+						{MenuResources::SMALL_BUTTON_D, ofFilePath::addTrailingSlash(texture("small_button"))},
 						{MenuResources::FONT_F, font("menu_font.ttf")}
 				}
 		))

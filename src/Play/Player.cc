@@ -13,7 +13,7 @@ ofEvent<WorldManager::blockEventArgs>& Player::getPlacedBlockEvent()
 	return placedBlockEvent_;
 }
 
-ofEvent<WorldManager::blockEventArgs>& Player::getDestroyedBlockEvent()
+ofEvent<vec3Di>& Player::getDestroyedBlockEvent()
 {
 	return destroyedBlockEvent_;
 }

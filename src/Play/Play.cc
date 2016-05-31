@@ -7,15 +7,15 @@
 
 #include "Play/Play.h"
 
-Play::Play() :
-	GameState(), w_()
+Play::Play(int save_state) :
+	GameState(), w_(save_state)
 {
 }
-
+/*
 Play::Play(const Play& p)
 {
 }
-
+*/
 Play::~Play()
 {
 }
@@ -27,7 +27,7 @@ void Play::update(float elapsed_time)
 
 std::unique_ptr<View> Play::getDefaultView() const
 {
-	return std::unique_ptr<View>(new PlayView(w_));
+	return std::unique_ptr<View>(new PlayView(w_.getManager()));
 }
 /*
 void Play::draw() const

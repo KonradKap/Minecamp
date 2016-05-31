@@ -8,7 +8,7 @@
 #ifndef SRC_GAME_PLAYVIEW_H_
 #define SRC_GAME_PLAYVIEW_H_
 
-#include "../World/WorldManager.h"
+#include "World/WorldManager.h"
 #include "ofEasyCam.h"
 
 #include "View.h"

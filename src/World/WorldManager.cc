@@ -15,7 +15,7 @@ WorldManager::WorldManager() :
 {
 	ofDisableArbTex();
 	setupModels();
-	/** TEMPORARY */ loadDefaultWorld();
+	/** TEMPORARY */ //loadDefaultWorld();
 }
 
 WorldManager::~WorldManager()
@@ -45,21 +45,34 @@ void WorldManager::setupBuffer()
 }
 
 	//TODO:
-void WorldManager::loadFromFile(std::ifstream& file)
+void WorldManager::loadFromFile(std::istream& file)
 {
-	assert(false);
-
+	for(auto& itX : map_)
+	for(auto& itY : itX)
+	for(auto& itZ : itY)
+	{
+		int type;
+		file >> type;
+		itZ = &models_[type];
+	}
 	setupBuffer();
 }
 	//TODO:
-void WorldManager::saveToFile(std::ofstream& file)
+void WorldManager::saveToFile(std::ostream& file)
 {
-	assert(false);
+	for(auto& itX : map_)
+	for(auto& itY : itX)
+	for(auto& itZ : itY)
+	{
+		file << int(itZ->getType()) << " ";
+	}
+
 }
 
 void WorldManager::reloadChunk(const vec3Di& position)
 {
 	//throw if position out of range
+	clearChunk(position);
 	for(int x = position.x*CHUNK_SIZE; x < (position.x+1)*CHUNK_SIZE; ++x)
 	for(int y = position.y*CHUNK_SIZE; y < (position.y+1)*CHUNK_SIZE; ++y)
 	for(int z = position.z*CHUNK_SIZE; z < (position.z+1)*CHUNK_SIZE; ++z)
@@ -70,11 +83,17 @@ void WorldManager::reloadChunk(const vec3Di& position)
 	}
 }
 
-//TODO: Update buffer on these
-void WorldManager::onBlockDestruction(blockEventArgs& args)
+void WorldManager::clearChunk(const vec3Di& position)
 {
-	getBlock(args.first) = models_[unsigned(BlockType::AIR)];
-	reloadChunk(args.first/CHUNK_SIZE);
+	for(auto& it : buffer_[position.x][position.y][position.z])
+		it.clear();
+}
+
+//TODO: Update buffer on these
+void WorldManager::onBlockDestruction(vec3Di& args)
+{
+	getBlock(args) = models_[unsigned(BlockType::AIR)];
+	reloadChunk(args/CHUNK_SIZE);
 }
 
 void WorldManager::onBlockPlacement(blockEventArgs& args)

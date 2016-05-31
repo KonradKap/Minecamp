@@ -11,5 +11,7 @@ int main( )
 	settings.width = ofApp::WINDOW_X_SIZE;
 	settings.height = ofApp::WINDOW_Y_SIZE;
 	ofCreateWindow(settings);
+
+	//ofDisableBlendMode();
 	ofRunApp(new ofApp());
 }

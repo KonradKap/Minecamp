@@ -7,13 +7,21 @@
 
 #include "World/World.h"
 
-World::World() :
-	manager_(),
+World::World(int save_state) :
+	world_manager_(),
+	save_file_manager_(save_state, world_manager_),
 	player_()
 {
-	manager_.registerListeners(player_);
-	//ofAddListener(player_.getDestroyedBlockEvent(), &manager_, &WorldManager::onBlockDestruction);
-	//ofAddListener(player_.getPlacedBlockEvent(), &manager_, &WorldManager::onBlockPlacement);
-
+	world_manager_.registerListeners(player_);
+	save_file_manager_.load();
 }
 
+World::~World()
+{
+	save_file_manager_.save();
+}
+
+const WorldManager& World::getManager() const
+{
+	return world_manager_;
+}

@@ -13,14 +13,18 @@ GameStateFactory& GameStateFactory::getInstance()
 	return instance;
 }
 
-std::unique_ptr<GameState> GameStateFactory::getState(GameStateType type) const
+std::unique_ptr<GameState> GameStateFactory::getState(GameStateEventType type) const
 {
 	switch(type)
 	{
-	case GameStateType::MENU:
+	case GameStateEventType::SWITCH_TO_MENU:
 		return std::unique_ptr<GameState>(new Menu());
-	case GameStateType::PLAY:
-		return std::unique_ptr<GameState>(new Play());
+	case GameStateEventType::LOAD_STATE_1:
+	case GameStateEventType::LOAD_STATE_2:
+	case GameStateEventType::LOAD_STATE_3:
+	case GameStateEventType::LOAD_STATE_4:
+	case GameStateEventType::LOAD_STATE_5:
+		return std::unique_ptr<GameState>(new Play(int(type)));
 	default:
 		throw std::invalid_argument("Unknown GameState");
 	}

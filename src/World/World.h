@@ -11,15 +11,22 @@
 #include "ofEvents.h"
 
 #include "World/WorldManager.h"
+#include "World/SaveFileManager.h"
 #include "Play/Player.h"
 
 class World
 {
 public:
-	World();
+	World(int save_state);
 
+	~World();
+
+	const WorldManager& getManager() const;
 private:
-	WorldManager manager_;
+
+
+	WorldManager world_manager_;
+	SaveFileManager save_file_manager_;
 	Player player_;
 };
 
