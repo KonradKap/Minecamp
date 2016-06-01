@@ -8,13 +8,9 @@
 #ifndef SRC_GAME_GAME_H_
 #define SRC_GAME_GAME_H_
 
-#include <cassert>
-#include <memory>
-
-enum class GameStateEventType;
-
-class GameState;
-class View;
+#include "Game/GameState.h"
+#include "Game/GameStateFactory.h"
+#include "GameStateEventType.h"
 
 class Game
 {
@@ -22,18 +18,11 @@ public:
 	Game();
 
 	~Game();
-
-	void update(float elapsed_time);
-	void draw() const;
-
 private:
 	void onStateSwitch(const GameStateEventType& type);
-	std::unique_ptr<GameState> state_;
-	std::unique_ptr<View> view_;
+	GameState state_;
 };
 
-#include "Game/GameStateFactory.h"
-#include "GameStateEventType.h"
-#include "Utill/View.h"
+
 
 #endif /* SRC_GAME_GAME_H_ */

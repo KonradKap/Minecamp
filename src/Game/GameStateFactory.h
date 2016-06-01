@@ -10,9 +10,15 @@
 
 #include <memory>
 
+
 #include "GameStateEventType.h"
-#include "Menu/Menu.h"
-#include "Play/Play.h"
+#include "Game/GameState.h"
+#include "Play/PlayModel.h"
+#include "Play/PlayController.h"
+#include "Play/PlayView.h"
+#include "Menu/MenuModel.h"
+#include "Menu/MenuController.h"
+#include "Menu/MenuView.h"
 
 
 //TODO: Consider this not being a singleton, but a Game member
@@ -21,10 +27,13 @@ class GameStateFactory
 public:
 	static GameStateFactory& getInstance();
 
-	std::unique_ptr<GameState> getState(GameStateEventType type) const;
+	GameState getState(GameStateEventType type) const;
 
 	~GameStateFactory();
 private:
+	GameState getMenu() const;
+	GameState getPlay(int save) const;
+
 	GameStateFactory();
 	GameStateFactory(const GameStateFactory& factory) = delete;
 	GameStateFactory& operator=(const GameStateFactory&) = delete;

@@ -2,25 +2,25 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    timer_ = 0.0f;
-    ofResetElapsedTimeCounter();
+   // timer_ = 0.0f;
+   // ofResetElapsedTimeCounter();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	float elapsedTime = ofGetElapsedTimef() - timer_;
-	game_.update(elapsedTime);
+	//float elapsedTime = ofGetElapsedTimef() - timer_;
+	//game_.update(elapsedTime);
 	/*
 	{
 		ofGetMainLoop()->shouldClose(0);
 	}
 	*/
-	timer_ = ofGetElapsedTimef();
+	//timer_ = ofGetElapsedTimef();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	game_.draw();
+	//game_.draw();
 }
 
 //--------------------------------------------------------------

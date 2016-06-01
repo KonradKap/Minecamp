@@ -10,17 +10,16 @@
 
 #include <string>
 
+#include "ButtonPrototype.h"
 #include "ofEvents.h"
 #include "ofConstants.h"
 
-#include "Menu/ButtonModel.h"
 
-//TODO: change that const ptr to const reference
 class Button
 {
 public:
-	Button();
-	Button(const ofVec2f& position, const std::string& title, const ButtonModel* const base);
+	//Button();
+	Button(const ofVec2f& position, const std::string& title, const ButtonPrototype& base);
 	Button(const Button& b);
 	~Button();
 
@@ -30,10 +29,10 @@ public:
 	void setTitle(const std::string& new_title);
 	const std::string& getTitle() const;
 
-	void bindModel(const ButtonModel* const base);
-	const ButtonModel* getModel() const;
+	//void bindModel(const ButtonPrototype* const base);
+	const ButtonPrototype& getPrototype() const;
 
-	ButtonModel::ButtonState getState() const;
+	ButtonPrototype::ButtonState getState() const;
 	ofEvent<const Button&>& getEvent();
 
 	bool contains(const ofVec2f& point);
@@ -47,11 +46,11 @@ private:
 
 	ofEvent<const Button&> pressed_;
 
-	ButtonModel::ButtonState state_;
+	ButtonPrototype::ButtonState state_;
 	ofVec2f position_;
 	std::string title_;
 
-	const ButtonModel* base_;
+	const ButtonPrototype& base_;
 };
 
 #endif /* SRC_GAME_BUTTON_H_ */

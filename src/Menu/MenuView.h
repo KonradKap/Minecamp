@@ -8,23 +8,26 @@
 #ifndef SRC_GAME_MENU_MENUVIEW_H_
 #define SRC_GAME_MENU_MENUVIEW_H_
 
-#include "Utill/View.h"
-#include "Menu/Menu.h"
+class ofEventArgs;
+
+#include "Game/View.h"
+#include "Menu/Button.h"
+#include "Menu/MenuModel.h"
 
 class MenuView : public View
 {
 public:
-	MenuView(const Menu& m);
+	MenuView(const MenuModel& m);
 	MenuView(const MenuView& mv);
 	~MenuView();
 
-	void draw();
 private:
+	void onDraw(ofEventArgs&);
 	void drawButton(const Button& b) const;
 	void drawBackground(const ofImage& image) const;
 	void drawTitle(const ofImage& title) const;
 
-	const Menu& source_;
+	const MenuModel& source_;
 };
 
 

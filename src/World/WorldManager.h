@@ -13,13 +13,13 @@
 #include <cassert>
 #include <iostream>
 
-#include "../Utill/vec3D.h"
+#include "Utill/vec3D.h"
+#include "World/BlockPrototype.h"
 #include "ofVbo.h"
 #include "ofVboMesh.h"
 #include "of3dPrimitives.h"
 #include "ofGraphics.h"
 
-#include "World/BlockModel.h"
 
 class Player;
 
@@ -31,7 +31,7 @@ public:
 	static const int Z_SIZE = 16;
 	static const int CHUNK_SIZE = 16;
 
-	typedef std::array< std::array < std::array < BlockModel*, Z_SIZE >, Y_SIZE >, X_SIZE > map_t;
+	typedef std::array< std::array < std::array < BlockPrototype*, Z_SIZE >, Y_SIZE >, X_SIZE > map_t;
 	typedef std::array< ofMesh, size_t(BlockType::COUNT) > chunk_t;
 	typedef std::array< std::array< std::array < chunk_t, Z_SIZE/CHUNK_SIZE >, Y_SIZE/CHUNK_SIZE >, X_SIZE/CHUNK_SIZE > buffer_t;
 	typedef std::pair< vec3Di, BlockType > blockEventArgs;
@@ -47,12 +47,12 @@ public:
 
 	void loadDefaultWorld();
 
-	const BlockModel& getBlock(const vec3Di& position) const;
+	const BlockPrototype& getBlock(const vec3Di& position) const;
 
 	const buffer_t& getBuffer() const;
 	const ofMesh& getBuffer(const vec3Di& position, BlockType type) const;
 
-	const BlockModel& getModel(const BlockType type) const;
+	const BlockPrototype& getModel(const BlockType type) const;
 private:
 	void onBlockDestruction(vec3Di& args);
 	void onBlockPlacement(blockEventArgs& args);
@@ -66,11 +66,11 @@ private:
 	void clearChunk(const vec3Di& position);
 	void addToMesh(const vec3Di& position, const std::array<ofVec3f, 6>& shift);
 
-	BlockModel& getBlock(const vec3Di& position);
+	BlockPrototype& getBlock(const vec3Di& position);
 	ofMesh& getBuffer(const vec3Di& position, BlockType type);
 
 	map_t map_;
-	std::array<BlockModel, size_t(BlockType::COUNT)> models_;
+	std::array<BlockPrototype, size_t(BlockType::COUNT)> models_;
 	buffer_t buffer_;
 };
 

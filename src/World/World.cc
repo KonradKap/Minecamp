@@ -26,6 +26,12 @@ const WorldManager& World::getWorldManager() const
 	return world_manager_;
 }
 
+Player& World::getPlayer()
+{
+	return player_;
+}
+
+
 const Player& World::getPlayer() const
 {
 	return player_;

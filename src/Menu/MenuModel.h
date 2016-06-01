@@ -10,20 +10,18 @@
 
 #include <memory>
 
+#include "ButtonPrototype.h"
 #include "ofImage.h"
-#include "ofApp.h"
 #include "ofEvents.h"
 
-#include "Game/GameState.h"
-#include "Play/Play.h"
-#include "Menu/ButtonModel.h"
+#include "Game/Model.h"
 #include "Menu/Button.h"
 #include "Menu/MenuPathManager.h"
 
 class MenuView;
 
 //TODO: Delete save buttons
-class Menu : public GameState
+class MenuModel : public Model
 {
 public:
 	//enum class ButtonType
@@ -33,15 +31,12 @@ public:
 	//	LEVEL_SELECT,
 	//	COUNT
 	//};
-	Menu();
-	virtual ~Menu();
-
-	void update(float elapsed_time);
+	MenuModel();
+	virtual ~MenuModel();
 
 	const ofImage& getBackground() const;
 	const ofImage& getTitle() const;
 	const std::vector<Button>& getButtons() const;
-	std::unique_ptr<View> getDefaultView() const;
 
 	static const int FONT_SIZE = 14;
 	static const int TITLE_OFFSET = 50;
@@ -97,12 +92,12 @@ private:
 	ofImage background_;
 	ofImage title_;
 
-	ButtonModel wide_model_;
-	ButtonModel small_model_;
+	ButtonPrototype wide_model_;
+	ButtonPrototype small_model_;
 	std::vector<Button> buttons_;
 };
 
-#include "Menu/MenuView.h"
+#include "MenuView.h"
 
 
 #endif /* SRC_GAME_MENU_H_ */

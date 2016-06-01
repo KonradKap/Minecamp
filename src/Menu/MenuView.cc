@@ -5,9 +5,10 @@
  *      Author: konrad
  */
 
-#include "Menu/MenuView.h"
+#include "MenuView.h"
+#include "ofApp.h"
 
-MenuView::MenuView(const Menu& m) :
+MenuView::MenuView(const MenuModel& m) :
 	View(), source_(m)
 {
 }
@@ -21,7 +22,7 @@ MenuView::~MenuView()
 {
 }
 
-void MenuView::draw()
+void MenuView::onDraw(ofEventArgs&)
 {
 	drawBackground(source_.getBackground());
 	drawTitle(source_.getTitle());
@@ -35,11 +36,11 @@ void MenuView::drawButton(const Button& button) const
 {
 	const ofVec2f POSITION = button.getPosition();
 	const int INDEX = button.getState();
-	const ofRectangle STRING_BOX = button.getModel()->getFont().getStringBoundingBox(button.getTitle(), 0, 0);
-	button.getModel()->getImageArray()[INDEX].draw(POSITION);
-	button.getModel()->getFont().drawString(button.getTitle(),
-										    POSITION.x + button.getModel()->getImageArray()[INDEX].getWidth()/2 - STRING_BOX.getWidth()/2,
-											POSITION.y + button.getModel()->getImageArray()[INDEX].getHeight()/2 + STRING_BOX.getHeight()/2);
+	const ofRectangle STRING_BOX = button.getPrototype().getFont().getStringBoundingBox(button.getTitle(), 0, 0);
+	button.getPrototype().getImageArray()[INDEX].draw(POSITION);
+	button.getPrototype().getFont().drawString(button.getTitle(),
+										    POSITION.x + button.getPrototype().getImageArray()[INDEX].getWidth()/2 - STRING_BOX.getWidth()/2,
+											POSITION.y + button.getPrototype().getImageArray()[INDEX].getHeight()/2 + STRING_BOX.getHeight()/2);
 }
 
 void MenuView::drawBackground(const ofImage& image) const
@@ -49,7 +50,7 @@ void MenuView::drawBackground(const ofImage& image) const
 
 void MenuView::drawTitle(const ofImage& title) const
 {
-	title.draw(ofApp::WINDOW_X_SIZE/2 - title.getWidth()/2, Menu::TITLE_OFFSET);
+	title.draw(ofApp::WINDOW_X_SIZE/2 - title.getWidth()/2, MenuModel::TITLE_OFFSET);
 }
 
 

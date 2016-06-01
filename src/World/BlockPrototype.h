@@ -14,13 +14,13 @@
 
 #include "World/BlockPathManager.h"
 
-class BlockModel
+class BlockPrototype
 {
 public:
-	BlockModel();
-	BlockModel(const BlockType type, const std::string& path);
-	BlockModel(const BlockModel& bm);
-	~BlockModel();
+	BlockPrototype();
+	BlockPrototype(const BlockType type, const std::string& path);
+	BlockPrototype(const BlockPrototype& bm);
+	~BlockPrototype();
 
 	bool isSolid() const;
 	bool isLiquid() const;

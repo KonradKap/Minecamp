@@ -1,10 +1,11 @@
 #include "Game/Game.h"
+#include "ofApp.h"
 
 Game::Game() :
-	state_(new Menu()),		//Menu is the default start
-	view_(state_->getDefaultView())
+	state_(GameStateFactory::getInstance().getState(GameStateEventType::SWITCH_TO_MENU))		//Menu is the default start
+	//view_(state_->getDefaultView())
 {
-	ofAddListener(state_->getEvent(), this, &Game::onStateSwitch);
+	ofAddListener(Model::getEvent(), this, &Game::onStateSwitch);
 }
 
 Game::~Game()
@@ -15,6 +16,7 @@ Game::~Game()
 ///We want the ability to pause the Game
 ///Also keep in mind that GameState::Play is the heaviest of them all
 ///And thus it is not advised to reallocate it
+/*
 void Game::update(float elapsed_time)
 {
 	state_->update(elapsed_time);
@@ -22,18 +24,16 @@ void Game::update(float elapsed_time)
 
 void Game::draw() const
 {
-	view_->draw();
+	//view_->draw();
 }
-
+*/
 void Game::onStateSwitch(const GameStateEventType& type)
 {
-	ofRemoveListener(state_->getEvent(), this, &Game::onStateSwitch);
 	if(type == GameStateEventType::QUIT)
 	{
 		ofGetMainLoop()->shouldClose(0);
 		return;
 	}
 	state_ = GameStateFactory::getInstance().getState(type);
-	ofAddListener(state_->getEvent(), this, &Game::onStateSwitch);
-	view_  = state_->getDefaultView();
+	//view_  = state_->getDefaultView();
 }

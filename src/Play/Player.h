@@ -16,6 +16,9 @@
 class Player
 {
 public:
+	Player();
+	~Player();
+
 	double getTop() const;
 	double getBottom() const;
 	double getLeft() const;
@@ -27,6 +30,17 @@ public:
 
 	void setPosition(const vec3Dd& position);
 
+	void applyDirection(const vec3Di& direction);
+
+
+	void rotate(float horizontal_rotation, float vertical_rotation);
+	void horizontalRotate(float rotation);
+	void verticalRotate(float rotation);
+
+	float getHorizontalAngle() const;
+	float getVerticalAngle() const;
+
+
 	ofEvent<WorldManager::blockEventArgs>& getPlacedBlockEvent();
 	ofEvent<vec3Di>& getDestroyedBlockEvent();
 
@@ -34,10 +48,16 @@ public:
 	static const int WIDTH  = 5;
 	static const int EYE_HEIGHT = 28;
 private:
+	void onUpdate(ofEventArgs& args);
+
 	ofEvent<WorldManager::blockEventArgs> placedBlockEvent_;
 	ofEvent<vec3Di> destroyedBlockEvent_;
 
 	vec3Dd position_;
+	vec3Di direction_;
+
+	float horizontal_angle_;
+	float vertical_angle_;
 };
 
 

@@ -6,52 +6,56 @@
  */
 
 #include "Play/PlayView.h"
+#include "Play/PlayModel.h"
 
-PlayView::PlayView(const World& world) :
-	View(), source_(world), game_camera_()
+PlayView::PlayView(const PlayModel& model) :
+	View(), source_(model)
 {
-	game_camera_.setup();
-	game_camera_.setGlobalPosition(ofVec3f(-10, -10, -10));
-	game_camera_.applyRotation = false;
-	//std::cout << "Kappa" << std::endl;
-	//ofDisableArbTex();
-	ofEnableDepthTest();
-	//ofDisableAntiAliasing();
+	setup();
 }
 
 PlayView::PlayView(const PlayView& pw) :
 	View(pw), source_(pw.source_)
 {
-	//std::cout << "Kappa" << std::endl;
-	//ofDisableArbTex();
-	ofEnableDepthTest();
-	//ofDisableAntiAliasing();
+	setup();
 }
 
 PlayView::~PlayView()
 {
-	//std::cout << "Keepo" << std::endl;
-	//ofEnableArbTex();
 	ofDisableDepthTest();
-	//ofEnableAntiAliasing();
+	ofShowCursor();
+	ofRemoveListener(ofEvents().update, this, &PlayView::onUpdate);
 }
 
-void PlayView::draw()
+void PlayView::setup()
 {
-	//camera_.setGlobalPosition(ofVec3f(source_.getPlayer().getEyePosition()));
-	//camera_.setOrientation(ofQuaternion(0, 0, 0, 0));
-	//camera_.rotateAround()
-	game_camera_.begin();
+	ofAddListener(ofEvents().update, this, &PlayView::onUpdate);
+	ofHideCursor();
+	ofEnableDepthTest();
+}
+
+void PlayView::onUpdate(ofEventArgs&)
+{
+	camera_.resetTransform();
+	camera_.setGlobalPosition(ofVec3f(source_.getPlayer().getEyePosition()));
+
+	camera_.rotate(source_.getPlayer().getVerticalAngle(), xAxis());
+	camera_.rotate(source_.getPlayer().getHorizontalAngle(), yAxis());
+}
+
+void PlayView::onDraw(ofEventArgs&)
+{
+	camera_.begin();
 	for(const auto& itX : source_.getWorldManager().getBuffer())
 		for(const auto& itY : itX)
 			for(const auto& itZ : itY)
 				for(unsigned i = 0; i < unsigned(BlockType::COUNT); ++i)
 				{
-					source_.getWorldManager().getModel(BlockType(i)).getTexture()./*getTexture().*/bind();
+					source_.getWorldManager().getModel(BlockType(i)).getTexture().bind();
 					itZ[i].draw();
-					//source_.getWorldManager().getModel(BlockType(i)).getTexture()./*getTexture().*/unbind();
+					//source_.getWorldManager().getModel(BlockType(i)).getTexture().unbind();
 				}
-	game_camera_.end();
+	camera_.end();
 }
 
 

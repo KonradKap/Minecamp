@@ -5,42 +5,42 @@
  *      Author: konrad
  */
 
-#include "Menu/ButtonModel.h"
+#include "ButtonPrototype.h"
 
-ButtonModel::ButtonModel() :
+ButtonPrototype::ButtonPrototype() :
 	image_(),
 	font_()
 {
 }
 
-ButtonModel::ButtonModel(const std::string& directory, const std::string& font_filename, const int font_size) :
+ButtonPrototype::ButtonPrototype(const std::string& directory, const std::string& font_filename, const int font_size) :
 	image_({ofImage(directory + "pressed.png"), ofImage(directory + "inactive.png"), ofImage(directory + "active.png")}),
 	font_()
 {
 	font_.load(font_filename, font_size);
 }
 
-ButtonModel::ButtonModel(const ButtonModel& source) :
+ButtonPrototype::ButtonPrototype(const ButtonPrototype& source) :
 	image_(source.image_),
 	font_(source.font_)
 {
 }
 
-ButtonModel::~ButtonModel()
+ButtonPrototype::~ButtonPrototype()
 {
 }
 
-ofVec2f ButtonModel::getSize() const
+ofVec2f ButtonPrototype::getSize() const
 {
 	return ofVec2f(image_[0].getWidth(), image_[0].getHeight());
 }
 
-const std::array<ofImage, ButtonModel::COUNT>& ButtonModel::getImageArray() const
+const std::array<ofImage, ButtonPrototype::COUNT>& ButtonPrototype::getImageArray() const
 {
 	return image_;
 }
 
-const ofTrueTypeFont& ButtonModel::getFont() const
+const ofTrueTypeFont& ButtonPrototype::getFont() const
 {
 	return font_;
 }

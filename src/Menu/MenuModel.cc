@@ -5,10 +5,11 @@
  *      Author: konrad
  */
 
-#include "Menu/Menu.h"
+#include "MenuModel.h"
+#include "ofApp.h"
 
-Menu::Menu() :
-	GameState(),
+MenuModel::MenuModel() :
+	Model(),
 	state_(MenuState::MAIN),
 	TITLES_({"Play", "Quit", "Save One",
 			"Save Two", "Save Three", "Save Four",
@@ -23,66 +24,57 @@ Menu::Menu() :
 	switchToMain();
 }
 
-void Menu::setUpPaths()
+void MenuModel::setUpPaths()
 {
 	const MenuPathManager MANAGER;
 	background_.load(MANAGER.get(MenuResources::BACKGROUND_T));
 	title_.load(MANAGER.get(MenuResources::TITLE_T));
-	wide_model_ = ButtonModel(MANAGER.get(MenuResources::WIDE_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
-	small_model_ = ButtonModel(MANAGER.get(MenuResources::SMALL_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
+	wide_model_ = ButtonPrototype(MANAGER.get(MenuResources::WIDE_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
+	small_model_ = ButtonPrototype(MANAGER.get(MenuResources::SMALL_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
 }
 
-void Menu::setUpButtons(const std::vector<std::string>& titles)
+void MenuModel::setUpButtons(const std::vector<std::string>& titles)
 {
 	const ofVec2f BUTTON_POSITION(ofApp::WINDOW_X_SIZE/2 - wide_model_.getSize().x/2, BUTTONSET_OFFSET);
 	for(unsigned i = 0; i < titles.size(); ++i)
 	{
 		buttons_.push_back(
-				Button(BUTTON_POSITION + ofVec2f(0.0f, i*(BUTTON_OFFSET + wide_model_.getSize().y/2)), titles[i], &wide_model_));
-		ofAddListener(buttons_.back().getEvent(), this, &Menu::onButtonPress);
+				Button(BUTTON_POSITION + ofVec2f(0.0f, i*(BUTTON_OFFSET + wide_model_.getSize().y/2)), titles[i], wide_model_));
+		ofAddListener(buttons_.back().getEvent(), this, &MenuModel::onButtonPress);
 	}
 }
 
-void Menu::setUpSmallButtons(const std::string& title)
+void MenuModel::setUpSmallButtons(const std::string& title)
 {
 	//const unsigned SMALL_BUTTON_COUNT = SELECT_BUTTON_COUNT - buttons_.size();
 	for(unsigned i = 0; i < SELECT_SMALL_BUTTON_COUNT; ++i)
 	{
 		buttons_.push_back(
-				Button(buttons_[i].getPosition()+ofVec2f(buttons_[i].getModel()->getSize().x + BUTTON_OFFSET, 0), title, &small_model_));
-		ofAddListener(buttons_.back().getEvent(), this, &Menu::onButtonPress);
+				Button(buttons_[i].getPosition()+ofVec2f(buttons_[i].getPrototype().getSize().x + BUTTON_OFFSET, 0), title, small_model_));
+		ofAddListener(buttons_.back().getEvent(), this, &MenuModel::onButtonPress);
 	}
 }
 
-Menu::~Menu()
+MenuModel::~MenuModel()
 {
 }
 
-void Menu::update(float elapsed_time)
-{
-}
-
-const ofImage& Menu::getBackground() const
+const ofImage& MenuModel::getBackground() const
 {
 	return background_;
 }
 
-const ofImage& Menu::getTitle() const
+const ofImage& MenuModel::getTitle() const
 {
 	return title_;
 }
 
-const std::vector<Button>& Menu::getButtons() const
+const std::vector<Button>& MenuModel::getButtons() const
 {
 	return buttons_;
 }
 
-std::unique_ptr<View> Menu::getDefaultView() const
-{
-	return std::unique_ptr<View>(new MenuView(*this));
-}
-
-void Menu::switchState(MenuState new_state)
+void MenuModel::switchState(MenuState new_state)
 {
 	switch(new_state)
 	{
@@ -97,12 +89,12 @@ void Menu::switchState(MenuState new_state)
 	}
 }
 
-void Menu::switchToMain()
+void MenuModel::switchToMain()
 {
 	if(state_ == MenuState::LEVEL_SELECT)
 	{
 		for(auto& it : buttons_)
-			ofRemoveListener(it.getEvent(), this, &Menu::onButtonPress);
+			ofRemoveListener(it.getEvent(), this, &MenuModel::onButtonPress);
 	}
 
 	buttons_.clear();
@@ -112,10 +104,10 @@ void Menu::switchToMain()
 	state_ = MenuState::MAIN;
 }
 
-void Menu::switchToLevelSelect()
+void MenuModel::switchToLevelSelect()
 {
 	for(auto& it : buttons_)
-		ofRemoveListener(it.getEvent(), this, &Menu::onButtonPress);
+		ofRemoveListener(it.getEvent(), this, &MenuModel::onButtonPress);
 
 	buttons_.clear();
 	buttons_.reserve(SELECT_BUTTON_COUNT);
@@ -128,7 +120,7 @@ void Menu::switchToLevelSelect()
 	state_ = MenuState::LEVEL_SELECT;
 }
 
-void Menu::onButtonPress(const Button& pressed)
+void MenuModel::onButtonPress(const Button& pressed)
 {
 	const int BUTTON_INDEX = std::distance(TITLES_.begin(), std::find(TITLES_.begin(), TITLES_.end(), pressed.getTitle()));
 	switch(BUTTON_INDEX)
@@ -155,29 +147,29 @@ void Menu::onButtonPress(const Button& pressed)
 	}
 }
 
-void Menu::onPlayPressed()
+void MenuModel::onPlayPressed()
 {
 	switchState(MenuState::LEVEL_SELECT);
 }
 
-void Menu::onLevelSelect(const Button& pressed)
+void MenuModel::onLevelSelect(const Button& pressed)
 {
 	int save_number = std::distance(buttons_.begin(), std::find_if(buttons_.begin(), buttons_.end(),
-			[pressed](const Button& b){return pressed.getTitle() == b.getTitle();}));
-	ofNotifyEvent(GameState::getEvent(), GameStateEventType(save_number), this);
+			[pressed](const Button& b){return pressed.getPosition() == b.getPosition();}));
+	ofNotifyEvent(getEvent(), GameStateEventType(save_number), this);
 }
 
-void Menu::onQuitPressed()
+void MenuModel::onQuitPressed()
 {
 	if(state_ == MenuState::LEVEL_SELECT)
 	{
 		switchState(MenuState::MAIN);
 		return;
 	}
-	ofNotifyEvent(GameState::getEvent(), GameStateEventType::QUIT, this);
+	ofNotifyEvent(getEvent(), GameStateEventType::QUIT, this);
 }
 
-void Menu::onLevelDeletion(const Button& pressed)
+void MenuModel::onLevelDeletion(const Button& pressed)
 {
 	int save_number = std::distance(buttons_.begin(), std::find_if(buttons_.begin(), buttons_.end(),
 			[pressed](const Button& b){return pressed.getPosition().y == b.getPosition().y;}));

@@ -10,24 +10,32 @@
 
 #include <memory>
 
-#include "GameStateEventType.h"
+enum class GameStateEventType;
+
 #include "ofEvents.h"
 
-#include "Utill/View.h"
+#include "View.h"
+#include "Controller.h"
+#include "Model.h"
 
 class GameState
 {
 public:
-	GameState() : event_() {}
-	virtual ~GameState() {}
+	typedef std::unique_ptr<View> view_ptr;
+	typedef std::unique_ptr<Model> model_ptr;
+	typedef std::unique_ptr<Controller> controller_ptr;
 
-	//virtual void handleInput() = 0;
-	virtual void update(float elapsed_time) = 0;
-	virtual std::unique_ptr<View> getDefaultView() const = 0;
+	GameState(model_ptr model, view_ptr view, controller_ptr controller);
+	GameState(GameState&& state);
+	GameState& operator= (GameState&& state);
+	~GameState();
 
-	ofEvent<const GameStateEventType&>& getEvent() { return event_; }
+	//ofEvent<const GameStateEventType&>& getEvent() { return model_->getEvent(); }
 private:
-	ofEvent<const GameStateEventType&> event_;
+
+	std::unique_ptr<Model> model_;
+	std::unique_ptr<View> view_;
+	std::unique_ptr<Controller> controller_;
 };
 
 

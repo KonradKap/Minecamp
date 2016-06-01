@@ -15,7 +15,7 @@
 
 class Button;
 
-class ButtonModel
+class ButtonPrototype
 {
 public:
 	enum ButtonState
@@ -26,12 +26,12 @@ public:
 		COUNT
 	};
 
-	ButtonModel();
-	ButtonModel(const std::string& directory, const std::string& font_filename, const int font_size);
-	ButtonModel(const ButtonModel& source);
-	~ButtonModel();
+	ButtonPrototype();
+	ButtonPrototype(const std::string& directory, const std::string& font_filename, const int font_size);
+	ButtonPrototype(const ButtonPrototype& source);
+	~ButtonPrototype();
 
-	ButtonModel& operator= (const ButtonModel&) = default;
+	ButtonPrototype& operator= (const ButtonPrototype&) = default;
 
 	ofVec2f getSize() const;
 

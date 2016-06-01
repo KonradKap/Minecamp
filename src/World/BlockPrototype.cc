@@ -5,9 +5,9 @@
  *      Author: konrad
  */
 
-#include "World/BlockModel.h"
+#include "BlockPrototype.h"
 
-BlockModel::BlockModel() :
+BlockPrototype::BlockPrototype() :
 	type_(BlockType::COUNT),
 	form_(BlockForm::GAS),
 	image_(),
@@ -15,7 +15,7 @@ BlockModel::BlockModel() :
 {
 }
 
-BlockModel::BlockModel(const BlockType type, const std::string& path) :
+BlockPrototype::BlockPrototype(const BlockType type, const std::string& path) :
 	type_(type),
 	form_(),
 	image_(path),
@@ -42,7 +42,7 @@ BlockModel::BlockModel(const BlockType type, const std::string& path) :
 	}
 }
 
-BlockModel::BlockModel(const BlockModel& bm) :
+BlockPrototype::BlockPrototype(const BlockPrototype& bm) :
 	type_(bm.type_),
 	form_(bm.form_),
 	image_(bm.image_),
@@ -50,41 +50,41 @@ BlockModel::BlockModel(const BlockModel& bm) :
 {
 }
 
-BlockModel::~BlockModel()
+BlockPrototype::~BlockPrototype()
 {
 }
 
-bool BlockModel::isSolid() const
+bool BlockPrototype::isSolid() const
 {
 	return form_ == SOLID;
 }
 
-bool BlockModel::isLiquid() const
+bool BlockPrototype::isLiquid() const
 {
 	return form_ == LIQUID;
 }
 
-bool BlockModel::isGas() const
+bool BlockPrototype::isGas() const
 {
 	return form_ == GAS;
 }
 
-bool BlockModel::isTransparent() const
+bool BlockPrototype::isTransparent() const
 {
 	return transparency_;
 }
 
-ofImage& BlockModel::getTexture()
+ofImage& BlockPrototype::getTexture()
 {
 	return image_;
 }
 
-const ofImage& BlockModel::getTexture() const
+const ofImage& BlockPrototype::getTexture() const
 {
 	return image_;
 }
 
-BlockType BlockModel::getType() const
+BlockType BlockPrototype::getType() const
 {
 	return type_;
 }

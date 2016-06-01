@@ -33,7 +33,7 @@ void WorldManager::setupModels()
 {
 	const BlockPathManager MANAGER;
 	for(unsigned i = 0; i < unsigned(BlockType::COUNT); ++i)
-			models_[i] = BlockModel(BlockType(i), MANAGER.get(BlockType(i)));
+			models_[i] = BlockPrototype(BlockType(i), MANAGER.get(BlockType(i)));
 }
 
 void WorldManager::setupBuffer()
@@ -44,7 +44,6 @@ void WorldManager::setupBuffer()
 		reloadChunk(vec3Di(x, y, z));
 }
 
-	//TODO:
 void WorldManager::loadFromFile(std::istream& file)
 {
 	for(auto& itX : map_)
@@ -89,7 +88,6 @@ void WorldManager::clearChunk(const vec3Di& position)
 		it.clear();
 }
 
-//TODO: Update buffer on these
 void WorldManager::onBlockDestruction(vec3Di& args)
 {
 	getBlock(args) = models_[unsigned(BlockType::AIR)];
@@ -104,8 +102,8 @@ void WorldManager::onBlockPlacement(blockEventArgs& args)
 
 void WorldManager::loadDefaultWorld()
 {
-	BlockModel* const DIRT_PTR = &models_[1];
-	BlockModel* const AIR_PTR = &models_[0];
+	BlockPrototype* const DIRT_PTR = &models_[1];
+	BlockPrototype* const AIR_PTR = &models_[0];
 
 	for(unsigned x = 0; x < map_.size(); ++x)
 	for(unsigned y = 0; y < map_[x].size(); ++y)
@@ -142,7 +140,7 @@ bool WorldManager::isVisible(const vec3Di& position, Side side) const
 void WorldManager::addToMesh(const vec3Di& position, const std::array<ofVec3f, 6>& shift)
 {
 	const vec3Di BUFFER = vec3Di(position.x/CHUNK_SIZE, position.y/CHUNK_SIZE, position.z/CHUNK_SIZE);
-	const ofVec3f MESH_POSITION = ofVec3f(position.x*BlockModel::SIZE, position.y*BlockModel::SIZE, position.z*BlockModel::SIZE);
+	const ofVec3f MESH_POSITION = ofVec3f(position.x*BlockPrototype::SIZE, position.y*BlockPrototype::SIZE, position.z*BlockPrototype::SIZE);
 	const BlockType TYPE = getBlock(position).getType();
 
 	ofMesh& mesh = getBuffer(BUFFER, TYPE);
@@ -152,12 +150,12 @@ void WorldManager::addToMesh(const vec3Di& position, const std::array<ofVec3f, 6
 	mesh.addTexCoords({ofVec2f(0, 0), ofVec2f(1, 0), ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(0, 1), ofVec2f(1, 1)});
 }
 
-const BlockModel& WorldManager::getBlock(const vec3Di& position) const
+const BlockPrototype& WorldManager::getBlock(const vec3Di& position) const
 {
 	return const_cast<WorldManager*>(this)->getBlock(position);
 }
 
-BlockModel& WorldManager::getBlock(const vec3Di& position)
+BlockPrototype& WorldManager::getBlock(const vec3Di& position)
 {
 	return *map_[position.x][position.y][position.z];
 }
@@ -177,7 +175,7 @@ ofMesh& WorldManager::getBuffer(const vec3Di& position, BlockType type)
 	return buffer_[position.x][position.y][position.z][unsigned(type)];
 }
 
-const BlockModel& WorldManager::getModel(const BlockType type) const
+const BlockPrototype& WorldManager::getModel(const BlockType type) const
 {
 	return models_[unsigned(type)];
 }

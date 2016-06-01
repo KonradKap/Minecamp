@@ -7,6 +7,20 @@
 
 #include "Play/Player.h"
 
+Player::Player() :
+	position_(),
+	direction_(),
+	horizontal_angle_(),
+	vertical_angle_()
+{
+	ofAddListener(ofEvents().update, this, &Player::onUpdate);
+}
+
+Player::~Player()
+{
+	ofRemoveListener(ofEvents().update, this, &Player::onUpdate);
+}
+
 double Player::getTop() const
 {
 	return getBottom() + HEIGHT;
@@ -47,6 +61,43 @@ void Player::setPosition(const vec3Dd& position)
 	position_ = position;
 }
 
+void Player::applyDirection(const vec3Di& direction)
+{
+	direction_ = direction;
+}
+
+void Player::rotate(float horizontal_rotation, float vertical_rotation)
+{
+	horizontalRotate(horizontal_rotation);
+	verticalRotate(vertical_rotation);
+}
+
+void Player::horizontalRotate(float rotation)
+{
+	horizontal_angle_ += rotation;
+	while(horizontal_angle_ >= 360)
+		horizontal_angle_ -= 360;
+}
+
+void Player::verticalRotate(float rotation)
+{
+	vertical_angle_ += rotation;
+	if(vertical_angle_ > 90)
+		vertical_angle_ = 90;
+	else if(vertical_angle_ < -90)
+		vertical_angle_ = -90;
+}
+
+float Player::getHorizontalAngle() const
+{
+	return horizontal_angle_;
+}
+
+float Player::getVerticalAngle() const
+{
+	return vertical_angle_;
+}
+
 ofEvent<WorldManager::blockEventArgs>& Player::getPlacedBlockEvent()
 {
 	return placedBlockEvent_;
@@ -55,6 +106,11 @@ ofEvent<WorldManager::blockEventArgs>& Player::getPlacedBlockEvent()
 ofEvent<vec3Di>& Player::getDestroyedBlockEvent()
 {
 	return destroyedBlockEvent_;
+}
+
+void Player::onUpdate(ofEventArgs& args)
+{
+	ofGetLastFrameTime();
 }
 
 

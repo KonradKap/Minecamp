@@ -8,27 +8,32 @@
 #ifndef SRC_GAME_PLAYVIEW_H_
 #define SRC_GAME_PLAYVIEW_H_
 
-#include "World/World.h"
+class PlayModel;
+
 #include "ofEasyCam.h"
 #include "ofCamera.h"
-#include "ofx/ofxGameCamera.h"
+//#include "ofx/ofxGameCamera.h"
 
-#include "View.h"
+#include "../Game/View.h"
 
 class PlayView : public View
 {
 public:
-	PlayView(const World& world);
+	PlayView(const PlayModel& model);
 	PlayView(const PlayView& pw);
 	~PlayView();
 
-	void draw();
-private:
 
-	const World& source_;
+private:
+	void setup();
+
+	void onUpdate(ofEventArgs&);
+	void onDraw(ofEventArgs&);
+
+	const PlayModel& source_;
 	mutable ofEasyCam cam_; //temporary
 	mutable ofCamera camera_;
-	mutable ofxGameCamera game_camera_;
+	//mutable ofxGameCamera game_camera_;
 };
 
 

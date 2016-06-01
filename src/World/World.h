@@ -8,8 +8,9 @@
 #ifndef SRC_WORLD_WORLD_H_
 #define SRC_WORLD_WORLD_H_
 
-#include "ofEvents.h"
+//#include "ofEvents.h"
 
+#include "../Play/PlayController.h"
 #include "World/WorldManager.h"
 #include "World/SaveFileManager.h"
 #include "Play/Player.h"
@@ -22,6 +23,7 @@ public:
 	~World();
 
 	const WorldManager& getWorldManager() const;
+	Player& getPlayer();
 	const Player& getPlayer() const;
 private:
 
