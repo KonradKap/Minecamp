@@ -13,7 +13,7 @@ class View
 public:
 	virtual ~View() {}
 
-	virtual void draw() const = 0;
+	virtual void draw() = 0;
 };
 
 

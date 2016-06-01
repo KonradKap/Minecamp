@@ -21,7 +21,8 @@ public:
 
 	~World();
 
-	const WorldManager& getManager() const;
+	const WorldManager& getWorldManager() const;
+	const Player& getPlayer() const;
 private:
 
 

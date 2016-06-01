@@ -11,6 +11,7 @@
 #include <string>
 
 #include "ofEvents.h"
+#include "ofConstants.h"
 
 #include "Menu/ButtonModel.h"
 

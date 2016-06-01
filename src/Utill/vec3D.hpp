@@ -5,8 +5,8 @@
  *      Author: konrad
  */
 
-#ifndef SRC_TRIO_HPP_
-#define SRC_TRIO_HPP_
+#ifndef SRC_VEC3D_HPP_
+#define SRC_VEC3D_HPP_
 
 template<class T>
 	vec3D<T>::vec3D() :
@@ -36,6 +36,12 @@ template<class T>
 template<class T>
 	vec3D<T>::~vec3D()
 	{
+	}
+
+template<class T>
+	vec3D<T>::operator ofVec3f()
+	{
+		return ofVec3f(x, y, z);
 	}
 
 template<class T>
@@ -144,4 +150,4 @@ template<class T>
 		return lhs /= rhs;
 	}
 
-#endif /* SRC_TRIO_HPP_ */
+#endif /* SRC_VEC3D_HPP_ */

@@ -7,9 +7,12 @@
 
 #include "Play/PlayView.h"
 
-PlayView::PlayView(const WorldManager& world) :
-	View(), source_(world)
+PlayView::PlayView(const World& world) :
+	View(), source_(world), game_camera_()
 {
+	game_camera_.setup();
+	game_camera_.setGlobalPosition(ofVec3f(-10, -10, -10));
+	game_camera_.applyRotation = false;
 	//std::cout << "Kappa" << std::endl;
 	//ofDisableArbTex();
 	ofEnableDepthTest();
@@ -33,19 +36,22 @@ PlayView::~PlayView()
 	//ofEnableAntiAliasing();
 }
 
-void PlayView::draw() const
+void PlayView::draw()
 {
-	cam_.begin();
-	for(const auto& itX : source_.getBuffer())
+	//camera_.setGlobalPosition(ofVec3f(source_.getPlayer().getEyePosition()));
+	//camera_.setOrientation(ofQuaternion(0, 0, 0, 0));
+	//camera_.rotateAround()
+	game_camera_.begin();
+	for(const auto& itX : source_.getWorldManager().getBuffer())
 		for(const auto& itY : itX)
 			for(const auto& itZ : itY)
 				for(unsigned i = 0; i < unsigned(BlockType::COUNT); ++i)
 				{
-					source_.getModel(BlockType(i)).getTexture()./*getTexture().*/bind();
+					source_.getWorldManager().getModel(BlockType(i)).getTexture()./*getTexture().*/bind();
 					itZ[i].draw();
-					source_.getModel(BlockType(i)).getTexture()./*getTexture().*/unbind();
+					//source_.getWorldManager().getModel(BlockType(i)).getTexture()./*getTexture().*/unbind();
 				}
-	cam_.end();
+	game_camera_.end();
 }
 
 

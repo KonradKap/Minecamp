@@ -18,7 +18,7 @@ public:
 	MenuView(const MenuView& mv);
 	~MenuView();
 
-	void draw() const;
+	void draw();
 private:
 	void drawButton(const Button& b) const;
 	void drawBackground(const ofImage& image) const;

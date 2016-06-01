@@ -5,8 +5,10 @@
  *      Author: konrad
  */
 
-#ifndef SRC_TRIO_H_
-#define SRC_TRIO_H_
+#ifndef SRC_VEC3D_H_
+#define SRC_VEC3D_H_
+
+#include "ofVec3f.h"
 
 #include "Utill/Side.h"
 
@@ -24,6 +26,8 @@ template<class T>
 			explicit vec3D(const vec3D<W>& t);
 		vec3D(T x, T y, T z);
 		~vec3D();
+
+		explicit operator ofVec3f();
 /*
 		template<class W>
 			void swap(trio<W>& t1, trio<W>& t2);
@@ -57,4 +61,4 @@ template<class T>
 
 #include "vec3D.hpp"
 
-#endif /* SRC_TRIO_H_ */
+#endif /* SRC_VEC3D_H_ */

@@ -21,7 +21,12 @@ World::~World()
 	save_file_manager_.save();
 }
 
-const WorldManager& World::getManager() const
+const WorldManager& World::getWorldManager() const
 {
 	return world_manager_;
+}
+
+const Player& World::getPlayer() const
+{
+	return player_;
 }

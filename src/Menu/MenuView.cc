@@ -21,7 +21,7 @@ MenuView::~MenuView()
 {
 }
 
-void MenuView::draw() const
+void MenuView::draw()
 {
 	drawBackground(source_.getBackground());
 	drawTitle(source_.getTitle());

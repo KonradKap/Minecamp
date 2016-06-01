@@ -22,12 +22,13 @@ Play::~Play()
 
 void Play::update(float elapsed_time)
 {
+
 	return;
 }
 
 std::unique_ptr<View> Play::getDefaultView() const
 {
-	return std::unique_ptr<View>(new PlayView(w_.getManager()));
+	return std::unique_ptr<View>(new PlayView(w_));
 }
 /*
 void Play::draw() const
