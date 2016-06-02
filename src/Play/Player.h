@@ -31,7 +31,7 @@ public:
 
 	void setPosition(const vec3Dd& position);
 
-	const vec3Dd& getDirection() const;
+	vec3Dd getDirectionVector(ofVec3f base = ofVec3f(0, 0, 1)) const;
 	void setSteer(const vec3Di& steering);
 
 	void rotate(float horizontal_rotation, float vertical_rotation);
@@ -42,21 +42,18 @@ public:
 	float getVerticalAngle() const;
 
 
-	ofEvent<WorldManager::blockEventArgs>& getPlacedBlockEvent();
-	ofEvent<vec3Di>& getDestroyedBlockEvent();
 
 	static const int HEIGHT = 30;
 	static const int WIDTH  = 5;
 	static const int EYE_HEIGHT = 28;
 	static const int VELOCITY = 40;
+	static const int RANGE = 64;
 private:
 	void onUpdate(ofEventArgs& args);
 
-	ofEvent<WorldManager::blockEventArgs> placedBlockEvent_;
-	ofEvent<vec3Di> destroyedBlockEvent_;
+
 
 	vec3Dd position_;
-	//vec3Dd direction_;
 	vec3Di steer_;
 
 	float horizontal_angle_;

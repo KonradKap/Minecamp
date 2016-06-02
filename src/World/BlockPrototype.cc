@@ -56,6 +56,8 @@ BlockPrototype::~BlockPrototype()
 
 bool BlockPrototype::isSolid() const
 {
+	//if(form_ == SOLID) std::cout << "solid " << std::endl;
+	//else std::cout << "nosolid " << std::endl;
 	return form_ == SOLID;
 }
 

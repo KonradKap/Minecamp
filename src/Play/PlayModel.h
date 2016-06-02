@@ -15,6 +15,8 @@
 #include "World/BufferManager.h"
 #include "Play/SaveFileManager.h"
 
+#include "Utill/vec3D.h"
+
 
 //TODO: This
 class PlayModel : public Model
@@ -24,16 +26,23 @@ public:
 	PlayModel(const PlayModel& p) = delete;
 	virtual ~PlayModel();
 
-	Player& getPlayer() {return player_; }
-	const Player& getPlayer() const {return player_; }
-	const WorldManager& getWorldManager() const {return world_manager_;}
+	std::pair<vec3Di, vec3Di> findTargetedBlock() const;
 
-	const BufferManager& getBufferManager() const {return buffer_manager_;}
+	Player& getPlayer();
+	const Player& getPlayer() const;
+
+	WorldManager& getWorldManager();
+	const WorldManager& getWorldManager() const;
+
+	const BufferManager& getBufferManager() const;
+
 private:
 	WorldManager world_manager_;
 	BufferManager buffer_manager_;
 	SaveFileManager save_file_manager_;
 	Player player_;
+
+
 	//mutable ofEasyCam cam;
 };
 

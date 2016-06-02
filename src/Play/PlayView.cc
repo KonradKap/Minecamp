@@ -7,6 +7,7 @@
 
 #include "Play/PlayView.h"
 #include "Play/PlayModel.h"
+#include "ofApp.h"
 
 PlayView::PlayView(const PlayModel& model) :
 	View(), source_(model)
@@ -23,7 +24,7 @@ PlayView::PlayView(const PlayView& pw) :
 PlayView::~PlayView()
 {
 //	camera_.setVFlip(false);
-	ofDisableDepthTest();
+
 	ofShowCursor();
 	ofRemoveListener(ofEvents().update, this, &PlayView::onUpdate);
 }
@@ -32,7 +33,7 @@ void PlayView::setup()
 {
 	ofAddListener(ofEvents().update, this, &PlayView::onUpdate);
 	ofHideCursor();
-	ofEnableDepthTest();
+
 }
 
 void PlayView::onUpdate(ofEventArgs&)
@@ -54,6 +55,7 @@ void PlayView::onUpdate(ofEventArgs&)
 
 void PlayView::onDraw(ofEventArgs&)
 {
+	ofEnableDepthTest();
 	camera_.begin();
 	for(const auto& itX : source_.getBufferManager().getBuffer())
 		for(const auto& itY : itX)
@@ -68,7 +70,14 @@ void PlayView::onDraw(ofEventArgs&)
 	ofDrawAxis(100);
 
 	camera_.end();
+	ofDisableDepthTest();
 
+	ofSetColor(0);
+	ofFill();
+
+	ofDrawCircle(ofPoint(ofApp::WINDOW_X_SIZE/2, ofApp::WINDOW_Y_SIZE/2), 5);
+
+	ofSetColor(255);
 }
 
 

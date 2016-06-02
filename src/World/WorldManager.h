@@ -33,7 +33,7 @@ public:
 	//WorldManager(const WorldManager& w) = delete;
 	~WorldManager();
 
-	void registerListeners(Player& p);
+	//void registerListeners();
 
 	void loadFromFile(std::istream& file);
 	void saveToFile(std::ostream& file);
@@ -43,22 +43,32 @@ public:
 	const BlockPrototype& getBlock(const vec3Di& position) const;
 	const BlockPrototype& getBlock(const BlockType type) const;
 
-	bool isVisible(const vec3Di& position, Side side) const;
+	//temporary
+	BlockPrototype& getBlock(const vec3Di& position);
 
-	ofEvent<const vec3Di&>& getChunkReloadEvent() const;
+	bool isVisible(const vec3Di& position, Side side) const;
+	bool isWithin(const vec3Di& position) const;
+
+	ofEvent<const vec3Di&>& getChunkReloadEvent();
+	ofEvent<const WorldManager::blockEventArgs&>& getPlacedBlockEvent();
+	ofEvent<const vec3Di&>& getDestroyedBlockEvent();
 private:
-	void onBlockDestruction(vec3Di& args);
-	void onBlockPlacement(blockEventArgs& args);
+	void onBlockDestruction(const vec3Di& args);
+	void onBlockPlacement(const blockEventArgs& args);
 
 	//void setupBuffer();
 	void setupPrototypes();
 
-	BlockPrototype& getBlock(const vec3Di& position);
+
 
 	map_t map_;
 	std::array<BlockPrototype, size_t(BlockType::COUNT)> models_;
 
-	mutable ofEvent<const vec3Di&> chunkReloadRequest_;
+	ofEvent<const vec3Di&> chunkReloadRequest_;
+
+	ofEvent<const WorldManager::blockEventArgs&> placedBlockEvent_;
+	ofEvent<const vec3Di&> destroyedBlockEvent_;
+
 };
 
 #include "Play/Player.h"

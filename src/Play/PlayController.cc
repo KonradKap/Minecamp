@@ -33,6 +33,8 @@ PlayController::~PlayController()
 	ofRemoveListener(ofEvents().keyReleased, this, &PlayController::onKeyRelease);
 }
 
+
+
 void PlayController::onUpdate(ofEventArgs& parameter)
 {
 	vec3Di direction;
@@ -55,14 +57,12 @@ void PlayController::onMouseMove(ofMouseEventArgs& parameter)
 
 void PlayController::onMousePress(ofMouseEventArgs& parameter)
 {
-	//std::cout << parameter.button << std::endl;
-
 	switch(parameter.button)
 	{
 	case OF_MOUSE_BUTTON_1:
 		onLeftMouseButtonPress();
 		break;
-	case OF_MOUSE_BUTTON_2:
+	case OF_MOUSE_BUTTON_3:
 		onRightMouseButtonPress();
 		break;
 	}
@@ -70,12 +70,17 @@ void PlayController::onMousePress(ofMouseEventArgs& parameter)
 
 void PlayController::onLeftMouseButtonPress()
 {
-	//std::cout << "LEFT";
+	auto target = model_.findTargetedBlock();
+	if(!model_.getWorldManager().isWithin(target.first))
+		return;
+	//std::cout << "( " << target.second.x << ", " << target.second.y << ", " << target.second.z << ")" << std::endl;
+	ofNotifyEvent(model_.getWorldManager().getPlacedBlockEvent(),
+				  std::make_pair(target.second, BlockType::DIRT), this);
 }
 
 void PlayController::onRightMouseButtonPress()
 {
-	//std::cout << "RIGHT";
+
 }
 
 void PlayController::onKeyPressed(ofKeyEventArgs& parameter)

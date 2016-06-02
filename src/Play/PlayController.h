@@ -45,6 +45,8 @@ private:
 	void onKeyPressed(ofKeyEventArgs& parameter);
 	void onKeyRelease(ofKeyEventArgs& parameter);
 
+
+
 	PlayModel& model_;
 	std::array<bool, TrackedButtons::COUNT> buttons_pressed_;
 };

@@ -35,6 +35,7 @@ private:
 	const PlayModel& source_;
 	mutable ofEasyCam cam_; //temporary
 	mutable ofCamera camera_;
+
 	//mutable ofxGameCamera game_camera_;
 };
 

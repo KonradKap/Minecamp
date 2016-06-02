@@ -61,12 +61,15 @@ void Player::setPosition(const vec3Dd& position)
 {
 	position_ = position;
 }
-/*
-const vec3Dd& Player::getDirection() const
+
+vec3Dd Player::getDirectionVector(ofVec3f base) const
 {
-	return direction_;
+	//ofVec3f direction(0, 0, 1);
+	return vec3Dd(base.rotate(getVerticalAngle() , -View::xAxis())
+			 	 	  .rotate(getHorizontalAngle(), View::yAxis()));
+
 }
-*/
+
 void Player::setSteer(const vec3Di& steering)
 {
 	steer_ = steering;
@@ -110,16 +113,6 @@ float Player::getVerticalAngle() const
 	return vertical_angle_ ;
 }
 
-ofEvent<WorldManager::blockEventArgs>& Player::getPlacedBlockEvent()
-{
-	return placedBlockEvent_;
-}
-
-ofEvent<vec3Di>& Player::getDestroyedBlockEvent()
-{
-	return destroyedBlockEvent_;
-}
-
 void Player::onUpdate(ofEventArgs& args)
 {
 	//std::cout << "POSITION: (" << position_.x << ", " << position_.y << ", " << position_.z << ")\n "
@@ -134,10 +127,10 @@ void Player::onUpdate(ofEventArgs& args)
 	distance.z *= steer_.z;
 */
 
-	ofVec3f direction = ofVec3f(steer_);
-	direction.rotate(getVerticalAngle() , -View::xAxis())
-			 .rotate(getHorizontalAngle(), View::yAxis());
-	vec3Dd distance = vec3Dd(direction*time*VELOCITY);
+	//ofVec3f direction = ofVec3f(steer_);
+	//direction.rotate(getVerticalAngle() , -View::xAxis())
+	//		 .rotate(getHorizontalAngle(), View::yAxis());
+	vec3Dd distance = vec3Dd(getDirectionVector(ofVec3f(steer_))*time*VELOCITY);
 
 	position_ += distance;
 }

@@ -31,7 +31,7 @@ const std::array<std::array<ofVec3f, 6>, unsigned(Side::COUNT)> BufferManager::S
 		std::array<ofVec3f, 6>({VERTICES[2], VERTICES[4], VERTICES[7], VERTICES[2], VERTICES[6], VERTICES[7]}),
 	};
 
-BufferManager::BufferManager(const WorldManager& source) :
+BufferManager::BufferManager(WorldManager& source) :
 	buffer_(),
 	source_(source)
 {
@@ -44,7 +44,7 @@ BufferManager::~BufferManager()
 	ofRemoveListener(source_.getChunkReloadEvent(), this, &BufferManager::onReloadChunkRequest);
 }
 
-ofMesh& BufferManager::getBuffer(const vec3Di& position, BlockType type)
+ofVboMesh& BufferManager::getBuffer(const vec3Di& position, BlockType type)
 {
 	return buffer_[position.x][position.y][position.z][unsigned(type)];
 }
@@ -54,7 +54,7 @@ const BufferManager::buffer_t& BufferManager::getBuffer() const
 	return buffer_;
 }
 
-const ofMesh& BufferManager::getBuffer(const vec3Di& position, BlockType type) const
+const ofVboMesh& BufferManager::getBuffer(const vec3Di& position, BlockType type) const
 {
 	return const_cast<BufferManager*>(this)->getBuffer(position, type);
 }
@@ -92,7 +92,7 @@ void BufferManager::addToMesh(const vec3Di& position, const std::array<ofVec3f, 
 	const ofVec3f MESH_POSITION = ofVec3f(position.x*BlockPrototype::SIZE, position.y*BlockPrototype::SIZE, position.z*BlockPrototype::SIZE);
 	const BlockType TYPE = source_.getBlock(position).getType();
 
-	ofMesh& mesh = getBuffer(BUFFER, TYPE);
+	ofVboMesh& mesh = getBuffer(BUFFER, TYPE);
 	for(const auto& it : shift)
 		mesh.addVertex(MESH_POSITION + it);
 

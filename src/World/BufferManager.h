@@ -25,16 +25,16 @@ public:
 	static const int Z_CHUNK_COUNT = WorldManager::Z_SIZE/CHUNK_SIZE;
 
 
-	typedef std::array< ofMesh, size_t(BlockType::COUNT) > chunk_t;
+	typedef std::array< ofVboMesh, size_t(BlockType::COUNT) > chunk_t;
 	typedef std::array< std::array< std::array < chunk_t, Z_CHUNK_COUNT >, Y_CHUNK_COUNT >, X_CHUNK_COUNT > buffer_t;
 
-	BufferManager(const WorldManager& source);
+	BufferManager(WorldManager& source);
 	~BufferManager();
 
 	void setup();
 
 	const buffer_t& getBuffer() const;
-	const ofMesh& getBuffer(const vec3Di& position, BlockType type) const;
+	const ofVboMesh& getBuffer(const vec3Di& position, BlockType type) const;
 
 private:
 	void onReloadChunkRequest(const vec3Di& position);
@@ -42,10 +42,10 @@ private:
 	void clearChunk(const vec3Di& position);
 	void addToMesh(const vec3Di& position, const std::array<ofVec3f, 6>& shift);
 
-	ofMesh& getBuffer(const vec3Di& position, BlockType type);
+	ofVboMesh& getBuffer(const vec3Di& position, BlockType type);
 
 	buffer_t buffer_;
-	const WorldManager& source_;
+	WorldManager& source_;
 
 	static const std::array<ofVec3f, 8> VERTICES;
 	static const std::array<std::array<ofVec3f, 6>, unsigned(Side::COUNT)> SIDE_VERTICES;
