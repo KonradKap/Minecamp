@@ -37,11 +37,12 @@ void PlayView::setup()
 
 void PlayView::onUpdate(ofEventArgs&)
 {
-	camera_.resetTransform();
+	//camera_.resetTransform();
 	camera_.setGlobalPosition(ofVec3f(source_.getPlayer().getEyePosition()));
 
-	camera_.rotate(source_.getPlayer().getVerticalAngle(), xAxis());
-	camera_.rotate(source_.getPlayer().getHorizontalAngle()+180, yAxis());
+	camera_.setGlobalOrientation(ofQuaternion(0, ofVec3f(source_.getPlayer().getDirection())));
+	//camera_.rotate(source_.getPlayer().getVerticalAngle(), xAxis());
+	//camera_.rotate(source_.getPlayer().getHorizontalAngle()+180, yAxis());
 }
 
 void PlayView::onDraw(ofEventArgs&)

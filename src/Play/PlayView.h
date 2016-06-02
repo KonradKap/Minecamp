@@ -12,9 +12,11 @@ class PlayModel;
 
 #include "ofEasyCam.h"
 #include "ofCamera.h"
+#include "ofQuaternion.h"
+
 //#include "ofx/ofxGameCamera.h"
 
-#include "../Game/View.h"
+#include "Game/View.h"
 
 class PlayView : public View
 {

@@ -31,8 +31,8 @@ public:
 
 	void setPosition(const vec3Dd& position);
 
-	void applyDirection(const vec3Di& direction);
-
+	const vec3Dd& getDirection() const;
+	void setSteer(const vec3Di& steering);
 
 	void rotate(float horizontal_rotation, float vertical_rotation);
 	void horizontalRotate(float rotation);
@@ -56,10 +56,11 @@ private:
 	ofEvent<vec3Di> destroyedBlockEvent_;
 
 	vec3Dd position_;
-	vec3Di direction_;
+	vec3Dd direction_;
+	vec3Di steer_;
 
-	float horizontal_angle_;
-	float vertical_angle_;
+	//float horizontal_angle_;
+	//float vertical_angle_;
 };
 
 

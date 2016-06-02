@@ -9,9 +9,10 @@
 
 Player::Player() :
 	position_(),
-	direction_(),
-	horizontal_angle_(),
-	vertical_angle_()
+	direction_(1, 0, 0),
+	steer_()
+	//horizontal_angle_(),
+	//vertical_angle_()
 {
 	ofAddListener(ofEvents().update, this, &Player::onUpdate);
 }
@@ -61,9 +62,14 @@ void Player::setPosition(const vec3Dd& position)
 	position_ = position;
 }
 
-void Player::applyDirection(const vec3Di& direction)
+const vec3Dd& Player::getDirection() const
 {
-	direction_ = direction;
+	return direction_;
+}
+
+void Player::setSteer(const vec3Di& steering)
+{
+	steer_ = steering;
 }
 
 void Player::rotate(float horizontal_rotation, float vertical_rotation)
@@ -72,34 +78,37 @@ void Player::rotate(float horizontal_rotation, float vertical_rotation)
 	verticalRotate(vertical_rotation);
 }
 
-void Player::horizontalRotate(float rotation)
+void Player::horizontalRotate(float rotationAngle)
 {
-	horizontal_angle_ += rotation;
-	while(horizontal_angle_ >= 180)
-		horizontal_angle_ -= 360;
-	while(horizontal_angle_ < -180)
-		horizontal_angle_ += 360;
+
+	direction_ = ofVec3f(direction_).rotate(rotationAngle, View::yAxis());
+	//horizontal_angle_ += rotation;
+	//while(horizontal_angle_ >= 180)
+	//	horizontal_angle_ -= 360;
+	//while(horizontal_angle_ < -180)
+	//	horizontal_angle_ += 360;
 }
 
-void Player::verticalRotate(float rotation)
+void Player::verticalRotate(float rotationAngle)
 {
-	vertical_angle_ += rotation;
-	if(vertical_angle_ > 90)
-		vertical_angle_ = 90;
-	else if(vertical_angle_ < -90)
-		vertical_angle_ = -90;
+	direction_ = ofVec3f(direction_).rotate(rotationAngle, View::xAxis());
+	//vertical_angle_ += rotation;
+	//if(vertical_angle_ > 90)
+	//	vertical_angle_ = 90;
+	//else if(vertical_angle_ < -90)
+	//	vertical_angle_ = -90;
 }
-
+/*
 float Player::getHorizontalAngle() const
 {
-	return horizontal_angle_/* +180*/;
+	return horizontal_angle_ +180;
 }
 
 float Player::getVerticalAngle() const
 {
 	return vertical_angle_ ;
 }
-
+*/
 ofEvent<WorldManager::blockEventArgs>& Player::getPlacedBlockEvent()
 {
 	return placedBlockEvent_;
@@ -114,13 +123,18 @@ void Player::onUpdate(ofEventArgs& args)
 {
 	//std::cout << "POSITION: (" << position_.x << ", " << position_.y << ", " << position_.z << ")\n "
 	//		<< "ANGLE: " << getHorizontalAngle() << ", " << getVerticalAngle() << std::endl;
-	if(direction_ == vec3Di(0, 0, 0))
+	if(steer_ == vec3Di(0, 0, 0))
 			return;
 	double time = ofGetLastFrameTime();
-	ofVec3f direction = ofVec3f(direction_);
-	direction.rotate(vertical_angle_ , -View::xAxis())
-			 .rotate(getHorizontalAngle(), View::yAxis());
-	position_ += vec3Dd(direction*time*VELOCITY);
+	vec3Dd distance = direction_*time*VELOCITY;
+	distance.x *= steer_.x;
+	distance.y *= steer_.y;
+	distance.z *= steer_.z;
+
+	//ofVec3f direction = ofVec3f(direction_);
+	//direction.rotate(vertical_angle_ , -View::xAxis())
+	//		 .rotate(getHorizontalAngle(), View::yAxis());
+	position_ += distance;
 }
 
 

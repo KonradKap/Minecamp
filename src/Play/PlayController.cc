@@ -41,7 +41,7 @@ void PlayController::onUpdate(ofEventArgs& parameter)
 		if(buttons_pressed_[i])
 			direction += vec3Di::make_unit_vector(Side(i));
 
-	model_.getPlayer().applyDirection(direction);
+	model_.getPlayer().setSteer(direction);
 }
 
 void PlayController::onMouseMove(ofMouseEventArgs& parameter)

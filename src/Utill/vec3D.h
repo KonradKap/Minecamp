@@ -28,16 +28,20 @@ template<class T>
 		vec3D(T x, T y, T z);
 		~vec3D();
 
-		explicit operator ofVec3f();
+		explicit operator ofVec3f() const;
 /*
 		template<class W>
 			void swap(trio<W>& t1, trio<W>& t2);
 */
 		vec3D& operator=(vec3D arg);
+		vec3D& operator=(const ofVec3f& arg);
 		vec3D& operator+=(const vec3D& arg);
 		vec3D& operator-=(const vec3D& arg);
-		vec3D& operator*=(const T scalar);
-		vec3D& operator/=(const T scalar);
+
+		template<class W>
+			vec3D& operator*=(const W scalar);
+		template<class W>
+			vec3D& operator/=(const W scalar);
 
 		static vec3D<int> make_unit_vector(Side side);
 	};
@@ -55,10 +59,10 @@ template<class T>
 	inline vec3D<T> operator+ (vec3D<T> lhs, const vec3D<T>& rhs);
 template<class T>
 	inline vec3D<T> operator- (vec3D<T> lhs, const vec3D<T>& rhs);
-template<class T>
-	inline vec3D<T> operator* (vec3D<T> lhs, const T rhs);
-template<class T>
-	inline vec3D<T> operator/ (vec3D<T> lhs, const T rhs);
+template<class T, class W>
+	inline vec3D<T> operator* (vec3D<T> lhs, const W rhs);
+template<class T, class W>
+	inline vec3D<T> operator/ (vec3D<T> lhs, const W rhs);
 
 #include "vec3D.hpp"
 

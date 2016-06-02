@@ -33,4 +33,7 @@ bin/Minecamp
 *.d
 *.xml
 *.sav
+/obj
 /src/ofx/
+.settings/
+.cproject

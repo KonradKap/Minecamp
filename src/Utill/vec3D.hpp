@@ -46,7 +46,7 @@ template<class T>
 	}
 
 template<class T>
-	vec3D<T>::operator ofVec3f()
+	vec3D<T>::operator ofVec3f() const
 	{
 		return ofVec3f(x, y, z);
 	}
@@ -67,6 +67,16 @@ template<class T>
 		return *this;
 	}
 
+
+template<class T>
+	vec3D<T>& vec3D<T>::operator=(const ofVec3f& arg)
+	{
+		x = arg.x;
+		y = arg.y;
+		z = arg.z;
+		return *this;
+	}
+
 template<class T>
 	vec3D<T>& vec3D<T>::operator+=(const vec3D<T>& arg)
 	{
@@ -84,21 +94,24 @@ template<class T>
 		return *this;
 	}
 template <class T>
-	vec3D<T>& vec3D<T>::operator*=(const T scalar)
-	{
-		x *= scalar;
-		y *= scalar;
-		z *= scalar;
-		return *this;
-	}
+	template<class W>
+		vec3D<T>& vec3D<T>::operator*=(const W scalar)
+		{
+			x *= scalar;
+			y *= scalar;
+			z *= scalar;
+			return *this;
+		}
+
 template <class T>
-	vec3D<T>& vec3D<T>::operator/=(const T scalar)
-	{
-		x /= scalar;
-		y /= scalar;
-		z /= scalar;
-		return *this;
-	}
+	template<class W>
+		vec3D<T>& vec3D<T>::operator/=(const W scalar)
+		{
+			x /= scalar;
+			y /= scalar;
+			z /= scalar;
+			return *this;
+		}
 
 template<class T>
 	vec3D<int> vec3D<T>::make_unit_vector(Side side)
@@ -146,13 +159,13 @@ template<class T>
 	{
 		return lhs -= rhs;
 	}
-template<class T>
-	inline vec3D<T> operator* (vec3D<T> lhs, const T rhs)
+template<class T, class W>
+	inline vec3D<T> operator* (vec3D<T> lhs, const W rhs)
 	{
 		return lhs *= rhs;
 	}
-template<class T>
-	inline vec3D<T> operator/ (vec3D<T> lhs, const T rhs)
+template<class T, class W>
+	inline vec3D<T> operator/ (vec3D<T> lhs, const W rhs)
 	{
 		return lhs /= rhs;
 	}

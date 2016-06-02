@@ -3,6 +3,7 @@
 	<name>Minecamp</name>
 	<comment></comment>
 	<projects>
+		<project>openFrameworks</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
