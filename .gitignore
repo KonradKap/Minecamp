@@ -37,3 +37,4 @@ bin/Minecamp
 /src/ofx/
 .settings/
 .cproject
+.project
