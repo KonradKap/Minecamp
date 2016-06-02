@@ -5,8 +5,8 @@
  *      Author: konrad
  */
 
-#ifndef SRC_WORLD_SAVEFILEMANAGER_H_
-#define SRC_WORLD_SAVEFILEMANAGER_H_
+#ifndef SRC_PLAY_SAVEFILEMANAGER_H_
+#define SRC_PLAY_SAVEFILEMANAGER_H_
 
 #include "World/WorldManager.h"
 
@@ -30,4 +30,4 @@ private:
 
 
 
-#endif /* SRC_WORLD_SAVEFILEMANAGER_H_ */
+#endif /* SRC_PLAY_SAVEFILEMANAGER_H_ */

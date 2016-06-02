@@ -10,11 +10,13 @@
 PlayModel::PlayModel(int save_state) :
 	Model(),
 	world_manager_(),
+	buffer_manager_(world_manager_),
 	save_file_manager_(save_state, world_manager_),
 	player_()
 {
 	world_manager_.registerListeners(player_);
 	save_file_manager_.load();
+	buffer_manager_.setup();
 }
 /*
 Play::Play(const Play& p)

@@ -28,6 +28,13 @@ template<class T>
 				}
 
 template<class T>
+	vec3D<T>::vec3D(const ofVec3f& vec) :
+		x(vec.x), y(vec.y), z(vec.z)
+		{
+		}
+
+
+template<class T>
 	vec3D<T>::vec3D(T x, T y, T z) :
 		x(x), y(y), z(z)
 		{
@@ -107,9 +114,9 @@ template<class T>
 		case Side::BACK:
 			return vec3D<int>(0, 0, -1);
 		case Side::LEFT:
-			return vec3D<int>(-1, 0, 0);
-		case Side::RIGHT:
 			return vec3D<int>(1, 0, 0);
+		case Side::RIGHT:
+			return vec3D<int>(-1, 0, 0);
 		default:
 			throw std::invalid_argument("Undefined side");
 		}

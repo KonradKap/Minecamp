@@ -24,6 +24,7 @@ template<class T>
 		vec3D(const vec3D& t);
 		template<class W>
 			explicit vec3D(const vec3D<W>& t);
+		explicit vec3D(const ofVec3f& vec);
 		vec3D(T x, T y, T z);
 		~vec3D();
 

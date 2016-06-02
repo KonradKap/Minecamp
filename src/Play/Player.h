@@ -12,6 +12,7 @@
 #include "ofCamera.h"
 
 #include "World/WorldManager.h"
+#include "Game/View.h"
 
 class Player
 {
@@ -47,6 +48,7 @@ public:
 	static const int HEIGHT = 30;
 	static const int WIDTH  = 5;
 	static const int EYE_HEIGHT = 28;
+	static const int VELOCITY = 40;
 private:
 	void onUpdate(ofEventArgs& args);
 

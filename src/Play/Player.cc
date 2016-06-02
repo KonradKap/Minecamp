@@ -75,8 +75,10 @@ void Player::rotate(float horizontal_rotation, float vertical_rotation)
 void Player::horizontalRotate(float rotation)
 {
 	horizontal_angle_ += rotation;
-	while(horizontal_angle_ >= 360)
+	while(horizontal_angle_ >= 180)
 		horizontal_angle_ -= 360;
+	while(horizontal_angle_ < -180)
+		horizontal_angle_ += 360;
 }
 
 void Player::verticalRotate(float rotation)
@@ -90,12 +92,12 @@ void Player::verticalRotate(float rotation)
 
 float Player::getHorizontalAngle() const
 {
-	return horizontal_angle_;
+	return horizontal_angle_/* +180*/;
 }
 
 float Player::getVerticalAngle() const
 {
-	return vertical_angle_;
+	return vertical_angle_ ;
 }
 
 ofEvent<WorldManager::blockEventArgs>& Player::getPlacedBlockEvent()
@@ -110,7 +112,15 @@ ofEvent<vec3Di>& Player::getDestroyedBlockEvent()
 
 void Player::onUpdate(ofEventArgs& args)
 {
-	ofGetLastFrameTime();
+	//std::cout << "POSITION: (" << position_.x << ", " << position_.y << ", " << position_.z << ")\n "
+	//		<< "ANGLE: " << getHorizontalAngle() << ", " << getVerticalAngle() << std::endl;
+	if(direction_ == vec3Di(0, 0, 0))
+			return;
+	double time = ofGetLastFrameTime();
+	ofVec3f direction = ofVec3f(direction_);
+	direction.rotate(vertical_angle_ , -View::xAxis())
+			 .rotate(getHorizontalAngle(), View::yAxis());
+	position_ += vec3Dd(direction*time*VELOCITY);
 }
 
 

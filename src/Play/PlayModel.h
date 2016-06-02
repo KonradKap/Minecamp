@@ -11,7 +11,10 @@
 
 #include "Game/GameState.h"
 #include "Play/PlayView.h"
-#include "World/World.h"
+#include "Play/Player.h"
+#include "World/BufferManager.h"
+#include "Play/SaveFileManager.h"
+
 
 //TODO: This
 class PlayModel : public Model
@@ -24,8 +27,11 @@ public:
 	Player& getPlayer() {return player_; }
 	const Player& getPlayer() const {return player_; }
 	const WorldManager& getWorldManager() const {return world_manager_;}
+
+	const BufferManager& getBufferManager() const {return buffer_manager_;}
 private:
 	WorldManager world_manager_;
+	BufferManager buffer_manager_;
 	SaveFileManager save_file_manager_;
 	Player player_;
 	//mutable ofEasyCam cam;

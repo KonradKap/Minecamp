@@ -5,16 +5,17 @@
  *      Author: konrad
  */
 
-#include "WorldManager.h"
+#include "World/WorldManager.h"
+#include "World/BufferManager.h"
 
 WorldManager::WorldManager() :
 	map_(),
-	models_(),
-	buffer_()
+	models_()
+	//buffer_()
 
 {
 	ofDisableArbTex();
-	setupModels();
+	setupPrototypes();
 	/** TEMPORARY */ //loadDefaultWorld();
 }
 
@@ -29,13 +30,13 @@ void WorldManager::registerListeners(Player& p)
 	ofAddListener(p.getPlacedBlockEvent(), this, &WorldManager::onBlockPlacement);
 }
 
-void WorldManager::setupModels()
+void WorldManager::setupPrototypes()
 {
 	const BlockPathManager MANAGER;
 	for(unsigned i = 0; i < unsigned(BlockType::COUNT); ++i)
 			models_[i] = BlockPrototype(BlockType(i), MANAGER.get(BlockType(i)));
 }
-
+/*
 void WorldManager::setupBuffer()
 {
 	for(unsigned x = 0; x < buffer_.size(); ++x)
@@ -43,7 +44,7 @@ void WorldManager::setupBuffer()
 	for(unsigned z = 0; z < buffer_[x][y].size(); ++z)
 		reloadChunk(vec3Di(x, y, z));
 }
-
+*/
 void WorldManager::loadFromFile(std::istream& file)
 {
 	for(auto& itX : map_)
@@ -54,7 +55,7 @@ void WorldManager::loadFromFile(std::istream& file)
 		file >> type;
 		itZ = &models_[type];
 	}
-	setupBuffer();
+	//setupBuffer();
 }
 	//TODO:
 void WorldManager::saveToFile(std::ostream& file)
@@ -67,10 +68,12 @@ void WorldManager::saveToFile(std::ostream& file)
 	}
 
 }
-
+/*
 void WorldManager::reloadChunk(const vec3Di& position)
 {
 	//throw if position out of range
+	ofNotifyEvent(chunkReloadRequest_, position, this);
+
 	clearChunk(position);
 	for(int x = position.x*CHUNK_SIZE; x < (position.x+1)*CHUNK_SIZE; ++x)
 	for(int y = position.y*CHUNK_SIZE; y < (position.y+1)*CHUNK_SIZE; ++y)
@@ -80,24 +83,26 @@ void WorldManager::reloadChunk(const vec3Di& position)
 			if(isVisible(vec3Di(x, y, z), Side(i)))
 				addToMesh(vec3Di(x, y, z), SIDE_VERTICES[i]);
 	}
-}
 
+}
+*/
+/*
 void WorldManager::clearChunk(const vec3Di& position)
 {
 	for(auto& it : buffer_[position.x][position.y][position.z])
 		it.clear();
 }
-
+*/
 void WorldManager::onBlockDestruction(vec3Di& args)
 {
 	getBlock(args) = models_[unsigned(BlockType::AIR)];
-	reloadChunk(args/CHUNK_SIZE);
+	ofNotifyEvent(chunkReloadRequest_, args/BufferManager::CHUNK_SIZE, this);
 }
 
 void WorldManager::onBlockPlacement(blockEventArgs& args)
 {
 	getBlock(args.first) = models_[unsigned(args.second)];
-	reloadChunk(args.first/CHUNK_SIZE);
+	ofNotifyEvent(chunkReloadRequest_, args.first/BufferManager::CHUNK_SIZE, this);
 }
 
 void WorldManager::loadDefaultWorld()
@@ -114,8 +119,6 @@ void WorldManager::loadDefaultWorld()
 		else
 			map_[x][y][z] = AIR_PTR;
 	}
-
-	setupBuffer();
 }
 
 bool WorldManager::isVisible(const vec3Di& position, Side side) const
@@ -136,7 +139,7 @@ bool WorldManager::isVisible(const vec3Di& position, Side side) const
 		return getBlock(NEXT).isGas();
 	return false;
 }
-
+/*
 void WorldManager::addToMesh(const vec3Di& position, const std::array<ofVec3f, 6>& shift)
 {
 	const vec3Di BUFFER = vec3Di(position.x/CHUNK_SIZE, position.y/CHUNK_SIZE, position.z/CHUNK_SIZE);
@@ -149,7 +152,7 @@ void WorldManager::addToMesh(const vec3Di& position, const std::array<ofVec3f, 6
 
 	mesh.addTexCoords({ofVec2f(0, 0), ofVec2f(1, 0), ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(0, 1), ofVec2f(1, 1)});
 }
-
+*/
 const BlockPrototype& WorldManager::getBlock(const vec3Di& position) const
 {
 	return const_cast<WorldManager*>(this)->getBlock(position);
@@ -159,7 +162,7 @@ BlockPrototype& WorldManager::getBlock(const vec3Di& position)
 {
 	return *map_[position.x][position.y][position.z];
 }
-
+/*
 const WorldManager::buffer_t& WorldManager::getBuffer() const
 {
 	return buffer_;
@@ -174,8 +177,13 @@ ofMesh& WorldManager::getBuffer(const vec3Di& position, BlockType type)
 {
 	return buffer_[position.x][position.y][position.z][unsigned(type)];
 }
-
-const BlockPrototype& WorldManager::getModel(const BlockType type) const
+*/
+const BlockPrototype& WorldManager::getBlock(const BlockType type) const
 {
 	return models_[unsigned(type)];
+}
+
+ofEvent<const vec3Di&>& WorldManager::getChunkReloadEvent() const
+{
+	return chunkReloadRequest_;
 }

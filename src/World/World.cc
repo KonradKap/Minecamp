@@ -5,6 +5,10 @@
  *      Author: konrad
  */
 
+/**
+* NO LONGER USED
+*/
+/*
 #include "World/World.h"
 
 World::World(int save_state) :
@@ -36,3 +40,4 @@ const Player& World::getPlayer() const
 {
 	return player_;
 }
+*/

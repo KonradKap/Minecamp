@@ -7,7 +7,10 @@
 
 #ifndef SRC_WORLD_WORLD_H_
 #define SRC_WORLD_WORLD_H_
-
+/**
+* NO LONGER USED
+*/
+/*
 //#include "ofEvents.h"
 
 #include "../Play/PlayController.h"
@@ -34,5 +37,5 @@ private:
 };
 
 
-
+*/
 #endif /* SRC_WORLD_WORLD_H_ */
