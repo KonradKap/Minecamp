@@ -61,9 +61,11 @@ template<class T>
 
 
 template<class T>
-	vec3D<T>& vec3D<T>::operator=(vec3D<T> arg)
+	vec3D<T>& vec3D<T>::operator=(const vec3D<T>& arg)
 	{
-		swap(*this, arg);
+		x = arg.x;
+		y = arg.y;
+		z = arg.z;
 		return *this;
 	}
 

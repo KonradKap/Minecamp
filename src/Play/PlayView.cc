@@ -22,7 +22,7 @@ PlayView::PlayView(const PlayView& pw) :
 
 PlayView::~PlayView()
 {
-	camera_.setVFlip(false);
+//	camera_.setVFlip(false);
 	ofDisableDepthTest();
 	ofShowCursor();
 	ofRemoveListener(ofEvents().update, this, &PlayView::onUpdate);
@@ -37,12 +37,19 @@ void PlayView::setup()
 
 void PlayView::onUpdate(ofEventArgs&)
 {
-	//camera_.resetTransform();
+	camera_.resetTransform();
+	//ofVec3f direction = ofVec3f(source_.getPlayer().getDirection());
 	camera_.setGlobalPosition(ofVec3f(source_.getPlayer().getEyePosition()));
+/*
+	camera_.setGlobalOrientation(ofQuaternion(
+			direction.angle(xAxis()), xAxis(),
+			direction.angle(yAxis()), yAxis(),
+			direction.angle(zAxis()), zAxis()));
 
 	camera_.setGlobalOrientation(ofQuaternion(0, ofVec3f(source_.getPlayer().getDirection())));
-	//camera_.rotate(source_.getPlayer().getVerticalAngle(), xAxis());
-	//camera_.rotate(source_.getPlayer().getHorizontalAngle()+180, yAxis());
+*/
+	camera_.rotate(source_.getPlayer().getVerticalAngle(), xAxis());
+	camera_.rotate(source_.getPlayer().getHorizontalAngle()+180, yAxis());
 }
 
 void PlayView::onDraw(ofEventArgs&)

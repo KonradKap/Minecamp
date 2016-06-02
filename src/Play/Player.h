@@ -56,11 +56,11 @@ private:
 	ofEvent<vec3Di> destroyedBlockEvent_;
 
 	vec3Dd position_;
-	vec3Dd direction_;
+	//vec3Dd direction_;
 	vec3Di steer_;
 
-	//float horizontal_angle_;
-	//float vertical_angle_;
+	float horizontal_angle_;
+	float vertical_angle_;
 };
 
 

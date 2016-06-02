@@ -33,7 +33,7 @@ template<class T>
 		template<class W>
 			void swap(trio<W>& t1, trio<W>& t2);
 */
-		vec3D& operator=(vec3D arg);
+		vec3D& operator=(const vec3D& arg);
 		vec3D& operator=(const ofVec3f& arg);
 		vec3D& operator+=(const vec3D& arg);
 		vec3D& operator-=(const vec3D& arg);
