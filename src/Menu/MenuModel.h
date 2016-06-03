@@ -21,7 +21,7 @@
 class MenuView;
 
 //TODO: Delete save buttons
-class MenuModel : public Model
+class MenuModel : public Model, public Registrable
 {
 public:
 	//enum class ButtonType
@@ -69,6 +69,9 @@ private:
 		DELETE,
 		COUNT
 	};
+
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
 
 	void switchState(MenuState new_state);
 	void switchToMain();

@@ -13,10 +13,12 @@
 #include "of3dPrimitives.h"
 #include "ofGraphics.h"
 
+#include "Utill/Registrable.h"
 #include "Utill/vec3D.h"
+
 class WorldManager;
 
-class BufferManager
+class BufferManager : public Registrable
 {
 public:
 	static const int CHUNK_SIZE = 16;
@@ -38,6 +40,8 @@ public:
 
 	bool isValid(const vec3Di& position) const;
 private:
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
 	void onReloadChunkRequest(const vec3Di& position);
 
 	void clearChunk(const vec3Di& position);

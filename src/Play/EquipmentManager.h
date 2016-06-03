@@ -8,6 +8,8 @@
 #ifndef SRC_PLAY_EQUIPMENTMANAGER_H_
 #define SRC_PLAY_EQUIPMENTMANAGER_H_
 
+#include <functional>
+
 #include "World/BlockType.h"
 
 class EquipmentManager
@@ -20,6 +22,8 @@ public:
 	void prev();
 	BlockType getCurrentChoice() const;
 private:
+	template<BlockType upper_limit, BlockType lower_limit>
+		void makeStep(const std::function<int (int)>& step);
 
 	BlockType currentBlock_;
 };

@@ -9,6 +9,7 @@
 #define SRC_GAME_BUTTONMODEL_H_
 
 #include <array>
+#include <cassert>
 
 #include "ofImage.h"
 #include "ofTrueTypeFont.h"

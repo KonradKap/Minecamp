@@ -44,14 +44,3 @@ const ofTrueTypeFont& ButtonPrototype::getFont() const
 {
 	return font_;
 }
-/*
-void ButtonModel::drawModel(const Button& button) const
-{
-	const ofVec2f POSITION = button.getPosition();
-	const int INDEX = button.getState();
-	const ofRectangle STRING_BOX = font_.getStringBoundingBox(button.getTitle(), 0, 0);
-	image_[INDEX].draw(POSITION);
-	font_.drawString(button.getTitle(), POSITION.x + image_[INDEX].getWidth()/2 - STRING_BOX.getWidth()/2,
-									    POSITION.y + image_[INDEX].getHeight()/2 + STRING_BOX.getHeight()/2);
-}
-*/

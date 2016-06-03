@@ -22,6 +22,8 @@ public:
 	~MenuView();
 
 private:
+
+
 	void onDraw(ofEventArgs&);
 	void drawButton(const Button& b) const;
 	void drawBackground(const ofImage& image) const;

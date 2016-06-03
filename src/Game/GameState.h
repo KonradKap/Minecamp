@@ -25,9 +25,11 @@ public:
 	typedef std::unique_ptr<Model> model_ptr;
 	typedef std::unique_ptr<Controller> controller_ptr;
 
+	GameState();
 	GameState(model_ptr model, view_ptr view, controller_ptr controller);
 	GameState(GameState&& state);
 	GameState& operator= (GameState&& state);
+
 	~GameState();
 
 private:
@@ -36,7 +38,6 @@ private:
 	std::unique_ptr<View> view_;
 	std::unique_ptr<Controller> controller_;
 };
-
 
 
 #endif /* SRC_GAME_GAMESTATE_H_ */

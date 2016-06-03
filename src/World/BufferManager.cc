@@ -32,14 +32,24 @@ const std::array<std::array<ofVec3f, 6>, unsigned(Side::COUNT)> BufferManager::S
 	};
 
 BufferManager::BufferManager(WorldManager& source) :
+	Registrable(),
 	buffer_(),
 	source_(source)
 {
-	ofAddListener(source_.getChunkReloadEvent(), this, &BufferManager::onReloadChunkRequest);
-	//setup();
+	Registrable::registerMe();
 }
 
 BufferManager::~BufferManager()
+{
+	Registrable::unregisterMe();
+}
+
+void BufferManager::registerMe(const do_register_trait&)
+{
+	ofAddListener(source_.getChunkReloadEvent(), this, &BufferManager::onReloadChunkRequest);
+}
+
+void BufferManager::unregisterMe(const do_register_trait&)
 {
 	ofRemoveListener(source_.getChunkReloadEvent(), this, &BufferManager::onReloadChunkRequest);
 }

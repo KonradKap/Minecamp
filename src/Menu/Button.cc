@@ -6,40 +6,41 @@
  */
 
 #include "Menu/Button.h"
-/*
-Button::Button() :
-	state_(ButtonPrototype::INACTIVE), position_(), title_(), base_()
-{
-	setup();
-}
-*/
+//#include "Utill/Registrable.h"
+
 Button::Button(const ofVec2f& position, const std::string& title, const ButtonPrototype& base) :
+	Registrable(),
 	state_(ButtonPrototype::INACTIVE),
 	position_(position),
 	title_(title),
 	base_(base)
 {
-	setup();
+	Registrable::registerMe();
 }
 
 Button::Button(const Button& b) :
 	state_(b.state_), position_(b.position_), title_(b.title_), base_(b.base_)
 {
-	setup();
+	Registrable::registerMe();
 }
 
 Button::~Button()
 {
-	ofRemoveListener(ofEvents().mouseMoved, this, &Button::onMouseMove);
-	ofRemoveListener(ofEvents().mousePressed, this, &Button::onMousePress);
-	ofRemoveListener(ofEvents().mouseReleased, this, &Button::onMouseRelease);
+	Registrable::unregisterMe();
 }
 
-void Button::setup()
+void Button::registerMe(const do_register_trait&)
 {
 	ofAddListener(ofEvents().mouseMoved, this, &Button::onMouseMove);
 	ofAddListener(ofEvents().mousePressed, this, &Button::onMousePress);
 	ofAddListener(ofEvents().mouseReleased, this, &Button::onMouseRelease);
+}
+
+void Button::unregisterMe(const do_register_trait&)
+{
+	ofRemoveListener(ofEvents().mouseMoved, this, &Button::onMouseMove);
+	ofRemoveListener(ofEvents().mousePressed, this, &Button::onMousePress);
+	ofRemoveListener(ofEvents().mouseReleased, this, &Button::onMouseRelease);
 }
 
 void Button::setPosition(const ofVec2f& new_position)
@@ -98,7 +99,7 @@ void Button::onMouseRelease(ofMouseEventArgs& parameter)
 		if(contains(parameter))
 		{
 			state_ = ButtonPrototype::ACTIVE;
-			ofNotifyEvent(pressed_, *this, this);
+			Registrable::notify(pressed_, *this);
 			return;
 		}
 		state_ = ButtonPrototype::INACTIVE;

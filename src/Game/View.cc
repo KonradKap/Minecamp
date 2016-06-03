@@ -7,12 +7,23 @@
 
 #include "../Game/View.h"
 
-View::View()
+View::View() :
+	Registrable()
+{
+	//Registrable::registerMe();
+}
+
+View::~View()
+{
+	//Registrable::unregisterMe();
+}
+
+void View::registerMe(const do_register_trait&)
 {
 	ofAddListener(ofEvents().draw, this, &View::onDraw);
 }
 
-View::~View()
+void View::unregisterMe(const do_register_trait&)
 {
 	ofRemoveListener(ofEvents().draw, this, &View::onDraw);
 }

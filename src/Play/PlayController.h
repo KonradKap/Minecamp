@@ -32,6 +32,8 @@ private:
 		RIGHT,
 		COUNT
 	};
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
 
 	void onUpdate(ofEventArgs& parameter);
 
@@ -43,6 +45,9 @@ private:
 
 	void onLeftMouseButtonPress();
 	void onRightMouseButtonPress();
+
+	void onMouseButtonPress(const std::function<vec3Di (const std::pair<vec3Di, vec3Di>&)>& getBlockPosition,
+							const std::function<BlockType ()>& getBlockType);
 
 	void onKeyPressed(ofKeyEventArgs& parameter);
 	void onKeyRelease(ofKeyEventArgs& parameter);

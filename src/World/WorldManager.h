@@ -13,6 +13,7 @@
 #include <cassert>
 #include <iostream>
 
+#include "Utill/Registrable.h"
 #include "Utill/vec3D.h"
 #include "World/BlockPrototype.h"
 #include "World/BufferManager.h"
@@ -21,7 +22,7 @@
 
 class Player;
 
-class WorldManager
+class WorldManager : public Registrable
 {
 public:
 	static const int X_SIZE = BufferManager::CHUNK_SIZE*BufferManager::X_CHUNK_COUNT;
@@ -33,10 +34,7 @@ public:
 	typedef std::pair< vec3Di, BlockType > blockEventArgs;
 
 	WorldManager();
-	//WorldManager(const WorldManager& w) = delete;
 	~WorldManager();
-
-	//void registerListeners();
 
 	void loadFromFile(std::istream& file);
 	void saveToFile(std::ostream& file);
@@ -55,24 +53,21 @@ public:
 	bool areInTheSameChunk(const vec3Di& first, const vec3Di& second) const;
 
 	ofEvent<const vec3Di&>& getChunkReloadEvent();
-	ofEvent<const WorldManager::blockEventArgs&>& getPlacedBlockEvent();
-	ofEvent<const vec3Di&>& getDestroyedBlockEvent();
+	ofEvent<const WorldManager::blockEventArgs&>& getBlockEvent();
 private:
-	void onBlockDestruction(const vec3Di& args);
-	void onBlockPlacement(const blockEventArgs& args);
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
+	void onBlockEvent(const blockEventArgs& args);
 
-	//void setupBuffer();
 	void setupPrototypes();
-
-
 
 	map_t map_;
 	std::array<BlockPrototype, size_t(BlockType::COUNT)> models_;
 
 	ofEvent<const vec3Di&> chunkReloadRequest_;
 
-	ofEvent<const WorldManager::blockEventArgs&> placedBlockEvent_;
-	ofEvent<const vec3Di&> destroyedBlockEvent_;
+	ofEvent<const WorldManager::blockEventArgs&> blockEvent_;
+	//ofEvent<const vec3Di&> destroyedBlockEvent_;
 
 };
 

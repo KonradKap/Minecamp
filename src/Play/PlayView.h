@@ -10,11 +10,7 @@
 
 class PlayModel;
 
-#include "ofEasyCam.h"
 #include "ofCamera.h"
-#include "ofQuaternion.h"
-
-//#include "ofx/ofxGameCamera.h"
 
 #include "Game/View.h"
 
@@ -30,7 +26,8 @@ public:
 private:
 	struct draw3DGuard;
 
-	void setup();
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
 
 	void onUpdate(ofEventArgs&);
 	void onDraw(ofEventArgs&);
@@ -39,10 +36,8 @@ private:
 	void drawInterface() const;
 
 	const PlayModel& source_;
-	//mutable ofEasyCam cam_; //temporary
-	ofCamera camera_;
 
-	//mutable ofxGameCamera game_camera_;
+	ofCamera camera_;
 };
 
 struct PlayView::draw3DGuard

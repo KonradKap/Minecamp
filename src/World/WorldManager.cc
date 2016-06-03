@@ -8,45 +8,40 @@
 #include "World/WorldManager.h"
 
 WorldManager::WorldManager() :
+	Registrable(),
 	map_(),
 	models_()
 	//buffer_()
 
 {
-	ofDisableArbTex();
+	Registrable::registerMe();
 	setupPrototypes();
-	ofAddListener(getDestroyedBlockEvent(), this, &WorldManager::onBlockDestruction);
-	ofAddListener(getPlacedBlockEvent(), this, &WorldManager::onBlockPlacement);
-	/** TEMPORARY */ //loadDefaultWorld();
 }
 
 WorldManager::~WorldManager()
 {
-	ofEnableArbTex();
-	ofRemoveListener(getDestroyedBlockEvent(), this, &WorldManager::onBlockDestruction);
-	ofRemoveListener(getPlacedBlockEvent(), this, &WorldManager::onBlockPlacement);
+	Registrable::unregisterMe();
 }
-/*
-void WorldManager::registerListeners(PlayerController& p)
-{
 
+void WorldManager::registerMe(const do_register_trait&)
+{
+	ofDisableArbTex();
+	ofAddListener(getBlockEvent(), this, &WorldManager::onBlockEvent);
 }
-*/
+
+void WorldManager::unregisterMe(const do_register_trait&)
+{
+	ofEnableArbTex();
+	ofRemoveListener(getBlockEvent(), this, &WorldManager::onBlockEvent);
+}
+
 void WorldManager::setupPrototypes()
 {
 	const BlockPathManager MANAGER;
 	for(unsigned i = 0; i < unsigned(BlockType::COUNT); ++i)
 			models_[i] = BlockPrototype(BlockType(i), MANAGER.get(BlockType(i)));
 }
-/*
-void WorldManager::setupBuffer()
-{
-	for(unsigned x = 0; x < buffer_.size(); ++x)
-	for(unsigned y = 0; y < buffer_[x].size(); ++y)
-	for(unsigned z = 0; z < buffer_[x][y].size(); ++z)
-		reloadChunk(vec3Di(x, y, z));
-}
-*/
+
 void WorldManager::loadFromFile(std::istream& file)
 {
 	for(auto& itX : map_)
@@ -70,22 +65,16 @@ void WorldManager::saveToFile(std::ostream& file)
 
 }
 
-void WorldManager::onBlockDestruction(const vec3Di& args)
-{
-	map_[args.x][args.y][args.z] = &models_[unsigned(BlockType::AIR)];
-	const vec3Di BUFFER_INDEX = args/BufferManager::CHUNK_SIZE;
-	ofNotifyEvent(chunkReloadRequest_, BUFFER_INDEX, this);
-
-	std::vector<Side> neighbour_chunks = isOnChunkEdge(args);
-	for(auto side : neighbour_chunks)
-		ofNotifyEvent(chunkReloadRequest_, BUFFER_INDEX + vec3Di::make_unit_vector(side), this);
-
-}
-
-void WorldManager::onBlockPlacement(const blockEventArgs& args)
+void WorldManager::onBlockEvent(const blockEventArgs& args)
 {
 	map_[args.first.x][args.first.y][args.first.z] = &models_[unsigned(args.second)];
-	ofNotifyEvent(chunkReloadRequest_, args.first/BufferManager::CHUNK_SIZE, this);
+	const vec3Di BUFFER_INDEX = args.first/BufferManager::CHUNK_SIZE;
+	Registrable::notify(chunkReloadRequest_, BUFFER_INDEX);
+
+	std::vector<Side> neighbour_chunks = isOnChunkEdge(args.first);
+	for(auto side : neighbour_chunks)
+		Registrable::notify(chunkReloadRequest_, BUFFER_INDEX + vec3Di::make_unit_vector(side));
+
 }
 
 void WorldManager::loadDefaultWorld()
@@ -140,8 +129,7 @@ std::vector<Side> WorldManager::isOnChunkEdge(const vec3Di& position) const
 	for(unsigned i = 0; i < unsigned(Side::COUNT); ++i)
 		if(!areInTheSameChunk(position, position+vec3Di::make_unit_vector(Side(i))))
 			sides.push_back(Side(i));
-	//if(position.x%BufferManager::CHUNK_SIZE == 0)
-	//	return false;
+
 	return sides;
 
 }
@@ -150,20 +138,7 @@ bool WorldManager::areInTheSameChunk(const vec3Di& first, const vec3Di& second) 
 {
 	return first/BufferManager::CHUNK_SIZE == second/BufferManager::CHUNK_SIZE;
 }
-/*
-void WorldManager::addToMesh(const vec3Di& position, const std::array<ofVec3f, 6>& shift)
-{
-	const vec3Di BUFFER = vec3Di(position.x/CHUNK_SIZE, position.y/CHUNK_SIZE, position.z/CHUNK_SIZE);
-	const ofVec3f MESH_POSITION = ofVec3f(position.x*BlockPrototype::SIZE, position.y*BlockPrototype::SIZE, position.z*BlockPrototype::SIZE);
-	const BlockType TYPE = getBlock(position).getType();
 
-	ofMesh& mesh = getBuffer(BUFFER, TYPE);
-	for(const auto& it : shift)
-		mesh.addVertex(MESH_POSITION + it);
-
-	mesh.addTexCoords({ofVec2f(0, 0), ofVec2f(1, 0), ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(0, 1), ofVec2f(1, 1)});
-}
-*/
 const BlockPrototype& WorldManager::getBlock(const vec3Di& position) const
 {
 	return const_cast<WorldManager*>(this)->getBlock(position);
@@ -173,22 +148,7 @@ BlockPrototype& WorldManager::getBlock(const vec3Di& position)
 {
 	return *map_[position.x][position.y][position.z];
 }
-/*
-const WorldManager::buffer_t& WorldManager::getBuffer() const
-{
-	return buffer_;
-}
 
-const ofMesh& WorldManager::getBuffer(const vec3Di& position, BlockType type) const
-{
-	return const_cast<WorldManager*>(this)->getBuffer(position, type);
-}
-
-ofMesh& WorldManager::getBuffer(const vec3Di& position, BlockType type)
-{
-	return buffer_[position.x][position.y][position.z][unsigned(type)];
-}
-*/
 const BlockPrototype& WorldManager::getBlock(const BlockType type) const
 {
 	return models_[unsigned(type)];
@@ -199,13 +159,8 @@ ofEvent<const vec3Di&>& WorldManager::getChunkReloadEvent()
 	return chunkReloadRequest_;
 }
 
-ofEvent<const WorldManager::blockEventArgs&>& WorldManager::getPlacedBlockEvent()
+ofEvent<const WorldManager::blockEventArgs&>& WorldManager::getBlockEvent()
 {
-	return placedBlockEvent_;
-}
-
-ofEvent<const vec3Di&>& WorldManager::getDestroyedBlockEvent()
-{
-	return destroyedBlockEvent_;
+	return blockEvent_;
 }
 

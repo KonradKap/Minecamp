@@ -11,10 +11,11 @@
 #include "ofEvent.h"
 #include "ofCamera.h"
 
+#include "Utill/Registrable.h"
 #include "World/WorldManager.h"
 #include "Game/View.h"
 
-class Player
+class Player : public Registrable
 {
 public:
 	Player();
@@ -49,9 +50,10 @@ public:
 	static const int VELOCITY = 100;
 	static const int RANGE = 64;
 private:
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
+
 	void onUpdate(ofEventArgs& args);
-
-
 
 	vec3Dd position_;
 	vec3Di steer_;

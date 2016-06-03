@@ -10,12 +10,13 @@
 
 #include <string>
 
-#include "ButtonPrototype.h"
+#include "Utill/Registrable.h"
+#include "Menu/ButtonPrototype.h"
 #include "ofEvents.h"
 #include "ofConstants.h"
 
 
-class Button
+class Button : public Registrable
 {
 public:
 	//Button();
@@ -39,6 +40,9 @@ public:
 
 private:
 	void setup();
+
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
 
 	void onMouseMove(ofMouseEventArgs& parameter);
 	void onMousePress(ofMouseEventArgs& parameter);

@@ -17,6 +17,7 @@ PlayModel::PlayModel(int save_state) :
 {
 	save_file_manager_.load();
 	buffer_manager_.setup();
+
 }
 
 PlayModel::~PlayModel()

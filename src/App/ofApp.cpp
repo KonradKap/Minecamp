@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	ofSetEscapeQuitsApp(false);
    // timer_ = 0.0f;
    // ofResetElapsedTimeCounter();
 }

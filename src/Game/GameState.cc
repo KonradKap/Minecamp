@@ -8,6 +8,13 @@
 #include "GameState.h"
 #include "GameStateEventType.h"
 
+GameState::GameState() :
+	model_(),
+	view_(),
+	controller_()
+{
+}
+
 GameState::GameState(model_ptr model, view_ptr view, controller_ptr controller) :
 	model_(std::move(model)),
 	view_(std::move(view)),

@@ -12,43 +12,40 @@
 PlayView::PlayView(const PlayModel& model) :
 	View(), source_(model)
 {
-	setup();
+	ofHideCursor();
+	Registrable::registerMe();
 }
 
 PlayView::PlayView(const PlayView& pw) :
 	View(pw), source_(pw.source_)
 {
-	setup();
+	ofHideCursor();
+	Registrable::registerMe();
 }
 
 PlayView::~PlayView()
 {
-//	camera_.setVFlip(false);
-
+	Registrable::unregisterMe();
 	ofShowCursor();
-	ofRemoveListener(ofEvents().update, this, &PlayView::onUpdate);
 }
 
-void PlayView::setup()
+void PlayView::registerMe(const do_register_trait& a)
 {
+	//View::unregisterMe();
 	ofAddListener(ofEvents().update, this, &PlayView::onUpdate);
-	ofHideCursor();
+	ofAddListener(ofEvents().draw, this, &PlayView::onDraw);
+}
 
+void PlayView::unregisterMe(const do_register_trait&)
+{
+	ofRemoveListener(ofEvents().update, this, &PlayView::onUpdate);
+	ofRemoveListener(ofEvents().draw, this, &PlayView::onDraw);
 }
 
 void PlayView::onUpdate(ofEventArgs&)
 {
 	camera_.resetTransform();
-	//ofVec3f direction = ofVec3f(source_.getPlayer().getDirection());
 	camera_.setGlobalPosition(ofVec3f(source_.getPlayer().getEyePosition()));
-/*
-	camera_.setGlobalOrientation(ofQuaternion(
-			direction.angle(xAxis()), xAxis(),
-			direction.angle(yAxis()), yAxis(),
-			direction.angle(zAxis()), zAxis()));
-
-	camera_.setGlobalOrientation(ofQuaternion(0, ofVec3f(source_.getPlayer().getDirection())));
-*/
 	camera_.rotate(source_.getPlayer().getVerticalAngle(), xAxis());
 	camera_.rotate(source_.getPlayer().getHorizontalAngle()+180, yAxis());
 }
@@ -57,7 +54,6 @@ void PlayView::onDraw(ofEventArgs&)
 {
 	drawWorld();
 	drawInterface();
-
 }
 
 void PlayView::drawWorld()
