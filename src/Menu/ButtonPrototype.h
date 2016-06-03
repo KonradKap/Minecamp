@@ -32,7 +32,9 @@ public:
 	ButtonPrototype(const ButtonPrototype& source);
 	~ButtonPrototype();
 
-	ButtonPrototype& operator= (const ButtonPrototype&) = default;
+	ButtonPrototype& operator= (ButtonPrototype);
+
+	friend void swap(ButtonPrototype& first, ButtonPrototype& second);
 
 	ofVec2f getSize() const;
 

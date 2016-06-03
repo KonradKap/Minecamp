@@ -17,12 +17,25 @@ PlayModel::PlayModel(int save_state) :
 {
 	save_file_manager_.load();
 	buffer_manager_.setup();
-
 }
 
 PlayModel::~PlayModel()
 {
 	save_file_manager_.save();
+}
+
+void PlayModel::registerMe(const do_register_trait&)
+{
+	world_manager_.Registrable::registerMe();
+	buffer_manager_.Registrable::registerMe();
+	player_.Registrable::registerMe();
+}
+
+void PlayModel::unregisterMe(const do_register_trait&)
+{
+	world_manager_.Registrable::unregisterMe();
+	buffer_manager_.Registrable::unregisterMe();
+	player_.Registrable::unregisterMe();
 }
 
 Player& PlayModel::getPlayer()

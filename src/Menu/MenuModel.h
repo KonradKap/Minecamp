@@ -21,7 +21,7 @@
 class MenuView;
 
 //TODO: Delete save buttons
-class MenuModel : public Model, public Registrable
+class MenuModel : public Model
 {
 public:
 	//enum class ButtonType

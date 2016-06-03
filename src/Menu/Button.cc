@@ -19,7 +19,11 @@ Button::Button(const ofVec2f& position, const std::string& title, const ButtonPr
 }
 
 Button::Button(const Button& b) :
-	state_(b.state_), position_(b.position_), title_(b.title_), base_(b.base_)
+	Registrable(),
+	state_(b.state_),
+	position_(b.position_),
+	title_(b.title_),
+	base_(b.base_)
 {
 	Registrable::registerMe();
 }
@@ -28,7 +32,13 @@ Button::~Button()
 {
 	Registrable::unregisterMe();
 }
-
+/*
+Button& Button::operator=(Button source)
+{
+	swap(*this, source);
+	return *this;
+}
+*/
 void Button::registerMe(const do_register_trait&)
 {
 	ofAddListener(ofEvents().mouseMoved, this, &Button::onMouseMove);
@@ -116,10 +126,12 @@ bool Button::contains(const ofVec2f& point)
 	return true;
 }
 /*
-void Button::draw() const
+void swap(Button& first, Button& second)
 {
-	base_->drawModel(*this);
+	std::swap(first.position_, second.position_);
+	std::swap(first.state_, second.state_);
+	std::swap(first.title_, second.title_);
+	//std::swap(first.base_, second.base_);
 }
 */
-
 

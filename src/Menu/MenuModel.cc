@@ -10,7 +10,6 @@
 
 MenuModel::MenuModel() :
 	Model(),
-	Registrable(),
 	state_(),
 	TITLES_({"Play", "Quit", "Save One",
 			"Save Two", "Save Three", "Save Four",

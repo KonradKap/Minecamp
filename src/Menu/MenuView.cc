@@ -11,18 +11,15 @@
 MenuView::MenuView(const MenuModel& m) :
 	View(), source_(m)
 {
-	Registrable::registerMe();
 }
 
 MenuView::MenuView(const MenuView& mv) :
 	View(mv), source_(mv.source_)
 {
-	Registrable::registerMe();
 }
 
 MenuView::~MenuView()
 {
-	Registrable::unregisterMe();
 }
 
 void MenuView::onDraw(ofEventArgs&)

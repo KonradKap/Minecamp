@@ -24,6 +24,8 @@ public:
 	Button(const Button& b);
 	~Button();
 
+	//Button& operator=(Button source);
+
 	void setPosition(const ofVec2f& new_position);
 	const ofVec2f& getPosition() const;
 
@@ -38,6 +40,7 @@ public:
 
 	bool contains(const ofVec2f& point);
 
+	//friend void swap(Button& first, Button& second);
 private:
 	void setup();
 

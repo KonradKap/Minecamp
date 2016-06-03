@@ -13,12 +13,10 @@ PlayController::PlayController(PlayModel& p) :
 	Controller(),
 	model_(p)
 {
-	Registrable::registerMe();
 }
 
 PlayController::~PlayController()
 {
-	Registrable::unregisterMe();
 }
 
 void PlayController::registerMe(const do_register_trait&)

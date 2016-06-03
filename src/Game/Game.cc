@@ -5,8 +5,8 @@ Game::Game() :
 	Registrable(),
 	state_()
 {
-	Registrable::registerMe();
 	onGameStateEvent(GameStateEventType::SWITCH_TO_MENU); //Menu is the default start
+	Registrable::registerMe();
 }
 
 Game::~Game()
@@ -32,6 +32,7 @@ void Game::onGameStateEvent(const GameStateEventType& type)
 		onQuit();
 		break;
 	case GameStateEventType::SWITCH_TO_MENU:
+		state_.dispose();
 		state_ = getMenu();
 		break;
 	case GameStateEventType::LOAD_STATE_1:
@@ -39,9 +40,11 @@ void Game::onGameStateEvent(const GameStateEventType& type)
 	case GameStateEventType::LOAD_STATE_3:
 	case GameStateEventType::LOAD_STATE_4:
 	case GameStateEventType::LOAD_STATE_5:
+		state_.dispose();
 		state_ = getPlay(int(type));
 		break;
 	case GameStateEventType::PAUSE:
+		state_.dispose();
 		state_ = getPause(state_);
 		break;
 	default:

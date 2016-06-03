@@ -36,12 +36,10 @@ BufferManager::BufferManager(WorldManager& source) :
 	buffer_(),
 	source_(source)
 {
-	Registrable::registerMe();
 }
 
 BufferManager::~BufferManager()
 {
-	Registrable::unregisterMe();
 }
 
 void BufferManager::registerMe(const do_register_trait&)

@@ -12,13 +12,13 @@
 
 enum class GameStateEventType;
 
-#include "ofEvents.h"
+#include "Game/View.h"
+#include "Game/Controller.h"
+#include "Game/Model.h"
 
-#include "View.h"
-#include "Controller.h"
-#include "Model.h"
+#include "Utill/Registrable.h"
 
-class GameState
+class GameState : public Registrable
 {
 public:
 	typedef std::unique_ptr<View> view_ptr;
@@ -30,9 +30,12 @@ public:
 	GameState(GameState&& state);
 	GameState& operator= (GameState&& state);
 
+	void dispose();
 	~GameState();
 
 private:
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
 
 	std::unique_ptr<Model> model_;
 	std::unique_ptr<View> view_;

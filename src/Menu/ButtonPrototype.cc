@@ -26,6 +26,12 @@ ButtonPrototype::ButtonPrototype(const ButtonPrototype& source) :
 {
 }
 
+ButtonPrototype& ButtonPrototype::operator= (ButtonPrototype source)
+{
+	swap(*this, source);
+	return *this;
+}
+
 ButtonPrototype::~ButtonPrototype()
 {
 }
@@ -43,4 +49,10 @@ const std::array<ofImage, ButtonPrototype::COUNT>& ButtonPrototype::getImageArra
 const ofTrueTypeFont& ButtonPrototype::getFont() const
 {
 	return font_;
+}
+
+void swap(ButtonPrototype& first, ButtonPrototype& second)
+{
+	std::swap(first.image_, second.image_);
+	std::swap(first.font_, second.font_);
 }

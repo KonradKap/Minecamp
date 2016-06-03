@@ -14,24 +14,20 @@ WorldManager::WorldManager() :
 	//buffer_()
 
 {
-	Registrable::registerMe();
 	setupPrototypes();
 }
 
 WorldManager::~WorldManager()
 {
-	Registrable::unregisterMe();
 }
 
 void WorldManager::registerMe(const do_register_trait&)
 {
-	ofDisableArbTex();
 	ofAddListener(getBlockEvent(), this, &WorldManager::onBlockEvent);
 }
 
 void WorldManager::unregisterMe(const do_register_trait&)
 {
-	ofEnableArbTex();
 	ofRemoveListener(getBlockEvent(), this, &WorldManager::onBlockEvent);
 }
 

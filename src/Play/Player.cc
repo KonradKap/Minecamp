@@ -14,12 +14,10 @@ Player::Player() :
 	horizontal_angle_(),
 	vertical_angle_()
 {
-	Registrable::registerMe();
 }
 
 Player::~Player()
 {
-	Registrable::unregisterMe();
 }
 
 void Player::registerMe(const do_register_trait&)
