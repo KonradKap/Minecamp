@@ -15,15 +15,18 @@
 
 #include "Utill/vec3D.h"
 #include "World/BlockPrototype.h"
+#include "World/BufferManager.h"
+#include "World/BlockType.h"
+#include "World/BlockPathManager.h"
 
 class Player;
 
 class WorldManager
 {
 public:
-	static const int X_SIZE = 16;
-	static const int Y_SIZE = 16;
-	static const int Z_SIZE = 16;
+	static const int X_SIZE = BufferManager::CHUNK_SIZE*BufferManager::X_CHUNK_COUNT;
+	static const int Y_SIZE = BufferManager::CHUNK_SIZE*BufferManager::Y_CHUNK_COUNT;
+	static const int Z_SIZE = BufferManager::CHUNK_SIZE*BufferManager::Z_CHUNK_COUNT;
 
 	typedef std::array< std::array < std::array < BlockPrototype*, Z_SIZE >, Y_SIZE >, X_SIZE > map_t;
 
@@ -48,6 +51,8 @@ public:
 
 	bool isVisible(const vec3Di& position, Side side) const;
 	bool isWithin(const vec3Di& position) const;
+	std::vector<Side> isOnChunkEdge(const vec3Di& position) const;
+	bool areInTheSameChunk(const vec3Di& first, const vec3Di& second) const;
 
 	ofEvent<const vec3Di&>& getChunkReloadEvent();
 	ofEvent<const WorldManager::blockEventArgs&>& getPlacedBlockEvent();

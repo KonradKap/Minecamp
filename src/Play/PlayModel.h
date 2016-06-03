@@ -14,6 +14,7 @@
 #include "Play/Player.h"
 #include "World/BufferManager.h"
 #include "Play/SaveFileManager.h"
+#include "Play/EquipmentManager.h"
 
 #include "Utill/vec3D.h"
 
@@ -34,12 +35,16 @@ public:
 	WorldManager& getWorldManager();
 	const WorldManager& getWorldManager() const;
 
+	EquipmentManager& getEquipmentManager();
+	const EquipmentManager& getEquipmentManager() const;
+
 	const BufferManager& getBufferManager() const;
 
 private:
 	WorldManager world_manager_;
 	BufferManager buffer_manager_;
 	SaveFileManager save_file_manager_;
+	EquipmentManager equipment_manager_;
 	Player player_;
 
 

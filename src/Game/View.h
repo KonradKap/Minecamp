@@ -28,5 +28,4 @@ private:
 
 
 
-
 #endif /* SRC_VIEW_H_ */

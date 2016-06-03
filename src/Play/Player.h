@@ -46,7 +46,7 @@ public:
 	static const int HEIGHT = 30;
 	static const int WIDTH  = 5;
 	static const int EYE_HEIGHT = 28;
-	static const int VELOCITY = 40;
+	static const int VELOCITY = 100;
 	static const int RANGE = 64;
 private:
 	void onUpdate(ofEventArgs& args);

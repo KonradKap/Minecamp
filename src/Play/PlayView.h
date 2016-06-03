@@ -25,20 +25,33 @@ public:
 	PlayView(const PlayView& pw);
 	~PlayView();
 
-
+	static const int BLOCK_LIST_X = 10;
+	static const int BLOCK_LIST_Y = 10;
 private:
+	struct draw3DGuard;
+
 	void setup();
 
 	void onUpdate(ofEventArgs&);
 	void onDraw(ofEventArgs&);
 
+	void drawWorld();
+	void drawInterface() const;
+
 	const PlayModel& source_;
-	mutable ofEasyCam cam_; //temporary
-	mutable ofCamera camera_;
+	//mutable ofEasyCam cam_; //temporary
+	ofCamera camera_;
 
 	//mutable ofxGameCamera game_camera_;
 };
 
-
+struct PlayView::draw3DGuard
+{
+public:
+	draw3DGuard(ofCamera& guarded_camera);
+	~draw3DGuard();
+private:
+	ofCamera& guarded_camera_;
+};
 
 #endif /* SRC_GAME_PLAYVIEW_H_ */

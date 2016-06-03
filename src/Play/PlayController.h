@@ -39,6 +39,8 @@ private:
 	void onMousePress(ofMouseEventArgs& parameter);
 	void onMouseRelease(ofMouseEventArgs& parameter);
 
+	void onMouseScroll(ofMouseEventArgs& parameter);
+
 	void onLeftMouseButtonPress();
 	void onRightMouseButtonPress();
 

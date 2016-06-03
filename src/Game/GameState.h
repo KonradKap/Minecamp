@@ -30,7 +30,6 @@ public:
 	GameState& operator= (GameState&& state);
 	~GameState();
 
-	//ofEvent<const GameStateEventType&>& getEvent() { return model_->getEvent(); }
 private:
 
 	std::unique_ptr<Model> model_;

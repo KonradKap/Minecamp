@@ -114,7 +114,6 @@ void MenuModel::switchToLevelSelect()
 	setUpButtons({TITLES_[MenuButtonTitles::SELECT_1], TITLES_[MenuButtonTitles::SELECT_2],
 			      TITLES_[MenuButtonTitles::SELECT_3], TITLES_[MenuButtonTitles::SELECT_4],
 				  TITLES_[MenuButtonTitles::SELECT_5], TITLES_[MenuButtonTitles::RETURN]});
-
 	setUpSmallButtons("DEL");
 
 	state_ = MenuState::LEVEL_SELECT;

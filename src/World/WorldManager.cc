@@ -6,7 +6,6 @@
  */
 
 #include "World/WorldManager.h"
-#include "World/BufferManager.h"
 
 WorldManager::WorldManager() :
 	map_(),
@@ -74,7 +73,13 @@ void WorldManager::saveToFile(std::ostream& file)
 void WorldManager::onBlockDestruction(const vec3Di& args)
 {
 	map_[args.x][args.y][args.z] = &models_[unsigned(BlockType::AIR)];
-	ofNotifyEvent(chunkReloadRequest_, args/BufferManager::CHUNK_SIZE, this);
+	const vec3Di BUFFER_INDEX = args/BufferManager::CHUNK_SIZE;
+	ofNotifyEvent(chunkReloadRequest_, BUFFER_INDEX, this);
+
+	std::vector<Side> neighbour_chunks = isOnChunkEdge(args);
+	for(auto side : neighbour_chunks)
+		ofNotifyEvent(chunkReloadRequest_, BUFFER_INDEX + vec3Di::make_unit_vector(side), this);
+
 }
 
 void WorldManager::onBlockPlacement(const blockEventArgs& args)
@@ -127,6 +132,23 @@ bool WorldManager::isWithin(const vec3Di& position) const
 	if(position.z < 0 or position.z >= Z_SIZE)
 		return false;
 	return true;
+}
+
+std::vector<Side> WorldManager::isOnChunkEdge(const vec3Di& position) const
+{
+	std::vector<Side> sides;
+	for(unsigned i = 0; i < unsigned(Side::COUNT); ++i)
+		if(!areInTheSameChunk(position, position+vec3Di::make_unit_vector(Side(i))))
+			sides.push_back(Side(i));
+	//if(position.x%BufferManager::CHUNK_SIZE == 0)
+	//	return false;
+	return sides;
+
+}
+
+bool WorldManager::areInTheSameChunk(const vec3Di& first, const vec3Di& second) const
+{
+	return first/BufferManager::CHUNK_SIZE == second/BufferManager::CHUNK_SIZE;
 }
 /*
 void WorldManager::addToMesh(const vec3Di& position, const std::array<ofVec3f, 6>& shift)

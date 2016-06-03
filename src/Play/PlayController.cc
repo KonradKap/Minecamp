@@ -20,6 +20,7 @@ PlayController::PlayController(PlayModel& p) :
 	ofAddListener(ofEvents().mouseDragged, this, &PlayController::onMouseMove);
 	ofAddListener(ofEvents().keyPressed, this, &PlayController::onKeyPressed);
 	ofAddListener(ofEvents().keyReleased, this, &PlayController::onKeyRelease);
+	ofAddListener(ofEvents().mouseScrolled, this, &PlayController::onMouseScroll);
 }
 
 PlayController::~PlayController()
@@ -31,6 +32,7 @@ PlayController::~PlayController()
 	ofRemoveListener(ofEvents().mouseDragged, this, &PlayController::onMouseMove);
 	ofRemoveListener(ofEvents().keyPressed, this, &PlayController::onKeyPressed);
 	ofRemoveListener(ofEvents().keyReleased, this, &PlayController::onKeyRelease);
+	ofRemoveListener(ofEvents().mouseScrolled, this, &PlayController::onMouseScroll);
 }
 
 
@@ -73,14 +75,25 @@ void PlayController::onLeftMouseButtonPress()
 	auto target = model_.findTargetedBlock();
 	if(!model_.getWorldManager().isWithin(target.first))
 		return;
-	//std::cout << "( " << target.second.x << ", " << target.second.y << ", " << target.second.z << ")" << std::endl;
 	ofNotifyEvent(model_.getWorldManager().getPlacedBlockEvent(),
-				  std::make_pair(target.second, BlockType::DIRT), this);
+				  std::make_pair(target.second, model_.getEquipmentManager().getCurrentChoice()), this);
 }
 
 void PlayController::onRightMouseButtonPress()
 {
+	auto target = model_.findTargetedBlock();
+	if(!model_.getWorldManager().isWithin(target.first))
+		return;
+	ofNotifyEvent(model_.getWorldManager().getDestroyedBlockEvent(),
+			target.first, this);
+}
 
+void PlayController::onMouseScroll(ofMouseEventArgs& parameter)
+{
+	if(parameter.scrollY > 0)
+		model_.getEquipmentManager().prev();
+	else
+		model_.getEquipmentManager().next();
 }
 
 void PlayController::onKeyPressed(ofKeyEventArgs& parameter)
@@ -120,5 +133,6 @@ void PlayController::onKeyRelease(ofKeyEventArgs& parameter)
 		break;
 	}
 }
+
 
 

@@ -12,7 +12,7 @@
 
 #include "ofImage.h"
 
-#include "World/BlockPathManager.h"
+#include "World/BlockType.h"
 
 class BlockPrototype
 {

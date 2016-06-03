@@ -66,12 +66,7 @@ ofEvent<const Button&>& Button::getEvent()
 {
 	return pressed_;
 }
-/*
-void Button::bindModel(const ButtonPrototype* const base)
-{
-	base_ = base;
-}
-*/
+
 const ButtonPrototype& Button::getPrototype() const
 {
 	return base_;

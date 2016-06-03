@@ -12,6 +12,7 @@ PlayModel::PlayModel(int save_state) :
 	world_manager_(),
 	buffer_manager_(world_manager_),
 	save_file_manager_(save_state, world_manager_),
+	equipment_manager_(),
 	player_()
 {
 	save_file_manager_.load();
@@ -46,6 +47,16 @@ WorldManager& PlayModel::getWorldManager()
 const BufferManager& PlayModel::getBufferManager() const
 {
 	return buffer_manager_;
+}
+
+EquipmentManager& PlayModel::getEquipmentManager()
+{
+	return equipment_manager_;
+}
+
+const EquipmentManager& PlayModel::getEquipmentManager() const
+{
+	return equipment_manager_;
 }
 
 std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const
