@@ -44,6 +44,8 @@ private:
 	void registerMe(const do_register_trait&);
 	void unregisterMe(const do_register_trait&);
 
+	void onUpdate(ofEventArgs&);
+
 	WorldManager world_manager_;
 	BufferManager buffer_manager_;
 	SaveFileManager save_file_manager_;

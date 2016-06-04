@@ -26,6 +26,7 @@ PlayModel::~PlayModel()
 
 void PlayModel::registerMe(const do_register_trait&)
 {
+	ofAddListener(ofEvents().update, this, &PlayModel::onUpdate);
 	world_manager_.Registrable::registerMe();
 	buffer_manager_.Registrable::registerMe();
 	player_.Registrable::registerMe();
@@ -33,9 +34,15 @@ void PlayModel::registerMe(const do_register_trait&)
 
 void PlayModel::unregisterMe(const do_register_trait&)
 {
+	ofRemoveListener(ofEvents().update, this, &PlayModel::onUpdate);
 	world_manager_.Registrable::unregisterMe();
 	buffer_manager_.Registrable::unregisterMe();
 	player_.Registrable::unregisterMe();
+}
+
+void PlayModel::onUpdate(ofEventArgs&)
+{
+
 }
 
 Player& PlayModel::getPlayer()
