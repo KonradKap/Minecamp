@@ -37,6 +37,7 @@ template<class T>
 		vec3D& operator=(const ofVec3f& arg);
 		vec3D& operator+=(const vec3D& arg);
 		vec3D& operator-=(const vec3D& arg);
+		T& operator[]( const int idx);
 
 		template<class W>
 			vec3D& operator*=(const W scalar);
