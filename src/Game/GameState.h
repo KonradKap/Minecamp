@@ -30,6 +30,10 @@ public:
 	GameState(GameState&& state);
 	GameState& operator= (GameState&& state);
 
+	const view_ptr& getView() const;
+	const model_ptr& getModel() const;
+	const controller_ptr& getController() const;
+
 	void dispose();
 	~GameState();
 

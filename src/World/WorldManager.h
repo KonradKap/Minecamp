@@ -37,7 +37,7 @@ public:
 	~WorldManager();
 
 	void loadFromFile(std::istream& file);
-	void saveToFile(std::ostream& file);
+	void saveToFile(std::ostream& file) const;
 
 	void loadDefaultWorld();
 

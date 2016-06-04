@@ -12,28 +12,27 @@
 PlayView::PlayView(const PlayModel& model) :
 	View(), source_(model)
 {
-	ofHideCursor();
 }
 
 PlayView::PlayView(const PlayView& pw) :
 	View(pw), source_(pw.source_)
 {
-	ofHideCursor();
 }
 
 PlayView::~PlayView()
 {
-	ofShowCursor();
 }
 
 void PlayView::registerMe(const do_register_trait& a)
 {
+	ofHideCursor();
 	ofAddListener(ofEvents().update, this, &PlayView::onUpdate);
 	ofAddListener(ofEvents().draw, this, &PlayView::onDraw);
 }
 
 void PlayView::unregisterMe(const do_register_trait&)
 {
+	ofShowCursor();
 	ofRemoveListener(ofEvents().update, this, &PlayView::onUpdate);
 	ofRemoveListener(ofEvents().draw, this, &PlayView::onDraw);
 }

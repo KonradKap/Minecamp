@@ -15,6 +15,7 @@ enum class BlockType
 	STONE,
 	WATER,
 	FIRE,
+	GLASS,
 	COUNT
 };
 

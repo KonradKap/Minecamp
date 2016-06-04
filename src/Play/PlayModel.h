@@ -40,6 +40,8 @@ public:
 
 	const BufferManager& getBufferManager() const;
 
+	void save() const;
+	void load();
 private:
 	void registerMe(const do_register_trait&);
 	void unregisterMe(const do_register_trait&);

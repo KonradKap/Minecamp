@@ -21,7 +21,7 @@ PlayModel::PlayModel(int save_state) :
 
 PlayModel::~PlayModel()
 {
-	save_file_manager_.save();
+	//save_file_manager_.save();
 }
 
 void PlayModel::registerMe(const do_register_trait&)
@@ -42,7 +42,11 @@ void PlayModel::unregisterMe(const do_register_trait&)
 
 void PlayModel::onUpdate(ofEventArgs&)
 {
+
 	player_.setPosition(collide(player_.getPosition()));
+
+
+
 
 }
 
@@ -79,6 +83,16 @@ EquipmentManager& PlayModel::getEquipmentManager()
 const EquipmentManager& PlayModel::getEquipmentManager() const
 {
 	return equipment_manager_;
+}
+
+void PlayModel::save() const
+{
+	save_file_manager_.save();
+}
+
+void PlayModel::load()
+{
+	save_file_manager_.load();
 }
 
 std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const
@@ -130,7 +144,7 @@ vec3Dd PlayModel::collide(vec3Dd position)
 			{
 				op[1] -= dy;
 				op[j] += face[j];
-				if (!world_manager_.isWithin(op)) continue;
+				//if (world_manager_.isWithin(op)) continue;
 				if (!world_manager_.getBlock(op).isSolid()) continue;
 
 				position[j] -= (d - pad) * face[j];

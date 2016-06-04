@@ -25,7 +25,7 @@ void PlayController::registerMe(const do_register_trait&)
 	ofAddListener(ofEvents().mouseMoved, this, &PlayController::onMouseMove);
 	ofAddListener(ofEvents().mousePressed, this, &PlayController::onMousePress);
 	ofAddListener(ofEvents().mouseDragged, this, &PlayController::onMouseMove);
-	ofAddListener(ofEvents().keyPressed, this, &PlayController::onKeyPressed);
+	//ofAddListener(ofEvents().keyPressed, this, &PlayController::onKeyPressed);
 	ofAddListener(ofEvents().keyReleased, this, &PlayController::onKeyRelease);
 	ofAddListener(ofEvents().mouseScrolled, this, &PlayController::onMouseScroll);
 }
@@ -36,16 +36,19 @@ void PlayController::unregisterMe(const do_register_trait&)
 	ofRemoveListener(ofEvents().mouseMoved, this, &PlayController::onMouseMove);
 	ofRemoveListener(ofEvents().mousePressed, this, &PlayController::onMousePress);
 	ofRemoveListener(ofEvents().mouseDragged, this, &PlayController::onMouseMove);
-	ofRemoveListener(ofEvents().keyPressed, this, &PlayController::onKeyPressed);
+	//ofRemoveListener(ofEvents().keyPressed, this, &PlayController::onKeyPressed);
 	ofRemoveListener(ofEvents().keyReleased, this, &PlayController::onKeyRelease);
 	ofRemoveListener(ofEvents().mouseScrolled, this, &PlayController::onMouseScroll);
 }
 
 void PlayController::onUpdate(ofEventArgs& parameter)
 {
+	std::array<bool, TrackedButtons::COUNT> buttons_pressed =
+	{ofGetKeyPressed('w'), ofGetKeyPressed('s'), ofGetKeyPressed('a'), ofGetKeyPressed('d')};
+
 	vec3Di direction;
-	for(unsigned i = 0; i < buttons_pressed_.size(); ++i)
-		if(buttons_pressed_[i])
+	for(unsigned i = 0; i < buttons_pressed.size(); ++i)
+		if(buttons_pressed[i])
 			direction += vec3Di::make_unit_vector(Side(i));
 
 	model_.getPlayer().setSteer(direction);
@@ -93,7 +96,7 @@ void PlayController::onMouseScroll(ofMouseEventArgs& parameter)
 	else
 		model_.getEquipmentManager().next();
 }
-
+/*
 void PlayController::onKeyPressed(ofKeyEventArgs& parameter)
 {
 	switch(parameter.key)
@@ -115,24 +118,11 @@ void PlayController::onKeyPressed(ofKeyEventArgs& parameter)
 		break;
 	}
 }
-
+*/
 void PlayController::onKeyRelease(ofKeyEventArgs& parameter)
 {
-	switch(parameter.key)
-	{
-	case 'w':
-		buttons_pressed_[UP] = false;
-		break;
-	case 's':
-		buttons_pressed_[DOWN] = false;
-		break;
-	case 'a':
-		buttons_pressed_[LEFT] = false;
-		break;
-	case 'd':
-		buttons_pressed_[RIGHT] = false;
-		break;
-	}
+	if(parameter.key == OF_KEY_ESC)
+		Registrable::notify(model_.getEvent(), GameStateEventType::PAUSE);
 }
 
 

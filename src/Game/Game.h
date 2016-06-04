@@ -16,6 +16,9 @@
 #include "Menu/MenuModel.h"
 #include "Menu/MenuController.h"
 #include "Menu/MenuView.h"
+#include "Pause/PauseModel.h"
+#include "Pause/PauseController.h"
+#include "Pause/PauseView.h"
 #include "GameStateEventType.h"
 
 class Game : public Registrable
@@ -30,14 +33,15 @@ private:
 	void unregisterMe(const do_register_trait&);
 
 	void onGameStateEvent(const GameStateEventType& type);
+	void onPauseBreakEvent(GameState previous);
 
 	void onQuit() const;
 
 	GameState getMenu() const;
 	GameState getPlay(int save) const;
-	GameState getPause(GameState& previous);
+	GameState getPause();
 
-	GameState state_;
+	std::stack<GameState> stateStack_;
 	//GameStateFactory factory_;
 };
 

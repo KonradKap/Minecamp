@@ -29,7 +29,7 @@ public:
 		COUNT
 	};
 
-	PauseModel(GameState previousState);
+	PauseModel(/*GameState previousState*/);
 	~PauseModel();
 
 	const std::array<Button, unsigned(ButtonType::COUNT)>& getButtons() const;
@@ -38,6 +38,8 @@ public:
 	static const int FONT_SIZE = 14;
 	static const int BUTTON_SET_Y = 200;
 	static const int BUTTON_OFFSET_Y = 10;
+
+	ofEvent<GameState>& getPauseBreakEvent();
 private:
 	void onButtonPress(const Button& b);
 
@@ -52,7 +54,8 @@ private:
 
 	ofImage background_;
 
-	GameState previousState_;
+	//GameState previousState_;
+	//ofEvent<GameState>& pauseBreakEvent_;
 };
 
 

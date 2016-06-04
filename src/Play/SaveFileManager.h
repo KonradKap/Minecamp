@@ -16,7 +16,7 @@ public:
 	SaveFileManager(int save_state, WorldManager& world_manager);
 
 	void load();
-	void save();
+	void save() const;
 	static bool clear(int save_state);
 
 private:

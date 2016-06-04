@@ -13,6 +13,8 @@
 class PauseController : public Controller
 {
 
+	void registerMe(const do_register_trait&) {}
+	void unregisterMe(const do_register_trait&) {}
 };
 
 
