@@ -47,6 +47,7 @@ private:
 	void unregisterMe(const do_register_trait&);
 
 	void onUpdate(ofEventArgs&);
+	vec3Dd collide(vec3Dd position);
 
 	WorldManager world_manager_;
 	BufferManager buffer_manager_;

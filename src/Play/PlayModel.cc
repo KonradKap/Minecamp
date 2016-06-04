@@ -42,7 +42,12 @@ void PlayModel::unregisterMe(const do_register_trait&)
 
 void PlayModel::onUpdate(ofEventArgs&)
 {
-	//std::cout << "update" << std::endl;
+
+	player_.setPosition(collide(player_.getPosition()));
+
+
+
+
 }
 
 Player& PlayModel::getPlayer()
@@ -110,6 +115,46 @@ std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const
 		ray_walker += step;
 	}
 	return std::make_pair(vec3Di(-1,-1,-1), vec3Di(-1,-1,-1));
+}
+
+
+vec3Dd PlayModel::collide(vec3Dd position)
+{
+
+	vec3Di normalize = vec3Di(position);
+	double pad = 0.25;
+
+
+
+
+	for( unsigned i = 0; i< unsigned(Side::COUNT) ;++i)
+	{
+		vec3Dd face = vec3Dd(vec3Di::make_unit_vector(Side(i)));
+		double d=0;
+
+		for(int j=0;j<3;j++)
+		{
+			if (!face[j]) continue;
+			d = (position[j]-normalize[j])*face[j];
+
+			if (d<pad) continue;
+			vec3Di op = normalize;
+
+			for(int dy= 0 ; dy <=player_.getHeight()/16; ++dy)
+			{
+				op[1] -= dy;
+				op[j] += face[j];
+				//if (world_manager_.isWithin(op)) continue;
+				if (!world_manager_.getBlock(op).isSolid()) continue;
+
+				position[j] -= (d - pad) * face[j];
+				if (Side(i) == Side::BOTTOM or Side(i) == Side::TOP) player_.setYVelocity(0);
+
+				break;
+			}
+		}
+	}
+	return position;
 }
 
 
