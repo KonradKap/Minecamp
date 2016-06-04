@@ -5,7 +5,7 @@ Game::Game() :
 	Registrable(),
 	stateStack_()
 {
-	onGameStateEvent(GameStateEventType::SWITCH_TO_MENU); //Menu is the default start
+	stateStack_.push(getMenu()); //Menu is the default start
 	Registrable::registerMe();
 }
 
@@ -32,8 +32,8 @@ void Game::onGameStateEvent(const GameStateEventType& type)
 		onQuit();
 		break;
 	case GameStateEventType::SWITCH_TO_MENU:
-		if(!stateStack_.empty())
-			stateStack_.pop();
+		//if(!stateStack_.empty())
+		stateStack_.pop();
 		stateStack_.push(getMenu());
 		break;
 	case GameStateEventType::LOAD_STATE_1:

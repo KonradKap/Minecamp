@@ -49,13 +49,13 @@ private:
 	void onMouseButtonPress(const std::function<vec3Di (const std::pair<vec3Di, vec3Di>&)>& getBlockPosition,
 							const std::function<BlockType ()>& getBlockType);
 
-	void onKeyPressed(ofKeyEventArgs& parameter);
+	//void onKeyPressed(ofKeyEventArgs& parameter);
 	void onKeyRelease(ofKeyEventArgs& parameter);
 
 
 
 	PlayModel& model_;
-	std::array<bool, TrackedButtons::COUNT> buttons_pressed_;
+	//std::array<bool, TrackedButtons::COUNT> buttons_pressed_;
 };
 
 //#include "ofApp.h"
