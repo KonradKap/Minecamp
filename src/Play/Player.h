@@ -56,17 +56,17 @@ public:
 
 
 private:
-<<<<<<< HEAD
+
 	void onUpdate(ofEventArgs& args);
 	vec3Dd moveUpdate(vec3Di steer, double dtime);
 	vec3Dd collide(vec3Dd position);
 
-=======
+
 	void registerMe(const do_register_trait&);
 	void unregisterMe(const do_register_trait&);
->>>>>>> 67f513e294a2698cbcfd1b0715070f4862d66924
 
-	void onUpdate(ofEventArgs& args);
+
+
 
 	vec3Dd position_;
 	vec3Di steer_;
