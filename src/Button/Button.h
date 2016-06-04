@@ -10,8 +10,8 @@
 
 #include <string>
 
+#include "../Button/ButtonPrototype.h"
 #include "Utill/Registrable.h"
-#include "Menu/ButtonPrototype.h"
 #include "ofEvents.h"
 #include "ofConstants.h"
 

@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "ButtonPrototype.h"
+#include <Button/ButtonPrototype.h>
 
 ButtonPrototype::ButtonPrototype() :
 	image_(),
@@ -13,13 +13,19 @@ ButtonPrototype::ButtonPrototype() :
 {
 }
 
+ButtonPrototype::ButtonPrototype(const std::array<ofImage, ButtonState::COUNT>& image, const ofTrueTypeFont& font) :
+	image_(image),
+	font_(font)
+{
+}
+/*
 ButtonPrototype::ButtonPrototype(const std::string& directory, const std::string& font_filename, const int font_size) :
-	image_({ofImage(directory + "pressed.png"), ofImage(directory + "inactive.png"), ofImage(directory + "active.png")}),
+	image_(),
 	font_()
 {
 	font_.load(font_filename, font_size);
 }
-
+*/
 ButtonPrototype::ButtonPrototype(const ButtonPrototype& source) :
 	image_(source.image_),
 	font_(source.font_)

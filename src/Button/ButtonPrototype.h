@@ -28,7 +28,8 @@ public:
 	};
 
 	ButtonPrototype();
-	ButtonPrototype(const std::string& directory, const std::string& font_filename, const int font_size);
+	ButtonPrototype(const std::array<ofImage, ButtonState::COUNT>& image, const ofTrueTypeFont& font);
+	//ButtonPrototype(const std::string& directory, const std::string& font_filename, const int font_size);
 	ButtonPrototype(const ButtonPrototype& source);
 	~ButtonPrototype();
 
@@ -47,7 +48,7 @@ private:
 	ofTrueTypeFont font_;
 };
 
-#include "Menu/Button.h"
+#include "../Button/Button.h"
 
 
 #endif /* SRC_GAME_BUTTONMODEL_H_ */

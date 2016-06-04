@@ -10,12 +10,13 @@
 
 #include <memory>
 
-#include "ButtonPrototype.h"
+#include "Button/Button.h"
+#include "Button/ButtonPrototype.h"
+#include "Button/ButtonPrototypeLoader.h"
 #include "ofImage.h"
 #include "ofEvents.h"
 
 #include "Game/Model.h"
-#include "Menu/Button.h"
 #include "Menu/MenuPathManager.h"
 
 class MenuView;

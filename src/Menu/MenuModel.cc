@@ -29,8 +29,10 @@ void MenuModel::setUpPaths()
 	const MenuPathManager MANAGER;
 	background_.load(MANAGER.get(MenuResources::BACKGROUND_T));
 	title_.load(MANAGER.get(MenuResources::TITLE_T));
-	wide_model_ = ButtonPrototype(MANAGER.get(MenuResources::WIDE_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
-	small_model_ = ButtonPrototype(MANAGER.get(MenuResources::SMALL_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
+	wide_model_ = ButtonPrototypeLoader::getInstance().load(
+			MANAGER.get(MenuResources::WIDE_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
+	small_model_ = ButtonPrototypeLoader::getInstance().load(
+			MANAGER.get(MenuResources::SMALL_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
 }
 
 void MenuModel::setUpButtons(const std::vector<std::string>& titles)

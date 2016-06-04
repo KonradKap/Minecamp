@@ -63,7 +63,7 @@
 ################################################################################
  PROJECT_EXCLUSIONS =
  PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/bin%
- PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/tests
+ PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/tests%
  PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/%.xcodeproj
 # PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/src/App
  PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/obj%
@@ -94,7 +94,7 @@
 ################################################################################
 # PROJECT_DEFINES = 
 # PROJECT_DEFINES += TESTS
-
+ 
 ################################################################################
 # PROJECT CFLAGS
 #   This is a list of fully qualified CFLAGS required when compiling for this 

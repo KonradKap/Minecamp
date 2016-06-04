@@ -10,12 +10,13 @@
 
 #include <vector>
 
+#include "Button/Button.h"
+#include "Button/ButtonPrototype.h"
+#include "Button/ButtonPrototypeLoader.h"
 #include "ofImage.h"
 
 #include "Game/Model.h"
 #include "Game/GameState.h"
-#include "Menu/Button.h"
-#include "Menu/ButtonPrototype.h"
 #include "PausePathManager.h"
 
 class PauseModel : public Model

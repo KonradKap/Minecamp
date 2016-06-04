@@ -7,7 +7,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "../Menu/Button.h"
+#include <Button/Button.h>
 
 BOOST_AUTO_TEST_SUITE(ButtonTests);
 

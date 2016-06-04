@@ -39,7 +39,8 @@ void PauseModel::unregisterMe(const do_register_trait&)
 void PauseModel::setupPaths()
 {
 	const PausePathManager MANAGER;
-		prototype_ = ButtonPrototype(MANAGER.get(PauseResources::BUTTON_D), MANAGER.get(PauseResources::FONT_F), FONT_SIZE);
+		prototype_ = ButtonPrototypeLoader::getInstance().load(
+				MANAGER.get(PauseResources::BUTTON_D), MANAGER.get(PauseResources::FONT_F), FONT_SIZE);
 		background_.load(MANAGER.get(PauseResources::BACKGROUND_T));
 }
 
