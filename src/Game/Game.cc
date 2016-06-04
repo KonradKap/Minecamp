@@ -5,7 +5,7 @@ Game::Game() :
 	Registrable(),
 	stateStack_()
 {
-	stateStack_.push(getMenu()); //Menu is the default start
+	stateStack_.push(getMenu(MenuModel::MenuState::MAIN)); //Menu is the default start
 	Registrable::registerMe();
 }
 
@@ -34,7 +34,7 @@ void Game::onGameStateEvent(const GameStateEventType& type)
 	case GameStateEventType::SWITCH_TO_MENU:
 		//if(!stateStack_.empty())
 		stateStack_.pop();
-		stateStack_.push(getMenu());
+		stateStack_.push(getMenu(MenuModel::MenuState::MAIN));
 		break;
 	case GameStateEventType::LOAD_STATE_1:
 	case GameStateEventType::LOAD_STATE_2:
@@ -46,7 +46,7 @@ void Game::onGameStateEvent(const GameStateEventType& type)
 		break;
 	case GameStateEventType::PAUSE:
 		stateStack_.top().Registrable::unregisterMe();
-		stateStack_.push(getPause());
+		stateStack_.push(getMenu(MenuModel::MenuState::PAUSE));
 		break;
 	case GameStateEventType::SAVE:
 		static_cast<const PlayModel*>(stateStack_.top().getModel().get())->save();
@@ -65,9 +65,9 @@ void Game::onQuit() const
 	ofGetMainLoop()->shouldClose(0);
 }
 
-GameState Game::getMenu() const
+GameState Game::getMenu(MenuModel::MenuState state) const
 {
-	std::unique_ptr<MenuModel> menu_model(new MenuModel());
+	std::unique_ptr<MenuModel> menu_model(new MenuModel(state));
 	std::unique_ptr<MenuView>  menu_view(new MenuView(*menu_model));
 	std::unique_ptr<MenuController> menu_controller(new MenuController(*menu_model));
 	return GameState(std::move(menu_model), std::move(menu_view), std::move(menu_controller));
@@ -81,15 +81,3 @@ GameState Game::getPlay(int save) const
 	return GameState(std::move(play_model), std::move(play_view), std::move(play_controller));
 }
 
-GameState Game::getPause()
-{
-	std::unique_ptr<PauseModel> play_model(new PauseModel());
-	std::unique_ptr<PauseView>  play_view(new PauseView(*play_model));
-	std::unique_ptr<PauseController> play_controller(new PauseController());
-	return GameState(std::move(play_model), std::move(play_view), std::move(play_controller));
-}
-
-void Game::onPauseBreakEvent(GameState previous)
-{
-
-}
