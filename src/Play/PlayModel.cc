@@ -12,6 +12,7 @@ PlayModel::PlayModel(int save_state) :
 	world_manager_(),
 	buffer_manager_(world_manager_),
 	save_file_manager_(save_state, world_manager_),
+	equipment_manager_(),
 	player_()
 {
 	save_file_manager_.load();
@@ -21,6 +22,27 @@ PlayModel::PlayModel(int save_state) :
 PlayModel::~PlayModel()
 {
 	save_file_manager_.save();
+}
+
+void PlayModel::registerMe(const do_register_trait&)
+{
+	ofAddListener(ofEvents().update, this, &PlayModel::onUpdate);
+	world_manager_.Registrable::registerMe();
+	buffer_manager_.Registrable::registerMe();
+	player_.Registrable::registerMe();
+}
+
+void PlayModel::unregisterMe(const do_register_trait&)
+{
+	ofRemoveListener(ofEvents().update, this, &PlayModel::onUpdate);
+	world_manager_.Registrable::unregisterMe();
+	buffer_manager_.Registrable::unregisterMe();
+	player_.Registrable::unregisterMe();
+}
+
+void PlayModel::onUpdate(ofEventArgs&)
+{
+
 }
 
 Player& PlayModel::getPlayer()
@@ -46,6 +68,16 @@ WorldManager& PlayModel::getWorldManager()
 const BufferManager& PlayModel::getBufferManager() const
 {
 	return buffer_manager_;
+}
+
+EquipmentManager& PlayModel::getEquipmentManager()
+{
+	return equipment_manager_;
+}
+
+const EquipmentManager& PlayModel::getEquipmentManager() const
+{
+	return equipment_manager_;
 }
 
 std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const

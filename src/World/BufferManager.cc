@@ -32,14 +32,22 @@ const std::array<std::array<ofVec3f, 6>, unsigned(Side::COUNT)> BufferManager::S
 	};
 
 BufferManager::BufferManager(WorldManager& source) :
+	Registrable(),
 	buffer_(),
 	source_(source)
 {
-	ofAddListener(source_.getChunkReloadEvent(), this, &BufferManager::onReloadChunkRequest);
-	//setup();
 }
 
 BufferManager::~BufferManager()
+{
+}
+
+void BufferManager::registerMe(const do_register_trait&)
+{
+	ofAddListener(source_.getChunkReloadEvent(), this, &BufferManager::onReloadChunkRequest);
+}
+
+void BufferManager::unregisterMe(const do_register_trait&)
 {
 	ofRemoveListener(source_.getChunkReloadEvent(), this, &BufferManager::onReloadChunkRequest);
 }
@@ -61,6 +69,8 @@ const ofVboMesh& BufferManager::getBuffer(const vec3Di& position, BlockType type
 
 void BufferManager::onReloadChunkRequest(const vec3Di& position)
 {
+	if(!isValid(position))
+		return;
 	clearChunk(position);
 	for(int x = position.x*CHUNK_SIZE; x < (position.x+1)*CHUNK_SIZE; ++x)
 	for(int y = position.y*CHUNK_SIZE; y < (position.y+1)*CHUNK_SIZE; ++y)
@@ -70,6 +80,18 @@ void BufferManager::onReloadChunkRequest(const vec3Di& position)
 			if(source_.isVisible(vec3Di(x, y, z), Side(i)))
 				addToMesh(vec3Di(x, y, z), SIDE_VERTICES[i]);
 	}
+}
+
+bool BufferManager::isValid(const vec3Di& position) const
+{
+	if(position.x < 0 or position.x >= X_CHUNK_COUNT)
+		return false;
+	if(position.y < 0 or position.y >= Y_CHUNK_COUNT)
+		return false;
+	if(position.z < 0 or position.z >= Z_CHUNK_COUNT)
+		return false;
+
+	return true;
 }
 
 void BufferManager::setup()

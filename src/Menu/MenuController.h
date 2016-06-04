@@ -16,6 +16,9 @@ class MenuController : public Controller
 {
 public:
 	MenuController(MenuModel& model) {}
+
+	void registerMe(const do_register_trait&) {}
+	void unregisterMe(const do_register_trait&) {}
 };
 
 

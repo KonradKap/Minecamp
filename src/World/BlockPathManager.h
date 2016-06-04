@@ -9,16 +9,7 @@
 #define SRC_GAME_WORLD_BLOCKPATHMANAGER_H_
 
 #include "Utill/PathManager.h"
-
-enum class BlockType
-{
-	AIR,
-	DIRT,
-	STONE,
-	WATER,
-	FIRE,
-	COUNT
-};
+#include "World/BlockType.h"
 
 class BlockPathManager : public PathManager<BlockType>
 {

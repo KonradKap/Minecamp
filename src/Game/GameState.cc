@@ -8,18 +8,49 @@
 #include "GameState.h"
 #include "GameStateEventType.h"
 
+GameState::GameState() :
+	Registrable(),
+	model_(),
+	view_(),
+	controller_()
+{
+	Registrable::registerMe();
+}
+
 GameState::GameState(model_ptr model, view_ptr view, controller_ptr controller) :
+	Registrable(),
 	model_(std::move(model)),
 	view_(std::move(view)),
 	controller_(std::move(controller))
 {
+	Registrable::registerMe();
 }
 
 GameState::GameState(GameState&& state) :
+	Registrable(),
 	model_(std::move(state.model_)),
 	view_(std::move(state.view_)),
 	controller_(std::move(state.controller_))
 {
+	Registrable::registerMe();
+}
+
+void GameState::registerMe(const do_register_trait&)
+{
+	if(!model_ or !view_ or !controller_)
+		return;
+	model_->Registrable::registerMe();
+	view_->Registrable::registerMe();
+	controller_->Registrable::registerMe();
+}
+
+void GameState::unregisterMe(const do_register_trait&)
+{
+	if(!model_ or !view_ or !controller_)
+		return;
+	model_->Registrable::unregisterMe();
+	view_->Registrable::unregisterMe();
+	controller_->Registrable::unregisterMe();
 }
 
 GameState& GameState::operator= (GameState&& state)
@@ -30,6 +61,15 @@ GameState& GameState::operator= (GameState&& state)
 	return *this;
 }
 
+void GameState::dispose()
+{
+	Registrable::unregisterMe();
+	model_.release();
+	view_.release();
+	controller_.release();
+}
+
 GameState::~GameState()
 {
+	Registrable::unregisterMe();
 }

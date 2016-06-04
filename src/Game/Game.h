@@ -8,19 +8,37 @@
 #ifndef SRC_GAME_GAME_H_
 #define SRC_GAME_GAME_H_
 
+#include "Utill/Registrable.h"
 #include "Game/GameState.h"
-#include "Game/GameStateFactory.h"
+#include "Play/PlayModel.h"
+#include "Play/PlayController.h"
+#include "Play/PlayView.h"
+#include "Menu/MenuModel.h"
+#include "Menu/MenuController.h"
+#include "Menu/MenuView.h"
 #include "GameStateEventType.h"
 
-class Game
+class Game : public Registrable
 {
 public:
 	Game();
 
 	~Game();
 private:
-	void onStateSwitch(const GameStateEventType& type);
+
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
+
+	void onGameStateEvent(const GameStateEventType& type);
+
+	void onQuit() const;
+
+	GameState getMenu() const;
+	GameState getPlay(int save) const;
+	GameState getPause(GameState& previous);
+
 	GameState state_;
+	//GameStateFactory factory_;
 };
 
 

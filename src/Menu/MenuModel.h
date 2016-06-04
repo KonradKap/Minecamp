@@ -70,6 +70,9 @@ private:
 		COUNT
 	};
 
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
+
 	void switchState(MenuState new_state);
 	void switchToMain();
 	void switchToLevelSelect();

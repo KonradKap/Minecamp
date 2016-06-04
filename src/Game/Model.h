@@ -10,14 +10,20 @@
 
 #include "ofEvents.h"
 
+#include "Utill/Registrable.h"
 #include "Game/GameStateEventType.h"
 
-class Model
+class Model : public Registrable
 {
 public:
+	Model();
 	virtual ~Model();
+
 	static ofEvent<const GameStateEventType&>& getEvent();
 private:
+	virtual void registerMe(const do_register_trait&);
+	virtual void unregisterMe(const do_register_trait&);
+
 	static ofEvent<const GameStateEventType&> event_;
 };
 

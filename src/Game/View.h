@@ -11,9 +11,11 @@
 #include "ofVec3f.h"
 #include "ofEvents.h"
 
+#include "Utill/Registrable.h"
+
 class ofEventArgs;
 
-class View
+class View : public Registrable
 {
 public:
 	View();
@@ -23,9 +25,11 @@ public:
 	static ofVec3f yAxis();
 	static ofVec3f zAxis();
 private:
+	virtual void registerMe(const do_register_trait&);
+	virtual void unregisterMe(const do_register_trait&);
+
 	virtual void onDraw(ofEventArgs&) = 0;
 };
-
 
 
 

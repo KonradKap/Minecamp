@@ -10,7 +10,7 @@
 
 MenuModel::MenuModel() :
 	Model(),
-	state_(MenuState::MAIN),
+	state_(),
 	TITLES_({"Play", "Quit", "Save One",
 			"Save Two", "Save Three", "Save Four",
 			"Save Five", "Return", "DEL"}),
@@ -21,7 +21,7 @@ MenuModel::MenuModel() :
 	buttons_()
 {
 	setUpPaths();
-	switchToMain();
+	switchState(MenuState::MAIN);
 }
 
 void MenuModel::setUpPaths()
@@ -37,26 +37,33 @@ void MenuModel::setUpButtons(const std::vector<std::string>& titles)
 {
 	const ofVec2f BUTTON_POSITION(ofApp::WINDOW_X_SIZE/2 - wide_model_.getSize().x/2, BUTTONSET_OFFSET);
 	for(unsigned i = 0; i < titles.size(); ++i)
-	{
 		buttons_.push_back(
 				Button(BUTTON_POSITION + ofVec2f(0.0f, i*(BUTTON_OFFSET + wide_model_.getSize().y/2)), titles[i], wide_model_));
-		ofAddListener(buttons_.back().getEvent(), this, &MenuModel::onButtonPress);
-	}
+
 }
 
 void MenuModel::setUpSmallButtons(const std::string& title)
 {
-	//const unsigned SMALL_BUTTON_COUNT = SELECT_BUTTON_COUNT - buttons_.size();
 	for(unsigned i = 0; i < SELECT_SMALL_BUTTON_COUNT; ++i)
-	{
 		buttons_.push_back(
 				Button(buttons_[i].getPosition()+ofVec2f(buttons_[i].getPrototype().getSize().x + BUTTON_OFFSET, 0), title, small_model_));
-		ofAddListener(buttons_.back().getEvent(), this, &MenuModel::onButtonPress);
-	}
+
 }
 
 MenuModel::~MenuModel()
 {
+}
+
+void MenuModel::registerMe(const do_register_trait&)
+{
+	for(auto& button : buttons_)
+		ofAddListener(button.getEvent(), this, &MenuModel::onButtonPress);
+}
+
+void MenuModel::unregisterMe(const do_register_trait&)
+{
+	for(auto& button : buttons_)
+		ofRemoveListener(button.getEvent(), this, &MenuModel::onButtonPress);
 }
 
 const ofImage& MenuModel::getBackground() const
@@ -76,6 +83,7 @@ const std::vector<Button>& MenuModel::getButtons() const
 
 void MenuModel::switchState(MenuState new_state)
 {
+	Registrable::unregisterMe();
 	switch(new_state)
 	{
 	case MenuState::MAIN:
@@ -87,34 +95,24 @@ void MenuModel::switchState(MenuState new_state)
 	default:
 		throw std::invalid_argument("No such menu state");
 	}
+	Registrable::registerMe();
 }
 
 void MenuModel::switchToMain()
 {
-	if(state_ == MenuState::LEVEL_SELECT)
-	{
-		for(auto& it : buttons_)
-			ofRemoveListener(it.getEvent(), this, &MenuModel::onButtonPress);
-	}
-
 	buttons_.clear();
 	buttons_.reserve(MAIN_BUTTON_COUNT);
 	setUpButtons({TITLES_[MenuButtonTitles::PLAY], TITLES_[MenuButtonTitles::QUIT]});
-
 	state_ = MenuState::MAIN;
 }
 
 void MenuModel::switchToLevelSelect()
 {
-	for(auto& it : buttons_)
-		ofRemoveListener(it.getEvent(), this, &MenuModel::onButtonPress);
-
 	buttons_.clear();
 	buttons_.reserve(SELECT_BUTTON_COUNT);
 	setUpButtons({TITLES_[MenuButtonTitles::SELECT_1], TITLES_[MenuButtonTitles::SELECT_2],
 			      TITLES_[MenuButtonTitles::SELECT_3], TITLES_[MenuButtonTitles::SELECT_4],
 				  TITLES_[MenuButtonTitles::SELECT_5], TITLES_[MenuButtonTitles::RETURN]});
-
 	setUpSmallButtons("DEL");
 
 	state_ = MenuState::LEVEL_SELECT;
@@ -156,7 +154,7 @@ void MenuModel::onLevelSelect(const Button& pressed)
 {
 	int save_number = std::distance(buttons_.begin(), std::find_if(buttons_.begin(), buttons_.end(),
 			[pressed](const Button& b){return pressed.getPosition() == b.getPosition();}));
-	ofNotifyEvent(getEvent(), GameStateEventType(save_number), this);
+	Registrable::notify(getEvent(), GameStateEventType(save_number));
 }
 
 void MenuModel::onQuitPressed()
@@ -166,7 +164,7 @@ void MenuModel::onQuitPressed()
 		switchState(MenuState::MAIN);
 		return;
 	}
-	ofNotifyEvent(getEvent(), GameStateEventType::QUIT, this);
+	Registrable::notify(getEvent(), GameStateEventType::QUIT);
 }
 
 void MenuModel::onLevelDeletion(const Button& pressed)

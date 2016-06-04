@@ -13,16 +13,18 @@
 #include "of3dPrimitives.h"
 #include "ofGraphics.h"
 
+#include "Utill/Registrable.h"
 #include "Utill/vec3D.h"
-#include "World/WorldManager.h"
 
-class BufferManager
+class WorldManager;
+
+class BufferManager : public Registrable
 {
 public:
 	static const int CHUNK_SIZE = 16;
-	static const int X_CHUNK_COUNT = WorldManager::X_SIZE/CHUNK_SIZE;
-	static const int Y_CHUNK_COUNT = WorldManager::Y_SIZE/CHUNK_SIZE;
-	static const int Z_CHUNK_COUNT = WorldManager::Z_SIZE/CHUNK_SIZE;
+	static const int X_CHUNK_COUNT = 1;
+	static const int Y_CHUNK_COUNT = 1;
+	static const int Z_CHUNK_COUNT = 1;
 
 
 	typedef std::array< ofVboMesh, size_t(BlockType::COUNT) > chunk_t;
@@ -36,7 +38,10 @@ public:
 	const buffer_t& getBuffer() const;
 	const ofVboMesh& getBuffer(const vec3Di& position, BlockType type) const;
 
+	bool isValid(const vec3Di& position) const;
 private:
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
 	void onReloadChunkRequest(const vec3Di& position);
 
 	void clearChunk(const vec3Di& position);

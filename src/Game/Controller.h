@@ -8,7 +8,9 @@
 #ifndef SRC_GAME_CONTROLLER_H_
 #define SRC_GAME_CONTROLLER_H_
 
-class Controller
+#include "Utill/Registrable.h"
+
+class Controller : public Registrable
 {
 public:
 	virtual ~Controller() {}

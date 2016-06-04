@@ -17,6 +17,7 @@ enum class GameStateEventType
 	LOAD_STATE_5,
 	QUIT,
 	SWITCH_TO_MENU,
+	PAUSE,
 	COUNT
 };
 

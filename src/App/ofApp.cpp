@@ -2,25 +2,18 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-   // timer_ = 0.0f;
-   // ofResetElapsedTimeCounter();
+	ofSetEscapeQuitsApp(false);
+	ofDisableArbTex();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	//float elapsedTime = ofGetElapsedTimef() - timer_;
-	//game_.update(elapsedTime);
-	/*
-	{
-		ofGetMainLoop()->shouldClose(0);
-	}
-	*/
-	//timer_ = ofGetElapsedTimef();
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	//game_.draw();
+
 }
 
 //--------------------------------------------------------------
