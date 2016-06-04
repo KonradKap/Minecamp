@@ -147,7 +147,7 @@ void Player::onUpdate(ofEventArgs& args)
 
 //TODO: Znormalizować steer_, tak, zeby poruszanie na skos ('w' i 'a', dla przykladu)
 //		bylo tak samo szybkie jak poruszanie sie prosto
-//		dla wcisnietych 'w' i 'a' dlugosc steer_ ~= 1.41, natomiast dla samego w - 1
+//		dla wcisnietych 'w' i 'a' dlugosc steer_ ~= 1.41, natomiast dla samego w == 1
 vec3Dd Player::moveUpdate(vec3Di steer, double dtime)
 {
 
