@@ -46,6 +46,8 @@ public:
 	float getHorizontalAngle() const;
 	float getVerticalAngle() const;
 
+	void moveUpdate();
+
 
 
 	static const int HEIGHT = 30;
@@ -60,7 +62,7 @@ public:
 private:
 
 	void onUpdate(ofEventArgs& args);
-	vec3Dd moveUpdate();
+
 
 
 

@@ -42,6 +42,7 @@ void PlayModel::unregisterMe(const do_register_trait&)
 
 void PlayModel::onUpdate(ofEventArgs&)
 {
+	player_.moveUpdate();
 
 	player_.setPosition(collide(player_.getPosition()));
 
@@ -144,16 +145,20 @@ vec3Dd PlayModel::collide(vec3Dd position)
 			{
 				op[1] -= dy;
 				op[j] += face[j];
-				//if (world_manager_.isWithin(op)) continue;
-				if (!world_manager_.getBlock(op).isSolid()) continue;
+				cout << op.x<< op.y << op.z<< endl;
+				cout << "befor colision"<< endl;
+				//if((!world_manager_.isWithin(op))) continue;
+				if (!world_manager_.getBlock(op).isSolid() and (!world_manager_.isWithin(op))) continue;
 
 				position[j] -= (d - pad) * face[j];
+				cout<< "colision"<<endl;
 				if (Side(i) == Side::BOTTOM or Side(i) == Side::TOP) player_.setYVelocity(0);
 
 				break;
 			}
 		}
 	}
+	//cout << position.x<< position.y << position.z<< endl;
 	return position;
 }
 
