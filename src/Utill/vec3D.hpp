@@ -116,6 +116,21 @@ template <class T>
 		}
 
 template<class T>
+T& vec3D<T>::operator[]( const int idx)
+{
+	switch (idx)
+	{
+	case 0:
+			return x;
+	case 1:
+			return y;
+	case 2:
+			return z;
+	default:
+		throw std::invalid_argument("Undefined index");
+	}
+}
+template<class T>
 	vec3D<int> vec3D<T>::make_unit_vector(Side side)
 	{
 		switch(side)

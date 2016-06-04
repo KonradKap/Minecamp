@@ -33,6 +33,8 @@ public:
 
 	vec3Dd getDirectionVector(ofVec3f base = ofVec3f(0, 0, 1)) const;
 	void setSteer(const vec3Di& steering);
+	vec3Di getSteer() const;
+	/*void setYVelocity(const double yVelocity);*/
 
 	void rotate(float horizontal_rotation, float vertical_rotation);
 	void horizontalRotate(float rotation);
@@ -48,8 +50,14 @@ public:
 	static const int EYE_HEIGHT = 28;
 	static const int VELOCITY = 40;
 	static const int RANGE = 64;
+	static const int GRAVITY = 10;
+
+
+
 private:
 	void onUpdate(ofEventArgs& args);
+	vec3Dd moveUpdate(vec3Di steer, double dtime);
+	vec3Dd collide(vec3Dd position);
 
 
 
@@ -58,6 +66,7 @@ private:
 
 	float horizontal_angle_;
 	float vertical_angle_;
+	double yVelocity= 0;
 };
 
 
