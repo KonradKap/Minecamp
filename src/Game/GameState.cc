@@ -61,6 +61,21 @@ GameState& GameState::operator= (GameState&& state)
 	return *this;
 }
 
+const GameState::view_ptr& GameState::getView() const
+{
+	return view_;
+}
+
+const GameState::model_ptr& GameState::getModel() const
+{
+	return model_;
+}
+
+const GameState::controller_ptr& GameState::getController() const
+{
+	return controller_;
+}
+
 void GameState::dispose()
 {
 	Registrable::unregisterMe();

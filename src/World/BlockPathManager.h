@@ -22,6 +22,7 @@ public:
 					{BlockType::STONE, block("stone.png")},
 					{BlockType::WATER, block("water.png")},
 					{BlockType::FIRE, block("fire.png")},
+					{BlockType::GLASS, block("glass.png")},
 				}
 		))
 	{

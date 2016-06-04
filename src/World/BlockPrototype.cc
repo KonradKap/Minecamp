@@ -37,6 +37,10 @@ BlockPrototype::BlockPrototype(const BlockType type, const std::string& path) :
 		form_ = LIQUID;
 		transparency_ = true;
 		break;
+	case BlockType::GLASS:
+		form_ = SOLID;
+		transparency_ = true;
+		break;
 	default:
 		throw std::invalid_argument("There was no block of this type defined");
 	}
@@ -56,8 +60,6 @@ BlockPrototype::~BlockPrototype()
 
 bool BlockPrototype::isSolid() const
 {
-	//if(form_ == SOLID) std::cout << "solid " << std::endl;
-	//else std::cout << "nosolid " << std::endl;
 	return form_ == SOLID;
 }
 

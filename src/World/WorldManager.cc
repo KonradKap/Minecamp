@@ -50,7 +50,7 @@ void WorldManager::loadFromFile(std::istream& file)
 	}
 }
 	//TODO:
-void WorldManager::saveToFile(std::ostream& file)
+void WorldManager::saveToFile(std::ostream& file) const
 {
 	for(auto& itX : map_)
 	for(auto& itY : itX)

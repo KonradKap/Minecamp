@@ -120,7 +120,9 @@ void MenuModel::switchToLevelSelect()
 
 void MenuModel::onButtonPress(const Button& pressed)
 {
-	const int BUTTON_INDEX = std::distance(TITLES_.begin(), std::find(TITLES_.begin(), TITLES_.end(), pressed.getTitle()));
+	const int BUTTON_INDEX = std::distance(
+			TITLES_.begin(), std::find(
+					TITLES_.begin(), TITLES_.end(), pressed.getTitle()));
 	switch(BUTTON_INDEX)
 	{
 	case MenuButtonTitles::PLAY:
@@ -152,9 +154,12 @@ void MenuModel::onPlayPressed()
 
 void MenuModel::onLevelSelect(const Button& pressed)
 {
-	int save_number = std::distance(buttons_.begin(), std::find_if(buttons_.begin(), buttons_.end(),
-			[pressed](const Button& b){return pressed.getPosition() == b.getPosition();}));
-	Registrable::notify(getEvent(), GameStateEventType(save_number));
+	const int SAVE_NUMBER = std::distance(
+			buttons_.begin(), std::find_if(
+					buttons_.begin(), buttons_.end(), [&pressed](const Button& b){
+						return pressed.getPosition() == b.getPosition();
+	}));
+	Registrable::notify(Model::getEvent(), GameStateEventType(SAVE_NUMBER));
 }
 
 void MenuModel::onQuitPressed()
@@ -169,8 +174,14 @@ void MenuModel::onQuitPressed()
 
 void MenuModel::onLevelDeletion(const Button& pressed)
 {
-	int save_number = std::distance(buttons_.begin(), std::find_if(buttons_.begin(), buttons_.end(),
-			[pressed](const Button& b){return pressed.getPosition().y == b.getPosition().y;}));
-	SaveFileManager::clear(save_number);
+	const int SAVE_NUMBER = std::distance(
+			buttons_.begin(), std::find_if(
+					buttons_.begin(), buttons_.end(), [&pressed](const Button& b){
+						return pressed.getPosition().y == b.getPosition().y;
+	}));
+	//const int SAVE_NUMBER = std::distance(
+	//			buttons_.begin(), std::find(
+	//					buttons_.begin(), buttons_.end(), pressed.getPosition().y));
+	SaveFileManager::clear(SAVE_NUMBER);
 }
 

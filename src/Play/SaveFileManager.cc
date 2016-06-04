@@ -24,7 +24,7 @@ void SaveFileManager::load()
 	file.close();
 }
 
-void SaveFileManager::save()
+void SaveFileManager::save() const
 {
 	std::ofstream file(getSaveFileName(save_state_));
 	if(!file.is_open())

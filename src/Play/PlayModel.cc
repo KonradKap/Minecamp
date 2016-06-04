@@ -21,7 +21,7 @@ PlayModel::PlayModel(int save_state) :
 
 PlayModel::~PlayModel()
 {
-	save_file_manager_.save();
+	//save_file_manager_.save();
 }
 
 void PlayModel::registerMe(const do_register_trait&)
@@ -42,7 +42,7 @@ void PlayModel::unregisterMe(const do_register_trait&)
 
 void PlayModel::onUpdate(ofEventArgs&)
 {
-
+	//std::cout << "update" << std::endl;
 }
 
 Player& PlayModel::getPlayer()
@@ -78,6 +78,16 @@ EquipmentManager& PlayModel::getEquipmentManager()
 const EquipmentManager& PlayModel::getEquipmentManager() const
 {
 	return equipment_manager_;
+}
+
+void PlayModel::save() const
+{
+	save_file_manager_.save();
+}
+
+void PlayModel::load()
+{
+	save_file_manager_.load();
 }
 
 std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const
