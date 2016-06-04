@@ -11,7 +11,7 @@ PlayModel::PlayModel(int save_state) :
 	Model(),
 	world_manager_(),
 	buffer_manager_(world_manager_),
-	save_file_manager_(save_state, world_manager_),
+	save_file_manager_(save_state, *this),
 	equipment_manager_(),
 	player_()
 {

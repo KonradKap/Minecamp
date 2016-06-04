@@ -5,11 +5,12 @@
  *      Author: konrad
  */
 
-#include "../Play/SaveFileManager.h"
+#include "Play/SaveFileManager.h"
+#include "Play/PlayModel.h"
 
-SaveFileManager::SaveFileManager(int save_state, WorldManager& world_manager) :
+SaveFileManager::SaveFileManager(int save_state, PlayModel& source) :
 	save_state_(save_state),
-	world_manager_(world_manager)
+	source_(source)
 {
 
 }
@@ -18,9 +19,10 @@ void SaveFileManager::load()
 {
 	std::ifstream file(getSaveFileName(save_state_));
 	if(!file.is_open())
-		world_manager_.loadDefaultWorld();
+		source_.getWorldManager().loadDefaultWorld();
 	else
-		world_manager_.loadFromFile(file);
+		source_.getWorldManager().loadFromFile(file);
+	loadPlayer(file);
 	file.close();
 }
 
@@ -30,7 +32,8 @@ void SaveFileManager::save() const
 	if(!file.is_open())
 		throw std::ios_base::failure("Unable to open file");
 
-	world_manager_.saveToFile(file);
+	source_.getWorldManager().saveToFile(file);
+	savePlayer(file);
 	file.close();
 }
 
@@ -47,3 +50,12 @@ std::string SaveFileManager::getSaveFileName(int save_state)
 		   +std::to_string(WorldManager::Z_SIZE)+".sav";
 }
 
+void SaveFileManager::loadPlayer(std::istream& file)
+{
+
+}
+
+void SaveFileManager::savePlayer(std::ostream& file) const
+{
+	//file << source_.getPlayer().get
+}
