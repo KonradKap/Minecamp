@@ -9,7 +9,7 @@
 
 Player::Player() :
 	Registrable(),
-	position_(),
+	position_(5*16,11*16+1,5*16),
 	steer_(),
 	horizontal_angle_(),
 	vertical_angle_()
@@ -60,9 +60,19 @@ double Player::getBack() const
 	return position_.z - WIDTH;
 }
 
+int Player::getHeight() const
+{
+	return HEIGHT;
+}
+
 vec3Dd Player::getEyePosition() const
 {
 	return position_ + vec3Dd(0.0, EYE_HEIGHT, 0.0);
+}
+
+vec3Dd Player::getPosition() const
+{
+	return position_;
 }
 
 void Player::setPosition(const vec3Dd& position)
@@ -119,16 +129,15 @@ float Player::getVerticalAngle() const
 	return vertical_angle_ ;
 }
 
-/*void setYVelocity(const double yValue)
+void Player::setYVelocity(const double yVelocity)
 {
-	yVelocity=yValue;
-}*/
-
+	y_velocity_=yVelocity;
+}
 void Player::onUpdate(ofEventArgs& args)
 {
 	if(steer_ == vec3Di(0, 0, 0))
 			return;
-	double time = ofGetLastFrameTime();
+	//double time = ofGetLastFrameTime();
 
 /*
 	vec3Dd distance = direction_*time*VELOCITY;
@@ -141,28 +150,29 @@ void Player::onUpdate(ofEventArgs& args)
 	//direction.rotate(getVerticalAngle() , -View::xAxis())
 	//		 .rotate(getHorizontalAngle(), View::yAxis());
 	//vec3Dd distance = vec3Dd(getDirectionVector(ofVec3f(steer_))*time*VELOCITY);
-	position_ += moveUpdate(steer_,time);
+	position_ += moveUpdate();
 	//position_ += distance;
 }
 
 
-vec3Dd Player::moveUpdate(vec3Di steer, double dtime)
-{
+vec3Dd Player::moveUpdate()
 
+
+{
+			double dtime = ofGetLastFrameTime();
 	        double distance = dtime * VELOCITY;
-	        vec3Dd direction = getDirectionVector(ofVec3f(steer));
+	        vec3Dd direction = getDirectionVector(ofVec3f(steer_));
 
 
 	        direction*= distance;
 
 
-	        yVelocity -= dtime * GRAVITY;
+	        /*y_velocity_ -= dtime * GRAVITY;
 
-	        yVelocity = (yVelocity<VELOCITY) ?  VELOCITY : yVelocity;
-	        yVelocity += yVelocity * dtime;
-	        //collisions
+	        y_velocity_ = (y_velocity_<VELOCITY) ?  VELOCITY : y_velocity_;
+	        y_velocity_ += y_velocity_ * dtime;*/
+
 	        vec3Dd position = position_;
-	        //position = collide(position+direction);
 	        position+=direction;
 
 	        return direction;

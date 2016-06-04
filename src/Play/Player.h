@@ -27,15 +27,17 @@ public:
 	double getRight() const;
 	double getFront() const;
 	double getBack() const;
+	int getHeight() const;
 
 	vec3Dd getEyePosition() const;
 
 	void setPosition(const vec3Dd& position);
+	vec3Dd getPosition() const;
 
 	vec3Dd getDirectionVector(ofVec3f base = ofVec3f(0, 0, 1)) const;
 	void setSteer(const vec3Di& steering);
 	vec3Di getSteer() const;
-	/*void setYVelocity(const double yVelocity);*/
+	void setYVelocity(const double yVelocity);
 
 	void rotate(float horizontal_rotation, float vertical_rotation);
 	void horizontalRotate(float rotation);
@@ -58,8 +60,8 @@ public:
 private:
 
 	void onUpdate(ofEventArgs& args);
-	vec3Dd moveUpdate(vec3Di steer, double dtime);
-	vec3Dd collide(vec3Dd position);
+	vec3Dd moveUpdate();
+
 
 
 	void registerMe(const do_register_trait&);
@@ -73,7 +75,7 @@ private:
 
 	float horizontal_angle_;
 	float vertical_angle_;
-	double yVelocity= 0;
+	double y_velocity_= 0;
 };
 
 
