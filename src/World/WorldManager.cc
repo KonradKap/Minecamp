@@ -63,7 +63,7 @@ void WorldManager::saveToFile(std::ostream& file) const
 
 void WorldManager::onBlockEvent(const blockEventArgs& args)
 {
-	map_[args.first.x][args.first.y][args.first.z] = &models_[unsigned(args.second)];
+	map_[args.first.x()][args.first.y()][args.first.z()] = &models_[unsigned(args.second)];
 	const vec3Di BUFFER_INDEX = args.first/BufferManager::CHUNK_SIZE;
 	Registrable::notify(chunkReloadRequest_, BUFFER_INDEX);
 
@@ -96,9 +96,9 @@ bool WorldManager::isVisible(const vec3Di& position, Side side) const
 
 	const vec3Di NEXT = position + vec3Di::make_unit_vector(side);
 
-	if(NEXT.x >= X_SIZE or NEXT.x < 0 or
-	   NEXT.y >= Y_SIZE or NEXT.y < 0 or
-	   NEXT.z >= Z_SIZE or NEXT.z < 0)
+	if(NEXT.x() >= X_SIZE or NEXT.x() < 0 or
+	   NEXT.y() >= Y_SIZE or NEXT.y() < 0 or
+	   NEXT.z() >= Z_SIZE or NEXT.z() < 0)
 		return true;
 
 	if(getBlock(position).isSolid())
@@ -110,11 +110,11 @@ bool WorldManager::isVisible(const vec3Di& position, Side side) const
 
 bool WorldManager::isWithin(const vec3Di& position) const
 {
-	if(position.x < 0 or position.x >= X_SIZE)
+	if(position.x() < 0 or position.x() >= X_SIZE)
 		return false;
-	if(position.y < 0 or position.y >= Y_SIZE)
+	if(position.y() < 0 or position.y() >= Y_SIZE)
 		return false;
-	if(position.z < 0 or position.z >= Z_SIZE)
+	if(position.z() < 0 or position.z() >= Z_SIZE)
 		return false;
 	return true;
 }
@@ -142,7 +142,7 @@ const BlockPrototype& WorldManager::getBlock(const vec3Di& position) const
 
 BlockPrototype& WorldManager::getBlock(const vec3Di& position)
 {
-	return *map_[position.x][position.y][position.z];
+	return *map_[position.x()][position.y()][position.z()];
 }
 
 const BlockPrototype& WorldManager::getBlock(const BlockType type) const

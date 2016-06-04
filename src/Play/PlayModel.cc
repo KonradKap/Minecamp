@@ -52,7 +52,7 @@ void PlayModel::onUpdate(ofEventArgs&)
 
 Player& PlayModel::getPlayer()
 {
-	return player_;
+	return const_cast<Player&>(static_cast<const PlayModel*>(this)->getPlayer());
 }
 
 const Player& PlayModel::getPlayer() const
@@ -67,7 +67,7 @@ const WorldManager& PlayModel::getWorldManager() const
 
 WorldManager& PlayModel::getWorldManager()
 {
-	return world_manager_;
+	return const_cast<WorldManager&>(static_cast<const PlayModel*>(this)->getWorldManager());
 }
 
 const BufferManager& PlayModel::getBufferManager() const
@@ -77,7 +77,7 @@ const BufferManager& PlayModel::getBufferManager() const
 
 EquipmentManager& PlayModel::getEquipmentManager()
 {
-	return equipment_manager_;
+	return const_cast<EquipmentManager&>(static_cast<const PlayModel*>(this)->getEquipmentManager());
 }
 
 const EquipmentManager& PlayModel::getEquipmentManager() const
@@ -144,7 +144,7 @@ vec3Dd PlayModel::collide(vec3Dd position)
 			{
 				op[1] -= dy;
 				op[j] += face[j];
-				//if (world_manager_.isWithin(op)) continue;
+				if (!world_manager_.isWithin(op)) continue;
 				if (!world_manager_.getBlock(op).isSolid()) continue;
 
 				position[j] -= (d - pad) * face[j];

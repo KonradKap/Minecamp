@@ -9,7 +9,7 @@
 #define SRC_PLAY_PLAYCONTROLLER_H_
 
 #include "ofEvents.h"
-#include "ofConstants.h"
+
 
 class PlayModel;
 #include "Game/Controller.h"

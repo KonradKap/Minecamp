@@ -63,7 +63,7 @@
 ################################################################################
  PROJECT_EXCLUSIONS =
  PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/bin%
- PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/src/Tests
+ PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/tests
  PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/%.xcodeproj
 # PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/src/App
  PROJECT_EXCLUSIONS += $(PROJECT_ROOT)/obj%
@@ -93,6 +93,7 @@
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
 # PROJECT_DEFINES = 
+# PROJECT_DEFINES += TESTS
 
 ################################################################################
 # PROJECT CFLAGS

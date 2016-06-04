@@ -110,7 +110,6 @@ void Button::onMouseRelease(ofMouseEventArgs& parameter)
 		{
 			state_ = ButtonPrototype::ACTIVE;
 			Registrable::notify(pressed_, *this);
-			//std::cout << "fired" << std::endl;
 			return;
 		}
 		state_ = ButtonPrototype::INACTIVE;

@@ -23,6 +23,8 @@ public:
 
 private:
 	void loadPlayer(std::istream& file);
+	void loadPlayerPosition(std::istream& file);
+	void loadPlayerDirection(std::istream& file);
 	void savePlayer(std::ostream& file) const;
 	static std::string getSaveFileName(int save_state);
 

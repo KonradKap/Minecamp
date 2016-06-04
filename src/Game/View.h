@@ -12,6 +12,7 @@
 #include "ofEvents.h"
 
 #include "Utill/Registrable.h"
+#include "Menu/Button.h"
 
 class ofEventArgs;
 
@@ -24,6 +25,10 @@ public:
 	static ofVec3f xAxis();
 	static ofVec3f yAxis();
 	static ofVec3f zAxis();
+
+protected:
+	void drawButton(const Button& button) const;
+
 private:
 	virtual void registerMe(const do_register_trait&);
 	virtual void unregisterMe(const do_register_trait&);

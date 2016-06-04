@@ -113,7 +113,7 @@ void MenuModel::switchToLevelSelect()
 	setUpButtons({TITLES_[MenuButtonTitles::SELECT_1], TITLES_[MenuButtonTitles::SELECT_2],
 			      TITLES_[MenuButtonTitles::SELECT_3], TITLES_[MenuButtonTitles::SELECT_4],
 				  TITLES_[MenuButtonTitles::SELECT_5], TITLES_[MenuButtonTitles::RETURN]});
-	setUpSmallButtons("DEL");
+	setUpSmallButtons(TITLES_[MenuButtonTitles::DELETE]);
 
 	state_ = MenuState::LEVEL_SELECT;
 }
@@ -179,9 +179,6 @@ void MenuModel::onLevelDeletion(const Button& pressed)
 					buttons_.begin(), buttons_.end(), [&pressed](const Button& b){
 						return pressed.getPosition().y == b.getPosition().y;
 	}));
-	//const int SAVE_NUMBER = std::distance(
-	//			buttons_.begin(), std::find(
-	//					buttons_.begin(), buttons_.end(), pressed.getPosition().y));
 	SaveFileManager::clear(SAVE_NUMBER);
 }
 

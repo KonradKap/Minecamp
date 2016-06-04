@@ -54,7 +54,7 @@ void BufferManager::unregisterMe(const do_register_trait&)
 
 ofVboMesh& BufferManager::getBuffer(const vec3Di& position, BlockType type)
 {
-	return buffer_[position.x][position.y][position.z][unsigned(type)];
+	return buffer_[position.x()][position.y()][position.z()][unsigned(type)];
 }
 
 const BufferManager::buffer_t& BufferManager::getBuffer() const
@@ -72,9 +72,9 @@ void BufferManager::onReloadChunkRequest(const vec3Di& position)
 	if(!isValid(position))
 		return;
 	clearChunk(position);
-	for(int x = position.x*CHUNK_SIZE; x < (position.x+1)*CHUNK_SIZE; ++x)
-	for(int y = position.y*CHUNK_SIZE; y < (position.y+1)*CHUNK_SIZE; ++y)
-	for(int z = position.z*CHUNK_SIZE; z < (position.z+1)*CHUNK_SIZE; ++z)
+	for(int x = position.x()*CHUNK_SIZE; x < (position.x()+1)*CHUNK_SIZE; ++x)
+	for(int y = position.y()*CHUNK_SIZE; y < (position.y()+1)*CHUNK_SIZE; ++y)
+	for(int z = position.z()*CHUNK_SIZE; z < (position.z()+1)*CHUNK_SIZE; ++z)
 	{
 		for(unsigned i = 0; i < unsigned(Side::COUNT); ++i)
 			if(source_.isVisible(vec3Di(x, y, z), Side(i)))
@@ -84,11 +84,11 @@ void BufferManager::onReloadChunkRequest(const vec3Di& position)
 
 bool BufferManager::isValid(const vec3Di& position) const
 {
-	if(position.x < 0 or position.x >= X_CHUNK_COUNT)
+	if(position.x() < 0 or position.x() >= X_CHUNK_COUNT)
 		return false;
-	if(position.y < 0 or position.y >= Y_CHUNK_COUNT)
+	if(position.y() < 0 or position.y() >= Y_CHUNK_COUNT)
 		return false;
-	if(position.z < 0 or position.z >= Z_CHUNK_COUNT)
+	if(position.z() < 0 or position.z() >= Z_CHUNK_COUNT)
 		return false;
 
 	return true;
@@ -104,14 +104,16 @@ void BufferManager::setup()
 
 void BufferManager::clearChunk(const vec3Di& position)
 {
-	for(auto& it : buffer_[position.x][position.y][position.z])
+	for(auto& it : buffer_[position.x()][position.y()][position.z()])
 		it.clear();
 }
 
 void BufferManager::addToMesh(const vec3Di& position, const std::array<ofVec3f, 6>& shift)
 {
-	const vec3Di BUFFER = vec3Di(position.x/CHUNK_SIZE, position.y/CHUNK_SIZE, position.z/CHUNK_SIZE);
-	const ofVec3f MESH_POSITION = ofVec3f(position.x*BlockPrototype::SIZE, position.y*BlockPrototype::SIZE, position.z*BlockPrototype::SIZE);
+	const vec3Di BUFFER = vec3Di(position.x()/CHUNK_SIZE, position.y()/CHUNK_SIZE, position.z()/CHUNK_SIZE);
+	const ofVec3f MESH_POSITION = ofVec3f(position.x()*BlockPrototype::SIZE,
+									      position.y()*BlockPrototype::SIZE,
+										  position.z()*BlockPrototype::SIZE);
 	const BlockType TYPE = source_.getBlock(position).getType();
 
 	ofVboMesh& mesh = getBuffer(BUFFER, TYPE);

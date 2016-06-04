@@ -76,14 +76,6 @@ const GameState::controller_ptr& GameState::getController() const
 	return controller_;
 }
 
-void GameState::dispose()
-{
-	Registrable::unregisterMe();
-	model_.release();
-	view_.release();
-	controller_.release();
-}
-
 GameState::~GameState()
 {
 	Registrable::unregisterMe();

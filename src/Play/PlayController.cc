@@ -7,12 +7,14 @@
 
 #include "PlayController.h"
 #include "Play/PlayModel.h"
-#include "ofAppGLFWWindow.h"
+#include "ofApp.h"
+
 
 PlayController::PlayController(PlayModel& p) :
 	Controller(),
 	model_(p)
 {
+	setCursorOnMiddle();
 }
 
 PlayController::~PlayController()
@@ -25,7 +27,6 @@ void PlayController::registerMe(const do_register_trait&)
 	ofAddListener(ofEvents().mouseMoved, this, &PlayController::onMouseMove);
 	ofAddListener(ofEvents().mousePressed, this, &PlayController::onMousePress);
 	ofAddListener(ofEvents().mouseDragged, this, &PlayController::onMouseMove);
-	//ofAddListener(ofEvents().keyPressed, this, &PlayController::onKeyPressed);
 	ofAddListener(ofEvents().keyReleased, this, &PlayController::onKeyRelease);
 	ofAddListener(ofEvents().mouseScrolled, this, &PlayController::onMouseScroll);
 }
@@ -36,7 +37,6 @@ void PlayController::unregisterMe(const do_register_trait&)
 	ofRemoveListener(ofEvents().mouseMoved, this, &PlayController::onMouseMove);
 	ofRemoveListener(ofEvents().mousePressed, this, &PlayController::onMousePress);
 	ofRemoveListener(ofEvents().mouseDragged, this, &PlayController::onMouseMove);
-	//ofRemoveListener(ofEvents().keyPressed, this, &PlayController::onKeyPressed);
 	ofRemoveListener(ofEvents().keyReleased, this, &PlayController::onKeyRelease);
 	ofRemoveListener(ofEvents().mouseScrolled, this, &PlayController::onMouseScroll);
 }
@@ -56,11 +56,10 @@ void PlayController::onUpdate(ofEventArgs& parameter)
 
 void PlayController::onMouseMove(ofMouseEventArgs& parameter)
 {
-	model_.getPlayer().horizontalRotate((ofGetWindowWidth()/2-parameter.x)*MOUSE_SENSITIVITY);
-	model_.getPlayer().verticalRotate((ofGetWindowHeight()/2-parameter.y)*MOUSE_SENSITIVITY);
+	model_.getPlayer().horizontalRotate((ofApp::WINDOW_X_SIZE/2-parameter.x)*MOUSE_SENSITIVITY);
+	model_.getPlayer().verticalRotate((ofApp::WINDOW_Y_SIZE/2-parameter.y)*MOUSE_SENSITIVITY);
 
-	GLFWwindow* window = static_cast<GLFWwindow*>(ofGetWindowPtr()->getWindowContext());
-	glfwSetCursorPos(window, ofGetWindowWidth()/2 ,ofGetWindowHeight()/2);
+	setCursorOnMiddle();
 }
 
 void PlayController::onMousePress(ofMouseEventArgs& parameter)
@@ -96,29 +95,7 @@ void PlayController::onMouseScroll(ofMouseEventArgs& parameter)
 	else
 		model_.getEquipmentManager().next();
 }
-/*
-void PlayController::onKeyPressed(ofKeyEventArgs& parameter)
-{
-	switch(parameter.key)
-	{
-	case 'w':
-		buttons_pressed_[UP] = true;
-		break;
-	case 's':
-		buttons_pressed_[DOWN] = true;
-		break;
-	case 'a':
-		buttons_pressed_[LEFT] = true;
-		break;
-	case 'd':
-		buttons_pressed_[RIGHT] = true;
-		break;
-	case OF_KEY_ESC:
-		Registrable::notify(model_.getEvent(), GameStateEventType::PAUSE);
-		break;
-	}
-}
-*/
+
 void PlayController::onKeyRelease(ofKeyEventArgs& parameter)
 {
 	if(parameter.key == OF_KEY_ESC)
