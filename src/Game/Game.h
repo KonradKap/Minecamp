@@ -34,7 +34,6 @@ private:
 
 	void onGameStateEvent(const GameStateEventType& type);
 	void onPauseBreakEvent(GameState previous);
-
 	void onQuit() const;
 
 	GameState getMenu() const;

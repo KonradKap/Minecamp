@@ -24,32 +24,24 @@ public:
 	Button(const Button& b);
 	~Button();
 
-	//Button& operator=(Button source);
-
 	void setPosition(const ofVec2f& new_position);
 	const ofVec2f& getPosition() const;
 
 	void setTitle(const std::string& new_title);
 	const std::string& getTitle() const;
 
-	//void bindModel(const ButtonPrototype* const base);
 	const ButtonPrototype& getPrototype() const;
-
 	ButtonPrototype::ButtonState getState() const;
 	ofEvent<const Button&>& getEvent();
 
 	bool contains(const ofVec2f& point);
 
-	//friend void swap(Button& first, Button& second);
-private:
-	void setup();
-
-	void registerMe(const do_register_trait&);
-	void unregisterMe(const do_register_trait&);
-
 	void onMouseMove(ofMouseEventArgs& parameter);
 	void onMousePress(ofMouseEventArgs& parameter);
 	void onMouseRelease(ofMouseEventArgs& parameter);
+private:
+	void registerMe(const do_register_trait&);
+	void unregisterMe(const do_register_trait&);
 
 	ofEvent<const Button&> pressed_;
 

@@ -11,7 +11,7 @@ PlayModel::PlayModel(int save_state) :
 	Model(),
 	world_manager_(),
 	buffer_manager_(world_manager_),
-	save_file_manager_(save_state, world_manager_),
+	save_file_manager_(save_state, *this),
 	equipment_manager_(),
 	player_()
 {
@@ -53,7 +53,7 @@ void PlayModel::onUpdate(ofEventArgs&)
 
 Player& PlayModel::getPlayer()
 {
-	return player_;
+	return const_cast<Player&>(static_cast<const PlayModel*>(this)->getPlayer());
 }
 
 const Player& PlayModel::getPlayer() const
@@ -68,7 +68,7 @@ const WorldManager& PlayModel::getWorldManager() const
 
 WorldManager& PlayModel::getWorldManager()
 {
-	return world_manager_;
+	return const_cast<WorldManager&>(static_cast<const PlayModel*>(this)->getWorldManager());
 }
 
 const BufferManager& PlayModel::getBufferManager() const
@@ -78,7 +78,7 @@ const BufferManager& PlayModel::getBufferManager() const
 
 EquipmentManager& PlayModel::getEquipmentManager()
 {
-	return equipment_manager_;
+	return const_cast<EquipmentManager&>(static_cast<const PlayModel*>(this)->getEquipmentManager());
 }
 
 const EquipmentManager& PlayModel::getEquipmentManager() const
@@ -123,7 +123,11 @@ vec3Dd PlayModel::collide(vec3Dd position)
 {
 
 	vec3Di normalize = vec3Di(position);
-	double pad = 0.25;
+	const double pad = 0.25* BlockPrototype::SIZE;
+	for (int i =0 ; i<3;++i)
+	{
+		normalize[i]-=normalize[i]%16;
+	}
 
 
 
@@ -133,24 +137,45 @@ vec3Dd PlayModel::collide(vec3Dd position)
 		vec3Dd face = vec3Dd(vec3Di::make_unit_vector(Side(i)));
 		double d=0;
 
+		cout << position.x()<<" "<< position.y() <<" "<< position.z()<< endl;
 		for(int j=0;j<3;j++)
 		{
-			if (!face[j]) continue;
-			d = (position[j]-normalize[j])*face[j];
+			if (face[j]==0)
+			{
+				continue;
+			}
+			cout <<endl;
 
-			if (d<pad) continue;
+			cout << position[j] << " "<< normalize[j]<< endl;
+			cout <<endl;
+			d = (position[j]-normalize[j])*face[j];
+			d*=1;
+
+
+			if (d<pad)
+			{
+				cout<< d << " "<< pad << endl;
+				cout << "if 2"<< endl;
+				continue;
+
+			}
 			vec3Di op = normalize;
 
 			for(int dy= 0 ; dy <=player_.getHeight()/16; ++dy)
 			{
-				op[1] -= dy;
+				op[1] += dy;
 				op[j] += face[j];
-				cout << op.x<< op.y << op.z<< endl;
+
+				cout << op.x()<<" "<< op.y() <<" "<< op.z()<< endl;
 				cout << "befor colision"<< endl;
 				//if((!world_manager_.isWithin(op))) continue;
-				if (!world_manager_.getBlock(op).isSolid() and (!world_manager_.isWithin(op))) continue;
+				//if (!world_manager_.getBlock(op).isSolid() and (!world_manager_.isWithin(op))) continue;
 
-				position[j] -= (d - pad) * face[j];
+				//if (world_manager_.isWithin(op/BlockPrototype::SIZE)) continue;
+				if (!world_manager_.getBlock(op/BlockPrototype::SIZE).isSolid() and world_manager_.isWithin(op/BlockPrototype::SIZE)) continue;
+
+
+				position[j] -= (d -pad) * face[j];
 				cout<< "colision"<<endl;
 				if (Side(i) == Side::BOTTOM or Side(i) == Side::TOP) player_.setYVelocity(0);
 
@@ -159,6 +184,9 @@ vec3Dd PlayModel::collide(vec3Dd position)
 		}
 	}
 	//cout << position.x<< position.y << position.z<< endl;
+	cout<< "return position"<<endl;
+	cout << position.x()<<" "<< position.y()<<" " << position.z()<<" "<< endl;
+
 	return position;
 }
 

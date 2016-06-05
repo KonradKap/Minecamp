@@ -9,11 +9,13 @@
 #define SRC_GAME_CONTROLLER_H_
 
 #include "Utill/Registrable.h"
+#include "ofConstants.h"
 
 class Controller : public Registrable
 {
 public:
-	virtual ~Controller() {}
+	static void setCursorOnMiddle();
+	virtual ~Controller();
 };
 
 

@@ -1,5 +1,5 @@
 /*
- * Trio.hpp
+ * vec3D.hpp
  *
  *  Created on: 25 mar 2016
  *      Author: konrad
@@ -10,33 +10,33 @@
 
 template<class T>
 	vec3D<T>::vec3D() :
-		x(), y(), z()
+		data_()
 		{
 		}
 
 template<class T>
 	vec3D<T>::vec3D(const vec3D<T>& t) :
-		x(t.x), y(t.y), z(t.z)
+		data_(t.data_)
 		{
 		}
 
 template<class T>
 	template<class W>
 			vec3D<T>::vec3D(const vec3D<W>& t) :
-				x(t.x), y(t.y), z(t.z)
+				data_({T(t.x()), T(t.y()), T(t.z())})
 				{
 				}
 
 template<class T>
 	vec3D<T>::vec3D(const ofVec3f& vec) :
-		x(vec.x), y(vec.y), z(vec.z)
+		data_({T(vec.x), T(vec.y), T(vec.z)})
 		{
 		}
 
 
 template<class T>
 	vec3D<T>::vec3D(T x, T y, T z) :
-		x(x), y(y), z(z)
+		data_({x, y, z})
 		{
 		}
 
@@ -48,60 +48,51 @@ template<class T>
 template<class T>
 	vec3D<T>::operator ofVec3f() const
 	{
-		return ofVec3f(x, y, z);
+		return ofVec3f(x(), y(), z());
 	}
 
 template<class T>
 	void swap(vec3D<T>& t1, vec3D<T>& t2)
 	{
-		std::swap(t1.x, t2.x);
-		std::swap(t1.y, t2.y);
-		std::swap(t1.z, t2.z);
+		std::swap(t1.data_, t2.data_);
 	}
 
 
 template<class T>
-	vec3D<T>& vec3D<T>::operator=(const vec3D<T>& arg)
+	vec3D<T>& vec3D<T>::operator=(vec3D<T> arg)
 	{
-		x = arg.x;
-		y = arg.y;
-		z = arg.z;
+		swap(*this, arg);
 		return *this;
 	}
-
 
 template<class T>
 	vec3D<T>& vec3D<T>::operator=(const ofVec3f& arg)
 	{
-		x = arg.x;
-		y = arg.y;
-		z = arg.z;
+		for(int i = 0; i < DIMENSION; ++i)
+			data_[i] += arg[i];
 		return *this;
 	}
 
 template<class T>
 	vec3D<T>& vec3D<T>::operator+=(const vec3D<T>& arg)
 	{
-		x += arg.x;
-		y += arg.y;
-		z += arg.z;
+		for(int i = 0; i < DIMENSION; ++i)
+			data_[i] += arg[i];
 		return *this;
 	}
 template<class T>
 	vec3D<T>& vec3D<T>::operator-=(const vec3D<T>& arg)
 	{
-		x -= arg.x;
-		y -= arg.y;
-		z -= arg.z;
+		for(int i = 0; i < DIMENSION; ++i)
+			data_[i] -= arg[i];
 		return *this;
 	}
 template <class T>
 	template<class W>
 		vec3D<T>& vec3D<T>::operator*=(const W scalar)
 		{
-			x *= scalar;
-			y *= scalar;
-			z *= scalar;
+			for(auto& it : data_)
+				it *= scalar;
 			return *this;
 		}
 
@@ -109,27 +100,59 @@ template <class T>
 	template<class W>
 		vec3D<T>& vec3D<T>::operator/=(const W scalar)
 		{
-			x /= scalar;
-			y /= scalar;
-			z /= scalar;
+			for(auto& it : data_)
+				it /= scalar;
 			return *this;
 		}
+
+template <class T>
+	T& vec3D<T>::x()
+	{
+		return const_cast<T&>(static_cast<const vec3D<T>*>(this)->x());
+	}
+
+template <class T>
+	const T& vec3D<T>::x() const
+	{
+		return data_[0];
+	}
+
+template <class T>
+	T& vec3D<T>::y()
+	{
+		return const_cast<T&>(static_cast<const vec3D<T>*>(this)->y());
+	}
+
+template <class T>
+	const T& vec3D<T>::y() const
+	{
+		return data_[1];
+	}
+
+template <class T>
+	T& vec3D<T>::z()
+	{
+		return const_cast<T&>(static_cast<const vec3D<T>*>(this)->z());
+	}
+
+template <class T>
+	const T& vec3D<T>::z() const
+	{
+		return data_[2];
+	}
 
 template<class T>
 T& vec3D<T>::operator[]( const int idx)
 {
-	switch (idx)
-	{
-	case 0:
-			return x;
-	case 1:
-			return y;
-	case 2:
-			return z;
-	default:
-		throw std::invalid_argument("Undefined index");
-	}
+	return const_cast<T&>(static_cast<const vec3D<T>*>(this)->operator[](idx));
 }
+
+template<class T>
+const T& vec3D<T>::operator[]( const int idx) const
+{
+	return data_[idx];
+}
+
 template<class T>
 	vec3D<int> vec3D<T>::make_unit_vector(Side side)
 	{
@@ -155,9 +178,10 @@ template<class T>
 template<class T>
 	inline bool operator==(const vec3D<T>& lhs, const vec3D<T>& rhs)
 	{
-		return lhs.x == rhs.x and
-			   lhs.y == rhs.y and
-			   lhs.z == rhs.z;
+		for(int i = 0; i < vec3D<T>::DIMENSION; ++i)
+			if(lhs[i] != rhs[i])
+				return false;
+		return true;
 	}
 
 template<class T>

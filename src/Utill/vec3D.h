@@ -1,5 +1,5 @@
 /*
- * Trio.h
+ * vec3D.h
  *
  *  Created on: 25 mar 2016
  *      Author: konrad
@@ -7,6 +7,8 @@
 
 #ifndef SRC_VEC3D_H_
 #define SRC_VEC3D_H_
+
+#include <array>
 
 #include "ofVec3f.h"
 
@@ -16,9 +18,7 @@
 template<class T>
 	struct vec3D
 	{
-		T x;
-		T y;
-		T z;
+		static const int DIMENSION = 3;
 
 		vec3D();
 		vec3D(const vec3D& t);
@@ -29,22 +29,37 @@ template<class T>
 		~vec3D();
 
 		explicit operator ofVec3f() const;
-/*
-		template<class W>
-			void swap(trio<W>& t1, trio<W>& t2);
-*/
-		vec3D& operator=(const vec3D& arg);
+
+		T& x();
+		const T& x() const;
+
+		T& y();
+		const T& y() const;
+
+		T& z();
+		const T& z() const;
+
+		T& operator[](const int idx);
+		const T& operator[](const int idx) const;
+
+		vec3D& operator=(vec3D arg);
 		vec3D& operator=(const ofVec3f& arg);
 		vec3D& operator+=(const vec3D& arg);
 		vec3D& operator-=(const vec3D& arg);
-		T& operator[]( const int idx);
+
 
 		template<class W>
 			vec3D& operator*=(const W scalar);
 		template<class W>
 			vec3D& operator/=(const W scalar);
 
+		template<class W>
+			friend void swap(vec3D<W>& lhs, vec3D<W>& rhs);
+
 		static vec3D<int> make_unit_vector(Side side);
+
+	private:
+		std::array<T, DIMENSION> data_;
 	};
 
 typedef vec3D<int> vec3Di;

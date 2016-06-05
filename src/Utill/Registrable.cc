@@ -27,11 +27,8 @@ void Registrable::registerMe()
 
 void Registrable::unregisterMe()
 {
-//	if(registered_)
-//	{
-		registered_ = false;
-		unregisterMe(Registrable::answer());
-//	}
+	registered_ = false;
+	unregisterMe(Registrable::answer());
 }
 
 void Registrable::registerMe(const do_not_register_trait&)

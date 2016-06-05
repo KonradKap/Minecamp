@@ -15,14 +15,9 @@ PauseModel::PauseModel(/*GameState previousState*/) :
 			  Button(ofVec2f(), "", prototype_),
 			  Button(ofVec2f(), "", prototype_)}),
 	background_()
-	//previousState_(std::move(previousState)),
-	//pauseBreakEvent_()
 {
-	//Registrable::unregisterMe();
 	setupPaths();
 	setupButtons();
-	//
-	//Registrable::registerMe();
 }
 
 PauseModel::~PauseModel()
@@ -31,17 +26,12 @@ PauseModel::~PauseModel()
 
 void PauseModel::registerMe(const do_register_trait&)
 {
-	//std::cout << "reg" << std::endl;
-	//ofShowCursor();
-	//previousState_.Registrable::unregisterMe();
 	for(auto& button : buttons_)
 		ofAddListener(button.getEvent(), this, &PauseModel::onButtonPress);
 }
 
 void PauseModel::unregisterMe(const do_register_trait&)
 {
-	//std::cout << "unreg" << std::endl;
-	//previousState_.Registrable::registerMe();
 	for(auto& button : buttons_)
 		ofRemoveListener(button.getEvent(), this, &PauseModel::onButtonPress);
 }
@@ -76,14 +66,11 @@ const ofImage& PauseModel::getBackground() const
 
 void PauseModel::onButtonPress(const Button& b)
 {
-	//std::cout << "button press" << std::endl;
 	const int CHOSEN_OPTION = std::distance(
 			buttons_.begin(), std::find_if(
 					buttons_.begin(), buttons_.end(), [&b](const Button& looked){
 						return b.getPosition() == looked.getPosition();
 	}));
-
-	//std::cout << CHOSEN_OPTION << std::endl;
 
 	Registrable::notify(Model::getEvent(), GameStateEventType::POP);
 
@@ -95,9 +82,3 @@ void PauseModel::onButtonPress(const Button& b)
 		Registrable::notify(Model::getEvent(), GameStateEventType::SWITCH_TO_MENU);
 
 }
-/*
-ofEvent<GameState>& PauseModel::getPauseBreakEvent()
-{
-	return pauseBreakEvent_;
-}
-*/

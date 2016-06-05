@@ -34,7 +34,6 @@ public:
 	const model_ptr& getModel() const;
 	const controller_ptr& getController() const;
 
-	void dispose();
 	~GameState();
 
 private:

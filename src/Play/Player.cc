@@ -37,27 +37,27 @@ double Player::getTop() const
 
 double Player::getBottom() const
 {
-	return position_.y;
+	return position_.y();
 }
 
 double Player::getLeft() const
 {
-	return position_.x + WIDTH;
+	return position_.x() + WIDTH;
 }
 
 double Player::getRight() const
 {
-	return position_.x - WIDTH;
+	return position_.x() - WIDTH;
 }
 
 double Player::getFront() const
 {
-	return position_.z + WIDTH;
+	return position_.z() + WIDTH;
 }
 
 double Player::getBack() const
 {
-	return position_.z - WIDTH;
+	return position_.z() - WIDTH;
 }
 
 int Player::getHeight() const
