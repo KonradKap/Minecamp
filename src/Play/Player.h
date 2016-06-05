@@ -50,7 +50,7 @@ public:
 	constexpr static const double WIDTH  = 0.25;
 	constexpr static const double EYE_HEIGHT = 1.75;
 	static const int VELOCITY = 16;
-	static const int RANGE = 64;
+	static const int RANGE = 8;
 	static const int GRAVITY = 10;
 private:
 

@@ -26,7 +26,7 @@ PlayModel::~PlayModel()
 
 void PlayModel::registerMe(const do_register_trait&)
 {
-	ofAddListener(Game::getSaveRequestEvent(), this, &PlayModel::onSave, OF_EVENT_ORDER_BEFORE_APP);
+	ofAddListener(Game::getSaveRequestEvent(), this, &PlayModel::onSave/*, OF_EVENT_ORDER_BEFORE_APP*/);
 	ofAddListener(ofEvents().update, this, &PlayModel::onUpdate);
 	world_manager_.Registrable::registerMe();
 	buffer_manager_.Registrable::registerMe();
@@ -35,7 +35,7 @@ void PlayModel::registerMe(const do_register_trait&)
 
 void PlayModel::unregisterMe(const do_register_trait&)
 {
-	ofRemoveListener(Game::getSaveRequestEvent(), this, &PlayModel::onSave, OF_EVENT_ORDER_BEFORE_APP);
+	ofRemoveListener(Game::getSaveRequestEvent(), this, &PlayModel::onSave/*, OF_EVENT_ORDER_BEFORE_APP*/);
 	ofRemoveListener(ofEvents().update, this, &PlayModel::onUpdate);
 	world_manager_.Registrable::unregisterMe();
 	buffer_manager_.Registrable::unregisterMe();
@@ -94,7 +94,7 @@ void PlayModel::load()
 
 std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const
 {
-	const int RESOLUTION = 8;
+	const int RESOLUTION = 64;
 	vec3Dd ray_walker = player_.getEyePosition();
 	vec3Dd step = player_.getDirectionVector()/RESOLUTION;
 
@@ -138,7 +138,7 @@ vec3Dd PlayModel::collide(vec3Dd position)
 			if (d<pad) continue;
 			vec3Di op = normalize;
 
-			for(int dy= 0 ; dy <=player_.getHeight()/16; ++dy)
+			for(int dy= 0 ; dy <=player_.getHeight(); ++dy)
 			{
 				op[1] -= dy;
 				op[j] += face[j];

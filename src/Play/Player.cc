@@ -135,7 +135,7 @@ void Player::setYVelocity(const double yVelocity)
 }
 void Player::onUpdate(ofEventArgs& args)
 {
-	std::cout << "(" << position_.x() << ", " << position_.y() << ", " << position_.z() << ")" << std::endl;
+	//std::cout << "(" << position_.x() << ", " << position_.y() << ", " << position_.z() << ")" << std::endl;
 	if(steer_ == vec3Di(0, 0, 0))
 			return;
 	//double time = ofGetLastFrameTime();
