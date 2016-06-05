@@ -31,6 +31,8 @@ public:
 	void registerMe();
 	void unregisterMe();
 
+	template<class Event>
+		static void notify(Event& event);
 	template<class Event, typename Args>
 		static void notify(Event& event, Args& args);
 	template<class Event, typename Args>
@@ -39,6 +41,8 @@ private:
 	virtual void registerMe(const do_register_trait&) = 0;
 	virtual void unregisterMe(const do_register_trait&) = 0;
 
+	template<class Event>
+		static void notify(const do_register_trait&, Event& event);
 	template<class Event, typename Args>
 		static void notify(const do_register_trait&, Event& event, Args& args);
 	template<class Event, typename Args>
@@ -46,6 +50,9 @@ private:
 
 	void registerMe(const do_not_register_trait&);
 	void unregisterMe(const do_not_register_trait&);
+
+	template<class Event>
+		static void notify(const do_not_register_trait&, Event& event);
 	template<class Event, typename Args>
 		static void notify(const do_not_register_trait&, Event& event, Args& args);
 	template<class Event, typename Args>

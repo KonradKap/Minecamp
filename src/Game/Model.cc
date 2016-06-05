@@ -16,7 +16,6 @@ Model::Model() :
 
 Model::~Model()
 {
-
 }
 
 ofEvent<const GameStateEventType&>& Model::getEvent()

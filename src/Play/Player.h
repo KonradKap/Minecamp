@@ -46,17 +46,12 @@ public:
 	float getHorizontalAngle() const;
 	float getVerticalAngle() const;
 
-
-
-	static const int HEIGHT = 30;
-	static const int WIDTH  = 5;
-	static const int EYE_HEIGHT = 28;
-	static const int VELOCITY = 100;
+	constexpr static const double HEIGHT = 1.9;
+	constexpr static const double WIDTH  = 0.25;
+	constexpr static const double EYE_HEIGHT = 1.75;
+	static const int VELOCITY = 16;
 	static const int RANGE = 64;
 	static const int GRAVITY = 10;
-
-
-
 private:
 
 	void onUpdate(ofEventArgs& args);

@@ -24,18 +24,21 @@ public:
 	Game();
 
 	~Game();
-private:
 
+	static ofEvent<void>& getSaveRequestEvent();
+private:
 	void registerMe(const do_register_trait&);
 	void unregisterMe(const do_register_trait&);
 
 	void onGameStateEvent(const GameStateEventType& type);
 	void onQuit() const;
 
-	GameState getMenu(MenuModel::MenuState state) const;
-	GameState getPlay(int save) const;
+	GameState createMenu(MenuModel::MenuState state) const;
+	GameState createPlay(int save) const;
 
-	std::stack<GameState> stateStack_;
+	std::deque<GameState> states_;
+
+	static ofEvent<void> saveRequest_;
 };
 
 

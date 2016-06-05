@@ -26,6 +26,7 @@ PlayModel::~PlayModel()
 
 void PlayModel::registerMe(const do_register_trait&)
 {
+	ofAddListener(Game::getSaveRequestEvent(), this, &PlayModel::onSave, OF_EVENT_ORDER_BEFORE_APP);
 	ofAddListener(ofEvents().update, this, &PlayModel::onUpdate);
 	world_manager_.Registrable::registerMe();
 	buffer_manager_.Registrable::registerMe();
@@ -34,6 +35,7 @@ void PlayModel::registerMe(const do_register_trait&)
 
 void PlayModel::unregisterMe(const do_register_trait&)
 {
+	ofRemoveListener(Game::getSaveRequestEvent(), this, &PlayModel::onSave, OF_EVENT_ORDER_BEFORE_APP);
 	ofRemoveListener(ofEvents().update, this, &PlayModel::onUpdate);
 	world_manager_.Registrable::unregisterMe();
 	buffer_manager_.Registrable::unregisterMe();
@@ -42,12 +44,7 @@ void PlayModel::unregisterMe(const do_register_trait&)
 
 void PlayModel::onUpdate(ofEventArgs&)
 {
-
 	player_.setPosition(collide(player_.getPosition()));
-
-
-
-
 }
 
 Player& PlayModel::getPlayer()
@@ -85,7 +82,7 @@ const EquipmentManager& PlayModel::getEquipmentManager() const
 	return equipment_manager_;
 }
 
-void PlayModel::save() const
+void PlayModel::onSave()
 {
 	save_file_manager_.save();
 }
@@ -101,16 +98,17 @@ std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const
 	vec3Dd ray_walker = player_.getEyePosition();
 	vec3Dd step = player_.getDirectionVector()/RESOLUTION;
 
-	vec3Di previous;
+	vec3Di previous = vec3Di(ray_walker)/*/BlockPrototype::SIZE*/;
 
 	for(int i = 0; i < RESOLUTION*Player::RANGE; ++i)
 	{
-		vec3Di current = vec3Di(ray_walker)/BlockPrototype::SIZE;
+		vec3Di current = vec3Di(ray_walker)/*/BlockPrototype::SIZE*/;
 		if(!world_manager_.isWithin(current))
 			break;
 
 		if (current != previous and world_manager_.getBlock(current).isSolid())
-				return std::make_pair(current, previous);
+			return std::make_pair(current, previous);
+
 		previous = current;
 		ray_walker += step;
 	}

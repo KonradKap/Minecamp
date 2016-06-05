@@ -212,19 +212,20 @@ void MenuModel::onLevelDeletion(const Button& pressed)
 
 void MenuModel::onSaveAndQuitPressed()
 {
-	Registrable::notify(Model::getEvent(), GameStateEventType::POP);
-	Registrable::notify(Model::getEvent(), GameStateEventType::SAVE);
-	Registrable::notify(Model::getEvent(), GameStateEventType::SWITCH_TO_MENU);
+	//Registrable::notify(Model::getEvent(), GameStateEventType::SAVE);
+
+	Registrable::notify(Model::getEvent(), GameStateEventType::RESET_OTHERS);
+	switchState(MenuState::MAIN);
 }
 
 void MenuModel::onNoSaveAndQuitPressed()
 {
-	Registrable::notify(Model::getEvent(), GameStateEventType::POP);
-	Registrable::notify(Model::getEvent(), GameStateEventType::SWITCH_TO_MENU);
+	Registrable::notify(Model::getEvent(), GameStateEventType::RESET_OTHERS);
+	switchState(MenuState::MAIN);
 }
 
 void MenuModel::onResumePressed()
 {
-	Registrable::notify(Model::getEvent(), GameStateEventType::POP);
+	Registrable::notify(Model::getEvent(), GameStateEventType::PAUSE_BREAK);
 }
 
