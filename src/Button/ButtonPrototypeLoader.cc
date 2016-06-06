@@ -7,8 +7,7 @@
 
 #include "Button/ButtonPrototypeLoader.h"
 
-//const std::array<const std::string, ButtonPrototype::ButtonState::COUNT> ButtonPrototypeLoader::NAMES =
-//{"pressed", "inactive", "active"};
+
 
 ButtonPrototypeLoader& ButtonPrototypeLoader::getInstance()
 {

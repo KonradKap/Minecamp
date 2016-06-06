@@ -35,7 +35,8 @@ public:
 	void setPosition(const vec3Dd& position);
 	vec3Dd getPosition() const;
 
-	vec3Dd getDirectionVector(ofVec3f base = ofVec3f(0, 0, 1)) const;
+	vec3Dd getDirectionVector() const;
+	vec3Dd getMovingDirectionVector() const;
 	void setSteer(const vec3Di& steering);
 	vec3Di getSteer() const;
 	void setYVelocity(const double yVelocity);
@@ -46,9 +47,11 @@ public:
 
 	float getHorizontalAngle() const;
 	float getVerticalAngle() const;
+	void setGround(bool state);
 
 
 	void moveUpdate();
+	void jumpPlayer();
 
 
 	constexpr static const double HEIGHT = 1.9;
@@ -57,7 +60,9 @@ public:
 	static const int VELOCITY = 6;
 	static const int TVELOCITY=20;
 	static const int RANGE = 8;
-	static const int GRAVITY = 10;
+	static const int GRAVITY = 15;
+	static const int JUMPSPEED=5;
+
 private:
 
 	void onUpdate(ofEventArgs& args);
@@ -77,6 +82,7 @@ private:
 	float horizontal_angle_;
 	float vertical_angle_;
 	double y_velocity_= 0;
+	bool on_the_ground_;
 };
 
 

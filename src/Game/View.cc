@@ -10,12 +10,12 @@
 View::View() :
 	Registrable()
 {
-	//Registrable::registerMe();
+
 }
 
 View::~View()
 {
-	//Registrable::unregisterMe();
+
 }
 
 void View::registerMe(const do_register_trait&)

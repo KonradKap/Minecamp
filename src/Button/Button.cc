@@ -6,7 +6,7 @@
  */
 
 #include <Button/Button.h>
-//#include "Utill/Registrable.h"
+
 
 Button::Button(const ofVec2f& position, const std::string& title, const ButtonPrototype& base) :
 	Registrable(),
@@ -32,13 +32,7 @@ Button::~Button()
 {
 	Registrable::unregisterMe();
 }
-/*
-Button& Button::operator=(Button source)
-{
-	swap(*this, source);
-	return *this;
-}
-*/
+
 void Button::registerMe(const do_register_trait&)
 {
 	ofAddListener(ofEvents().mouseMoved, this, &Button::onMouseMove);
@@ -125,13 +119,5 @@ bool Button::contains(const ofVec2f& point)
 		return false;
 	return true;
 }
-/*
-void swap(Button& first, Button& second)
-{
-	std::swap(first.position_, second.position_);
-	std::swap(first.state_, second.state_);
-	std::swap(first.title_, second.title_);
-	//std::swap(first.base_, second.base_);
-}
-*/
+
 

@@ -19,7 +19,6 @@
 class Button : public Registrable
 {
 public:
-	//Button();
 	Button(const ofVec2f& position, const std::string& title, const ButtonPrototype& base);
 	Button(const Button& b);
 	~Button();

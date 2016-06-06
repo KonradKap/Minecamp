@@ -29,6 +29,8 @@ void PlayController::registerMe(const do_register_trait&)
 	ofAddListener(ofEvents().mouseDragged, this, &PlayController::onMouseMove);
 	ofAddListener(ofEvents().keyReleased, this, &PlayController::onKeyRelease);
 	ofAddListener(ofEvents().mouseScrolled, this, &PlayController::onMouseScroll);
+	ofAddListener(ofEvents().keyPressed, this, &PlayController::onKeyPress);
+
 }
 
 void PlayController::unregisterMe(const do_register_trait&)
@@ -39,12 +41,14 @@ void PlayController::unregisterMe(const do_register_trait&)
 	ofRemoveListener(ofEvents().mouseDragged, this, &PlayController::onMouseMove);
 	ofRemoveListener(ofEvents().keyReleased, this, &PlayController::onKeyRelease);
 	ofRemoveListener(ofEvents().mouseScrolled, this, &PlayController::onMouseScroll);
+	ofRemoveListener(ofEvents().keyPressed, this, &PlayController::onKeyPress);
 }
 
 void PlayController::onUpdate(ofEventArgs& parameter)
 {
 	std::array<bool, TrackedButtons::COUNT> buttons_pressed =
-	{ofGetKeyPressed('w'), ofGetKeyPressed('s'), ofGetKeyPressed('a'), ofGetKeyPressed('d')};
+	{ofGetKeyPressed('w') or ofGetKeyPressed('W') , ofGetKeyPressed('s') or ofGetKeyPressed('S'),
+			ofGetKeyPressed('a') or ofGetKeyPressed('A'), ofGetKeyPressed('d') or ofGetKeyPressed('D')};
 
 	vec3Di direction;
 	for(unsigned i = 0; i < buttons_pressed.size(); ++i)
@@ -100,7 +104,13 @@ void PlayController::onKeyRelease(ofKeyEventArgs& parameter)
 {
 	if(parameter.key == OF_KEY_ESC)
 		Registrable::notify(model_.getEvent(), GameStateEventType::PAUSE);
+
 }
 
 
+void PlayController::onKeyPress(ofKeyEventArgs& parameter)
+{
+	if(parameter.key == 'e' or parameter.key == 'E' )
+			model_.getPlayer().jumpPlayer();
+}
 

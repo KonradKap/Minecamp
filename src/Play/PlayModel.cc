@@ -21,7 +21,6 @@ PlayModel::PlayModel(int save_state) :
 
 PlayModel::~PlayModel()
 {
-	//save_file_manager_.save();
 }
 
 void PlayModel::registerMe(const do_register_trait&)
@@ -44,9 +43,8 @@ void PlayModel::unregisterMe(const do_register_trait&)
 
 void PlayModel::onUpdate(ofEventArgs&)
 {
-
 	player_.moveUpdate();
-	player_.setPosition(collide(player_.getPosition()));
+	collide();
 }
 
 Player& PlayModel::getPlayer()
@@ -118,8 +116,10 @@ std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const
 }
 
 
-vec3Dd PlayModel::collide(vec3Dd position)
+void PlayModel::collide()
 {
+	vec3Dd position=player_.getPosition();
+
 	vec3Dd blockPosition = vec3Dd(vec3Di(position))+vec3Dd(0.5, 0.5, 0.5);
 	const double width = player_.getWidth();
 
@@ -155,14 +155,17 @@ vec3Dd PlayModel::collide(vec3Dd position)
 				position[j] -= (overlaping -width) * chekedDirection[j];
 
 				if (Side(i) == Side::BOTTOM or Side(i) == Side::TOP)
+				{
 					player_.setYVelocity(0);
+					player_.setGround(true);
+				}
 
 				break;
 			}
 		}
 	}
 
-	return position;
+	player_.setPosition(position);
 }
 
 

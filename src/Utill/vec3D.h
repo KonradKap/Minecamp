@@ -14,7 +14,7 @@
 
 #include "Utill/Side.h"
 
-//OF sucks with its ofVec3f class
+
 template<class T>
 	struct vec3D
 	{

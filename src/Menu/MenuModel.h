@@ -21,7 +21,6 @@
 
 class MenuView;
 
-//TODO: Delete save buttons
 class MenuModel : public Model
 {
 public:

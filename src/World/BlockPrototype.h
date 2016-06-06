@@ -45,11 +45,6 @@ private:
 	ofImage image_;
 	bool transparency_;
 };
-/*
-bool operator< (const BlockModel& arg1, const BlockModel& arg2)
-{
-	return false;
-}
-*/
+
 
 #endif /* SRC_GAME_WORLD_BLOCKMODEL_H_ */

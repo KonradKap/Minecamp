@@ -87,10 +87,20 @@ void Player::setPosition(const vec3Dd& position)
 	position_ = position;
 }
 
-vec3Dd Player::getDirectionVector(ofVec3f base) const
+void Player::setGround(bool state)
 {
-	return vec3Dd(base.rotate(getVerticalAngle() , -View::xAxis())
+	on_the_ground_=state;
+}
+
+vec3Dd Player::getDirectionVector() const
+{
+	return vec3Dd( ofVec3f(0, 0, 1).rotate(getVerticalAngle() , -View::xAxis())
 			 	 	  .rotate(getHorizontalAngle(), View::yAxis()));
+}
+
+vec3Dd Player::getMovingDirectionVector() const
+{
+	return vec3Dd(ofVec3f(steer_).rotate(getHorizontalAngle(), View::yAxis()));
 }
 
 void Player::setSteer(const vec3Di& steering)
@@ -142,101 +152,38 @@ void Player::setYVelocity(const double yVelocity)
 }
 void Player::onUpdate(ofEventArgs& args)
 {
-	//std::cout << "(" << position_.x() << ", " << position_.y() << ", " << position_.z() << ")" << std::endl;
 	if(steer_ == vec3Di(0, 0, 0))
 			return;
-	//double time = ofGetLastFrameTime();
-
-/*
-	vec3Dd distance = direction_*time*VELOCITY;
-	distance.x *= steer_.x;
-	distance.y *= steer_.y;
-	distance.z *= steer_.z;
-*/
-
-	//ofVec3f direction = ofVec3f(steer_);
-	//direction.rotate(getVerticalAngle() , -View::xAxis())
-	//		 .rotate(getHorizontalAngle(), View::yAxis());
-	//vec3Dd distance = vec3Dd(getDirectionVector(ofVec3f(steer_))*time*VELOCITY);
-	//position_ += moveUpdate();
-	//position_ += distance;
 }
 
 
 
 void Player::moveUpdate()
-
-//TODO: Znormalizować steer_, tak, zeby poruszanie na skos ('w' i 'a', dla przykladu)
-//		bylo tak samo szybkie jak poruszanie sie prosto
-//		dla wcisnietych 'w' i 'a' dlugosc steer_ ~= 1.41, natomiast dla samego w == 1
-
-
-
-
 {
 			double dtime = ofGetLastFrameTime();
 	        double distance = dtime * VELOCITY;
-	        vec3Dd direction = getDirectionVector(ofVec3f(steer_));
 
+	        vec3Dd direction = getMovingDirectionVector();
 
 	        direction*= distance;
 
-
 	        y_velocity_ -= dtime * GRAVITY;
-
 	        y_velocity_ = (y_velocity_<-TVELOCITY) ?  -TVELOCITY : y_velocity_;
 	        direction.y()+=y_velocity_*dtime;
 	        position_+= direction ;
 
-
-	        //return direction;
-
-
-
-
 }
 
-/*vec3Dd Player::collide(vec3Dd position){
-
-	vec3Dd normalize = position;
-	double pad = 0.25;
-
-
-
-
-
-	for( int enumI= Side::FRONT; enumI!=Side::COUNT;++enumI)
+void Player::jumpPlayer()
+{
+	if(on_the_ground_)
 	{
-		vec3Dd face = vec3Dd::make_unit_vector(static_cast<Side>(enumI));
-		double d=0;
-
-		for(int j=0;j<3;j++)
-		{
-			if (!face[j]) continue;
-			d = (position[j]- (int)normalize[j])*face[j];
-
-			if (d<pad) continue;
-			vec3Dd op = normalize;
-
-			for(int dy= 0 ; dy <=HEIGHT/16; ++dy)
-			{
-				op[1] -= dy;
-				op[j] += face[j];
-				if (PlayModel::getWorldManager()getBlock(op).isSolid()) continue;
-
-				position[j] -= (d - pad) * face[j];
-				if (enumI == Side::BOTTOM or enumI == Side::TOP)
-				{
-				 yVelocity=0;
-
-				}
-				break;
-			}
-		}
-	return position;
-
+		setYVelocity(JUMPSPEED);
+		on_the_ground_=false;
 	}
-}*/
+}
+
+
 
 
 

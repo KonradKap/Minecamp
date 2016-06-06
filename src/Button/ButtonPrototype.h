@@ -29,7 +29,6 @@ public:
 
 	ButtonPrototype();
 	ButtonPrototype(const std::array<ofImage, ButtonState::COUNT>& image, const ofTrueTypeFont& font);
-	//ButtonPrototype(const std::string& directory, const std::string& font_filename, const int font_size);
 	ButtonPrototype(const ButtonPrototype& source);
 	~ButtonPrototype();
 

@@ -44,7 +44,7 @@ public:
 	const BlockPrototype& getBlock(const vec3Di& position) const;
 	const BlockPrototype& getBlock(const BlockType type) const;
 
-	//temporary
+
 	BlockPrototype& getBlock(const vec3Di& position);
 
 	bool isVisible(const vec3Di& position, Side side) const;
@@ -65,7 +65,6 @@ private:
 	ofEvent<const vec3Di&> chunkReloadRequest_;
 
 	ofEvent<const WorldManager::blockEventArgs&> blockEvent_;
-	//ofEvent<const vec3Di&> destroyedBlockEvent_;
 
 };
 
