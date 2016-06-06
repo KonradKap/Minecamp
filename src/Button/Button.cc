@@ -5,7 +5,7 @@
  *      Author: konrad
  */
 
-#include "Menu/Button.h"
+#include <Button/Button.h>
 //#include "Utill/Registrable.h"
 
 Button::Button(const ofVec2f& position, const std::string& title, const ButtonPrototype& base) :

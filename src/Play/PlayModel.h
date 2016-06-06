@@ -8,13 +8,13 @@
 #ifndef SRC_PLAY_H_
 #define SRC_PLAY_H_
 
-
-#include "Game/GameState.h"
+#include "Game/Game.h"
 #include "Play/PlayView.h"
 #include "Play/Player.h"
 #include "World/BufferManager.h"
 #include "Play/SaveFileManager.h"
 #include "Play/EquipmentManager.h"
+
 
 #include "Utill/vec3D.h"
 
@@ -40,7 +40,7 @@ public:
 
 	const BufferManager& getBufferManager() const;
 
-	void save() const;
+	void onSave();
 	void load();
 private:
 	void registerMe(const do_register_trait&);
@@ -54,9 +54,6 @@ private:
 	SaveFileManager save_file_manager_;
 	EquipmentManager equipment_manager_;
 	Player player_;
-
-
-	//mutable ofEasyCam cam;
 };
 
 

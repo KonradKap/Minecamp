@@ -8,11 +8,11 @@
 #ifndef SRC_VIEW_H_
 #define SRC_VIEW_H_
 
+#include "../Button/Button.h"
 #include "ofVec3f.h"
 #include "ofEvents.h"
 
 #include "Utill/Registrable.h"
-#include "Menu/Button.h"
 
 class ofEventArgs;
 

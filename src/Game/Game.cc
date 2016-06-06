@@ -1,17 +1,24 @@
 #include "Game/Game.h"
 #include "ofApp.h"
 
+ofEvent<void> Game::saveRequest_;
+
 Game::Game() :
 	Registrable(),
-	stateStack_()
+	states_()
 {
-	stateStack_.push(getMenu()); //Menu is the default start
+	states_.push_back(createMenu(MenuModel::MenuState::MAIN)); //Menu is the default start
 	Registrable::registerMe();
 }
 
 Game::~Game()
 {
 	Registrable::unregisterMe();
+}
+
+ofEvent<void>& Game::getSaveRequestEvent()
+{
+	return saveRequest_;
 }
 
 void Game::registerMe(const do_register_trait&)
@@ -32,28 +39,30 @@ void Game::onGameStateEvent(const GameStateEventType& type)
 		onQuit();
 		break;
 	case GameStateEventType::SWITCH_TO_MENU:
-		//if(!stateStack_.empty())
-		stateStack_.pop();
-		stateStack_.push(getMenu());
+		states_.clear();
+		states_.push_back(createMenu(MenuModel::MenuState::MAIN));
 		break;
 	case GameStateEventType::LOAD_STATE_1:
 	case GameStateEventType::LOAD_STATE_2:
 	case GameStateEventType::LOAD_STATE_3:
 	case GameStateEventType::LOAD_STATE_4:
 	case GameStateEventType::LOAD_STATE_5:
-		stateStack_.pop();
-		stateStack_.push(getPlay(int(type)));
+		states_.clear();
+		states_.push_back(createPlay(int(type)));
 		break;
 	case GameStateEventType::PAUSE:
-		stateStack_.top().Registrable::unregisterMe();
-		stateStack_.push(getPause());
+		states_.back().Registrable::unregisterMe();
+		states_.push_back(createMenu(MenuModel::MenuState::PAUSE));
 		break;
 	case GameStateEventType::SAVE:
-		static_cast<const PlayModel*>(stateStack_.top().getModel().get())->save();
+		Registrable::notify(getSaveRequestEvent());
 		break;
-	case GameStateEventType::POP:
-		stateStack_.pop();
-		stateStack_.top().Registrable::registerMe();
+	case GameStateEventType::PAUSE_BREAK:
+		states_.pop_back();
+		states_.back().Registrable::registerMe();
+		break;
+	case GameStateEventType::RESET_OTHERS:
+		states_.erase(states_.begin(), states_.end() - 1);
 		break;
 	default:
 		throw std::invalid_argument("Unknown GameEvent");
@@ -65,15 +74,15 @@ void Game::onQuit() const
 	ofGetMainLoop()->shouldClose(0);
 }
 
-GameState Game::getMenu() const
+GameState Game::createMenu(MenuModel::MenuState state) const
 {
-	std::unique_ptr<MenuModel> menu_model(new MenuModel());
+	std::unique_ptr<MenuModel> menu_model(new MenuModel(state));
 	std::unique_ptr<MenuView>  menu_view(new MenuView(*menu_model));
 	std::unique_ptr<MenuController> menu_controller(new MenuController(*menu_model));
 	return GameState(std::move(menu_model), std::move(menu_view), std::move(menu_controller));
 }
 
-GameState Game::getPlay(int save) const
+GameState Game::createPlay(int save) const
 {
 	std::unique_ptr<PlayModel> play_model(new PlayModel(save));
 	std::unique_ptr<PlayView>  play_view(new PlayView(*play_model));
@@ -81,15 +90,3 @@ GameState Game::getPlay(int save) const
 	return GameState(std::move(play_model), std::move(play_view), std::move(play_controller));
 }
 
-GameState Game::getPause()
-{
-	std::unique_ptr<PauseModel> play_model(new PauseModel());
-	std::unique_ptr<PauseView>  play_view(new PauseView(*play_model));
-	std::unique_ptr<PauseController> play_controller(new PauseController());
-	return GameState(std::move(play_model), std::move(play_view), std::move(play_controller));
-}
-
-void Game::onPauseBreakEvent(GameState previous)
-{
-
-}

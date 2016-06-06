@@ -7,6 +7,7 @@
 int main( )
 {
 	ofGLFWWindowSettings settings;
+	settings.resizable = false;
 	settings.setGLVersion(3, 2);
 	settings.width = ofApp::WINDOW_X_SIZE;
 	settings.height = ofApp::WINDOW_Y_SIZE;

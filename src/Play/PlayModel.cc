@@ -26,6 +26,7 @@ PlayModel::~PlayModel()
 
 void PlayModel::registerMe(const do_register_trait&)
 {
+	ofAddListener(Game::getSaveRequestEvent(), this, &PlayModel::onSave, OF_EVENT_ORDER_BEFORE_APP);
 	ofAddListener(ofEvents().update, this, &PlayModel::onUpdate);
 	world_manager_.Registrable::registerMe();
 	buffer_manager_.Registrable::registerMe();
@@ -34,6 +35,7 @@ void PlayModel::registerMe(const do_register_trait&)
 
 void PlayModel::unregisterMe(const do_register_trait&)
 {
+	ofRemoveListener(Game::getSaveRequestEvent(), this, &PlayModel::onSave, OF_EVENT_ORDER_BEFORE_APP);
 	ofRemoveListener(ofEvents().update, this, &PlayModel::onUpdate);
 	world_manager_.Registrable::unregisterMe();
 	buffer_manager_.Registrable::unregisterMe();
@@ -42,13 +44,9 @@ void PlayModel::unregisterMe(const do_register_trait&)
 
 void PlayModel::onUpdate(ofEventArgs&)
 {
+
 	player_.moveUpdate();
-
 	player_.setPosition(collide(player_.getPosition()));
-
-
-
-
 }
 
 Player& PlayModel::getPlayer()
@@ -86,7 +84,7 @@ const EquipmentManager& PlayModel::getEquipmentManager() const
 	return equipment_manager_;
 }
 
-void PlayModel::save() const
+void PlayModel::onSave()
 {
 	save_file_manager_.save();
 }
@@ -102,16 +100,17 @@ std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const
 	vec3Dd ray_walker = player_.getEyePosition();
 	vec3Dd step = player_.getDirectionVector()/RESOLUTION;
 
-	vec3Di previous;
+	vec3Di previous = vec3Di(ray_walker)/*/BlockPrototype::SIZE*/;
 
 	for(int i = 0; i < RESOLUTION*Player::RANGE; ++i)
 	{
-		vec3Di current = vec3Di(ray_walker)/BlockPrototype::SIZE;
+		vec3Di current = vec3Di(ray_walker)/*/BlockPrototype::SIZE*/;
 		if(!world_manager_.isWithin(current))
 			break;
 
 		if (current != previous and world_manager_.getBlock(current).isSolid())
-				return std::make_pair(current, previous);
+			return std::make_pair(current, previous);
+
 		previous = current;
 		ray_walker += step;
 	}
@@ -121,71 +120,46 @@ std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const
 
 vec3Dd PlayModel::collide(vec3Dd position)
 {
-
-	vec3Di normalize = vec3Di(position);
-	const double pad = 0.25* BlockPrototype::SIZE;
-	for (int i =0 ; i<3;++i)
-	{
-		normalize[i]-=normalize[i]%16;
-	}
-
-
-
+	vec3Dd blockPosition = vec3Dd(vec3Di(position))+vec3Dd(0.5, 0.5, 0.5);
+	const double width = player_.getWidth();
 
 	for( unsigned i = 0; i< unsigned(Side::COUNT) ;++i)
 	{
-		vec3Dd face = vec3Dd(vec3Di::make_unit_vector(Side(i)));
-		double d=0;
+		vec3Dd chekedDirection = vec3Dd(vec3Di::make_unit_vector(Side(i)));
+		double overlaping=0;
 
-		cout << position.x()<<" "<< position.y() <<" "<< position.z()<< endl;
 		for(int j=0;j<3;j++)
 		{
-			if (face[j]==0)
+			if (chekedDirection[j]==0)
 			{
 				continue;
 			}
-			cout <<endl;
 
-			cout << position[j] << " "<< normalize[j]<< endl;
-			cout <<endl;
-			d = (position[j]-normalize[j])*face[j];
-			d*=1;
+			overlaping = (position[j]-blockPosition[j])*chekedDirection[j];
 
-
-			if (d<pad)
+			if (overlaping<width)
 			{
-				cout<< d << " "<< pad << endl;
-				cout << "if 2"<< endl;
-				continue;
-
+			continue;
 			}
-			vec3Di op = normalize;
 
-			for(int dy= 0 ; dy <=player_.getHeight()/16; ++dy)
+			for(int dy= 0 ; dy <=player_.getHeight(); ++dy)
 			{
-				op[1] += dy;
-				op[j] += face[j];
+				vec3Di collidedBlock = vec3Di(blockPosition);
+				collidedBlock.y() += dy;
+				collidedBlock[j] += chekedDirection[j];
 
-				cout << op.x()<<" "<< op.y() <<" "<< op.z()<< endl;
-				cout << "befor colision"<< endl;
-				//if((!world_manager_.isWithin(op))) continue;
-				//if (!world_manager_.getBlock(op).isSolid() and (!world_manager_.isWithin(op))) continue;
+				if (world_manager_.isWithin(collidedBlock)and !world_manager_.getBlock(collidedBlock).isSolid())
+					continue;
 
-				//if (world_manager_.isWithin(op/BlockPrototype::SIZE)) continue;
-				if (!world_manager_.getBlock(op/BlockPrototype::SIZE).isSolid() and world_manager_.isWithin(op/BlockPrototype::SIZE)) continue;
+				position[j] -= (overlaping -width) * chekedDirection[j];
 
-
-				position[j] -= (d -pad) * face[j];
-				cout<< "colision"<<endl;
-				if (Side(i) == Side::BOTTOM or Side(i) == Side::TOP) player_.setYVelocity(0);
+				if (Side(i) == Side::BOTTOM or Side(i) == Side::TOP)
+					player_.setYVelocity(0);
 
 				break;
 			}
 		}
 	}
-	//cout << position.x<< position.y << position.z<< endl;
-	cout<< "return position"<<endl;
-	cout << position.x()<<" "<< position.y()<<" " << position.z()<<" "<< endl;
 
 	return position;
 }

@@ -16,9 +16,6 @@
 #include "Menu/MenuModel.h"
 #include "Menu/MenuController.h"
 #include "Menu/MenuView.h"
-#include "Pause/PauseModel.h"
-#include "Pause/PauseController.h"
-#include "Pause/PauseView.h"
 #include "GameStateEventType.h"
 
 class Game : public Registrable
@@ -27,21 +24,21 @@ public:
 	Game();
 
 	~Game();
-private:
 
+	static ofEvent<void>& getSaveRequestEvent();
+private:
 	void registerMe(const do_register_trait&);
 	void unregisterMe(const do_register_trait&);
 
 	void onGameStateEvent(const GameStateEventType& type);
-	void onPauseBreakEvent(GameState previous);
 	void onQuit() const;
 
-	GameState getMenu() const;
-	GameState getPlay(int save) const;
-	GameState getPause();
+	GameState createMenu(MenuModel::MenuState state) const;
+	GameState createPlay(int save) const;
 
-	std::stack<GameState> stateStack_;
-	//GameStateFactory factory_;
+	std::deque<GameState> states_;
+
+	static ofEvent<void> saveRequest_;
 };
 
 

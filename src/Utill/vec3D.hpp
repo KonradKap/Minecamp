@@ -159,9 +159,9 @@ template<class T>
 		switch(side)
 		{
 		case Side::TOP:
-			return vec3D<int>(0, -1, 0);
-		case Side::BOTTOM:
 			return vec3D<int>(0, 1, 0);
+		case Side::BOTTOM:
+			return vec3D<int>(0, -1, 0);
 		case Side::FRONT:
 			return vec3D<int>(0, 0, 1);
 		case Side::BACK:

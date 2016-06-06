@@ -10,12 +10,13 @@
 
 #include <memory>
 
-#include "ButtonPrototype.h"
+#include "Button/Button.h"
+#include "Button/ButtonPrototype.h"
+#include "Button/ButtonPrototypeLoader.h"
 #include "ofImage.h"
 #include "ofEvents.h"
 
 #include "Game/Model.h"
-#include "Menu/Button.h"
 #include "Menu/MenuPathManager.h"
 
 class MenuView;
@@ -24,14 +25,15 @@ class MenuView;
 class MenuModel : public Model
 {
 public:
-	//enum class ButtonType
-	//{
-	//	PLAY,
-	//	QUIT,
-	//	LEVEL_SELECT,
-	//	COUNT
-	//};
-	MenuModel();
+	enum class MenuState
+	{
+		MAIN,
+		LEVEL_SELECT,
+		PAUSE,
+		COUNT
+	};
+
+	MenuModel(MenuState starting_state);
 	virtual ~MenuModel();
 
 	const ofImage& getBackground() const;
@@ -44,17 +46,13 @@ public:
 	static const int BUTTONSET_OFFSET = 250;
 
 	static const int MAIN_BUTTON_COUNT = 2;
+	static const int PAUSE_BUTTON_COUNT = 3;
 	static const int SELECT_WIDE_BUTTON_COUNT = 6;
 	static const int SELECT_SMALL_BUTTON_COUNT = 5;
 
 	static const int SELECT_BUTTON_COUNT = SELECT_WIDE_BUTTON_COUNT + SELECT_SMALL_BUTTON_COUNT;
 private:
-	enum class MenuState
-	{
-		MAIN,
-		LEVEL_SELECT,
-		COUNT
-	};
+
 
 	enum MenuButtonTitles
 	{
@@ -67,6 +65,9 @@ private:
 		SELECT_5,
 		RETURN,
 		DELETE,
+		SAVE_AND_QUIT,
+		NO_SAVE_QUIT,
+		RESUME,
 		COUNT
 	};
 
@@ -76,6 +77,7 @@ private:
 	void switchState(MenuState new_state);
 	void switchToMain();
 	void switchToLevelSelect();
+	void switchToPause();
 
 	void onButtonPress(const Button& pressed);
 
@@ -84,13 +86,17 @@ private:
 	void onQuitPressed();
 	void onLevelDeletion(const Button& pressed);
 
+	void onSaveAndQuitPressed();
+	void onNoSaveAndQuitPressed();
+	void onResumePressed();
+
 	void setUpPaths();
 	void setUpButtons(const std::vector<std::string>& titles);
 	void setUpSmallButtons(const std::string& title);
 
 	MenuState state_;
 
-	const std::array<std::string, MenuButtonTitles::COUNT> TITLES_;
+	static const std::array<std::string, MenuButtonTitles::COUNT> TITLES_;
 
 	ofImage background_;
 	ofImage title_;

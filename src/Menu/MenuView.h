@@ -11,7 +11,7 @@
 class ofEventArgs;
 
 #include "Game/View.h"
-#include "Menu/Button.h"
+#include "../Button/Button.h"
 #include "Menu/MenuModel.h"
 
 class MenuView : public View

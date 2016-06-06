@@ -9,7 +9,7 @@
 
 Player::Player() :
 	Registrable(),
-	position_(5*16,11*16+1,5*16),
+	position_(10,10,10),
 	steer_(),
 	horizontal_angle_(),
 	vertical_angle_()
@@ -60,10 +60,17 @@ double Player::getBack() const
 	return position_.z() - WIDTH;
 }
 
-int Player::getHeight() const
+double Player::getHeight() const
 {
 	return HEIGHT;
 }
+
+double Player::getWidth() const
+{
+	return WIDTH;
+}
+
+
 
 vec3Dd Player::getEyePosition() const
 {
@@ -135,6 +142,7 @@ void Player::setYVelocity(const double yVelocity)
 }
 void Player::onUpdate(ofEventArgs& args)
 {
+	std::cout << "(" << position_.x() << ", " << position_.y() << ", " << position_.z() << ")" << std::endl;
 	if(steer_ == vec3Di(0, 0, 0))
 			return;
 	//double time = ofGetLastFrameTime();
@@ -174,11 +182,10 @@ void Player::moveUpdate()
 	        direction*= distance;
 
 
-	        /*y_velocity_ -= dtime * GRAVITY;
+	        y_velocity_ -= dtime * GRAVITY;
 
-	        y_velocity_ = (y_velocity_<VELOCITY) ?  VELOCITY : y_velocity_;
-	        y_velocity_ += y_velocity_ * dtime;*/
-
+	        y_velocity_ = (y_velocity_<-TVELOCITY) ?  -TVELOCITY : y_velocity_;
+	        direction.y()+=y_velocity_*dtime;
 	        position_+= direction ;
 
 

@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetEscapeQuitsApp(false);
+
 	ofDisableArbTex();
 }
 
@@ -57,7 +58,8 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+	//ofSetWindowShape(ofApp::WINDOW_X_SIZE, ofApp::WINDOW_Y_SIZE);
+	//ofDisableSetupScreen();
 }
 
 //--------------------------------------------------------------

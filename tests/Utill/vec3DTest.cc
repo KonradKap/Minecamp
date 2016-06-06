@@ -126,4 +126,12 @@ BOOST_AUTO_TEST_CASE(fieldsShouldBeAccessibleByIndex)
 	BOOST_CHECK(tri_a[0] == 2 and tri_a[1] == 3 and tri_a[2] == 4);
 }
 
+BOOST_AUTO_TEST_CASE(fieldsShouldBeToChangeAccesedByIndexOperator)
+{
+	vec3D<float> tri_a(2, 3, 4);
+	tri_a[2] = 6;
+	BOOST_CHECK_EQUAL(tri_a.z(), 6);
+}
+
+
 BOOST_AUTO_TEST_SUITE_END();

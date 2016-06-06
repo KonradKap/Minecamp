@@ -18,9 +18,9 @@ enum class GameStateEventType
 	QUIT,
 	SWITCH_TO_MENU,
 	PAUSE,
-	//PAUSE_RETURN,
+	RESET_OTHERS,
 	SAVE,
-	POP
+	PAUSE_BREAK
 };
 
 

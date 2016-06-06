@@ -8,12 +8,15 @@
 #include "MenuModel.h"
 #include "ofApp.h"
 
-MenuModel::MenuModel() :
+const std::array<std::string, MenuModel::MenuButtonTitles::COUNT> MenuModel::TITLES_ =
+ {"Play", "Quit", "Save One",
+  "Save Two", "Save Three", "Save Four",
+  "Save Five", "Return", "DEL",
+  "Save and quit", "Quit without saving", "Resume game"};
+
+MenuModel::MenuModel(MenuState starting_state) :
 	Model(),
-	state_(),
-	TITLES_({"Play", "Quit", "Save One",
-			"Save Two", "Save Three", "Save Four",
-			"Save Five", "Return", "DEL"}),
+	state_(starting_state),
 	background_(),
 	title_(),
 	wide_model_(),
@@ -21,7 +24,7 @@ MenuModel::MenuModel() :
 	buttons_()
 {
 	setUpPaths();
-	switchState(MenuState::MAIN);
+	switchState(starting_state);
 }
 
 void MenuModel::setUpPaths()
@@ -29,8 +32,10 @@ void MenuModel::setUpPaths()
 	const MenuPathManager MANAGER;
 	background_.load(MANAGER.get(MenuResources::BACKGROUND_T));
 	title_.load(MANAGER.get(MenuResources::TITLE_T));
-	wide_model_ = ButtonPrototype(MANAGER.get(MenuResources::WIDE_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
-	small_model_ = ButtonPrototype(MANAGER.get(MenuResources::SMALL_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
+	wide_model_ = ButtonPrototypeLoader::getInstance().load(
+			MANAGER.get(MenuResources::WIDE_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
+	small_model_ = ButtonPrototypeLoader::getInstance().load(
+			MANAGER.get(MenuResources::SMALL_BUTTON_D), MANAGER.get(MenuResources::FONT_F), FONT_SIZE);
 }
 
 void MenuModel::setUpButtons(const std::vector<std::string>& titles)
@@ -92,6 +97,9 @@ void MenuModel::switchState(MenuState new_state)
 	case MenuState::LEVEL_SELECT:
 		switchToLevelSelect();
 		break;
+	case MenuState::PAUSE:
+		switchToPause();
+		break;
 	default:
 		throw std::invalid_argument("No such menu state");
 	}
@@ -114,6 +122,17 @@ void MenuModel::switchToLevelSelect()
 			      TITLES_[MenuButtonTitles::SELECT_3], TITLES_[MenuButtonTitles::SELECT_4],
 				  TITLES_[MenuButtonTitles::SELECT_5], TITLES_[MenuButtonTitles::RETURN]});
 	setUpSmallButtons(TITLES_[MenuButtonTitles::DELETE]);
+
+	state_ = MenuState::LEVEL_SELECT;
+}
+
+void MenuModel::switchToPause()
+{
+	buttons_.clear();
+	buttons_.reserve(PAUSE_BUTTON_COUNT);
+	setUpButtons({TITLES_[MenuButtonTitles::SAVE_AND_QUIT],
+				  TITLES_[MenuButtonTitles::NO_SAVE_QUIT],
+				  TITLES_[MenuButtonTitles::RESUME]});
 
 	state_ = MenuState::LEVEL_SELECT;
 }
@@ -141,6 +160,15 @@ void MenuModel::onButtonPress(const Button& pressed)
 		break;
 	case MenuButtonTitles::DELETE:
 		onLevelDeletion(pressed);
+		break;
+	case MenuButtonTitles::SAVE_AND_QUIT:
+		onSaveAndQuitPressed();
+		break;
+	case MenuButtonTitles::NO_SAVE_QUIT:
+		onNoSaveAndQuitPressed();
+		break;
+	case MenuButtonTitles::RESUME:
+		onResumePressed();
 		break;
 	default:
 		throw std::invalid_argument("Invalid button pressed");
@@ -180,5 +208,24 @@ void MenuModel::onLevelDeletion(const Button& pressed)
 						return pressed.getPosition().y == b.getPosition().y;
 	}));
 	SaveFileManager::clear(SAVE_NUMBER);
+}
+
+void MenuModel::onSaveAndQuitPressed()
+{
+	//Registrable::notify(Model::getEvent(), GameStateEventType::SAVE);
+
+	Registrable::notify(Model::getEvent(), GameStateEventType::RESET_OTHERS);
+	switchState(MenuState::MAIN);
+}
+
+void MenuModel::onNoSaveAndQuitPressed()
+{
+	Registrable::notify(Model::getEvent(), GameStateEventType::RESET_OTHERS);
+	switchState(MenuState::MAIN);
+}
+
+void MenuModel::onResumePressed()
+{
+	Registrable::notify(Model::getEvent(), GameStateEventType::PAUSE_BREAK);
 }
 
