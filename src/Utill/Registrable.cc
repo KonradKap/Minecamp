@@ -7,8 +7,7 @@
 
 #include "Utill/Registrable.h"
 
-Registrable::Registrable() :
-	registered_(false)
+Registrable::Registrable()
 {
 }
 
@@ -18,16 +17,11 @@ Registrable::~Registrable()
 
 void Registrable::registerMe()
 {
-	if(!registered_)
-	{
-		registered_ = true;
-		registerMe(Registrable::answer());
-	}
+	registerMe(Registrable::answer());
 }
 
 void Registrable::unregisterMe()
 {
-	registered_ = false;
 	unregisterMe(Registrable::answer());
 }
 

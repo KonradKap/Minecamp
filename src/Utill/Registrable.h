@@ -57,8 +57,6 @@ private:
 		static void notify(const do_not_register_trait&, Event& event, Args& args);
 	template<class Event, typename Args>
 		static void notify(const do_not_register_trait&, Event& event, const Args& args);
-
-	bool registered_;
 };
 
 #include "Utill/Registrable.hpp"
