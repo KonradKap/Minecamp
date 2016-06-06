@@ -9,7 +9,7 @@
 
 Player::Player() :
 	Registrable(),
-	position_(5,11+1,5),
+	position_(10,10,10),
 	steer_(),
 	horizontal_angle_(),
 	vertical_angle_()
@@ -60,10 +60,17 @@ double Player::getBack() const
 	return position_.z() - WIDTH;
 }
 
-int Player::getHeight() const
+double Player::getHeight() const
 {
 	return HEIGHT;
 }
+
+double Player::getWidth() const
+{
+	return WIDTH;
+}
+
+
 
 vec3Dd Player::getEyePosition() const
 {
@@ -151,13 +158,13 @@ void Player::onUpdate(ofEventArgs& args)
 	//direction.rotate(getVerticalAngle() , -View::xAxis())
 	//		 .rotate(getHorizontalAngle(), View::yAxis());
 	//vec3Dd distance = vec3Dd(getDirectionVector(ofVec3f(steer_))*time*VELOCITY);
-	position_ += moveUpdate();
+	//position_ += moveUpdate();
 	//position_ += distance;
 }
 
 
 
-vec3Dd Player::moveUpdate()
+void Player::moveUpdate()
 
 //TODO: Znormalizować steer_, tak, zeby poruszanie na skos ('w' i 'a', dla przykladu)
 //		bylo tak samo szybkie jak poruszanie sie prosto
@@ -175,15 +182,14 @@ vec3Dd Player::moveUpdate()
 	        direction*= distance;
 
 
-	        /*y_velocity_ -= dtime * GRAVITY;
+	        y_velocity_ -= dtime * GRAVITY;
 
-	        y_velocity_ = (y_velocity_<VELOCITY) ?  VELOCITY : y_velocity_;
-	        y_velocity_ += y_velocity_ * dtime;*/
+	        y_velocity_ = (y_velocity_<-TVELOCITY) ?  -TVELOCITY : y_velocity_;
+	        direction.y()+=y_velocity_*dtime;
+	        position_+= direction ;
 
-	       // vec3Dd position = position_;
 
-
-	        return direction;
+	        //return direction;
 
 
 

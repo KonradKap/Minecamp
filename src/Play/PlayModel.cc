@@ -44,6 +44,8 @@ void PlayModel::unregisterMe(const do_register_trait&)
 
 void PlayModel::onUpdate(ofEventArgs&)
 {
+
+	player_.moveUpdate();
 	player_.setPosition(collide(player_.getPosition()));
 }
 
@@ -118,40 +120,48 @@ std::pair<vec3Di, vec3Di> PlayModel::findTargetedBlock() const
 
 vec3Dd PlayModel::collide(vec3Dd position)
 {
-
-	vec3Di normalize = vec3Di(position);
-	double pad = 0.25;
-
-
-
+	vec3Dd blockPosition = vec3Dd(vec3Di(position))+vec3Dd(0.5, 0.5, 0.5);
+	const double width = player_.getWidth();
 
 	for( unsigned i = 0; i< unsigned(Side::COUNT) ;++i)
 	{
-		vec3Dd face = vec3Dd(vec3Di::make_unit_vector(Side(i)));
-		double d=0;
+		vec3Dd chekedDirection = vec3Dd(vec3Di::make_unit_vector(Side(i)));
+		double overlaping=0;
 
 		for(int j=0;j<3;j++)
 		{
-			if (!face[j]) continue;
-			d = (position[j]-normalize[j])*face[j];
+			if (chekedDirection[j]==0)
+			{
+				continue;
+			}
 
-			if (d<pad) continue;
-			vec3Di op = normalize;
+			overlaping = (position[j]-blockPosition[j])*chekedDirection[j];
+
+
+			if (overlaping<width)
+			{
+			continue;
+			}
 
 			for(int dy= 0 ; dy <=player_.getHeight(); ++dy)
 			{
-				op[1] -= dy;
-				op[j] += face[j];
-				if (!world_manager_.isWithin(op)) continue;
-				if (!world_manager_.getBlock(op).isSolid()) continue;
+				vec3Di collidedBlock = vec3Di(blockPosition);
+				collidedBlock.y() += dy;
+				collidedBlock[j] += chekedDirection[j];
 
-				position[j] -= (d - pad) * face[j];
-				if (Side(i) == Side::BOTTOM or Side(i) == Side::TOP) player_.setYVelocity(0);
+				if (world_manager_.isWithin(collidedBlock)and !world_manager_.getBlock(collidedBlock).isSolid())
+					continue;
+
+				position[j] -= (overlaping -width) * chekedDirection[j];
+
+				if (Side(i) == Side::BOTTOM or Side(i) == Side::TOP)
+					player_.setYVelocity(0);
 
 				break;
 			}
 		}
 	}
+
 	return position;
 }
 

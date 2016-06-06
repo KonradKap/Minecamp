@@ -27,7 +27,8 @@ public:
 	double getRight() const;
 	double getFront() const;
 	double getBack() const;
-	int getHeight() const;
+	double getHeight() const;
+	double getWidth() const;
 
 	vec3Dd getEyePosition() const;
 
@@ -46,16 +47,21 @@ public:
 	float getHorizontalAngle() const;
 	float getVerticalAngle() const;
 
+
+	void moveUpdate();
+
+
 	constexpr static const double HEIGHT = 1.9;
 	constexpr static const double WIDTH  = 0.25;
-	constexpr static const double EYE_HEIGHT = 1.75;
-	static const int VELOCITY = 16;
+	constexpr static const double EYE_HEIGHT = 1.5;
+	static const int VELOCITY = 6;
+	static const int TVELOCITY=20;
 	static const int RANGE = 8;
 	static const int GRAVITY = 10;
 private:
 
 	void onUpdate(ofEventArgs& args);
-	vec3Dd moveUpdate();
+
 
 
 
