@@ -27,8 +27,8 @@ const std::array<std::array<ofVec3f, 6>, unsigned(Side::COUNT)> BufferManager::S
 		std::array<ofVec3f, 6>({VERTICES[0], VERTICES[1], VERTICES[4], VERTICES[0], VERTICES[2], VERTICES[4]}),
 		std::array<ofVec3f, 6>({VERTICES[1], VERTICES[4], VERTICES[7], VERTICES[1], VERTICES[5], VERTICES[7]}),
 		std::array<ofVec3f, 6>({VERTICES[0], VERTICES[3], VERTICES[6], VERTICES[0], VERTICES[2], VERTICES[6]}),
-		std::array<ofVec3f, 6>({VERTICES[0], VERTICES[1], VERTICES[5], VERTICES[0], VERTICES[3], VERTICES[5]}),
 		std::array<ofVec3f, 6>({VERTICES[2], VERTICES[4], VERTICES[7], VERTICES[2], VERTICES[6], VERTICES[7]}),
+		std::array<ofVec3f, 6>({VERTICES[0], VERTICES[1], VERTICES[5], VERTICES[0], VERTICES[3], VERTICES[5]}),
 	};
 
 BufferManager::BufferManager(WorldManager& source) :
@@ -54,7 +54,7 @@ void BufferManager::unregisterMe(const do_register_trait&)
 
 ofVboMesh& BufferManager::getBuffer(const vec3Di& position, BlockType type)
 {
-	return buffer_[position.x()][position.y()][position.z()][unsigned(type)];
+	return const_cast<ofVboMesh&>(static_cast<const BufferManager*>(this)->getBuffer(position, type));
 }
 
 const BufferManager::buffer_t& BufferManager::getBuffer() const
@@ -64,8 +64,10 @@ const BufferManager::buffer_t& BufferManager::getBuffer() const
 
 const ofVboMesh& BufferManager::getBuffer(const vec3Di& position, BlockType type) const
 {
-	return const_cast<BufferManager*>(this)->getBuffer(position, type);
+	return buffer_[position.x()][position.y()][position.z()][unsigned(type)];
 }
+
+
 
 void BufferManager::onReloadChunkRequest(const vec3Di& position)
 {

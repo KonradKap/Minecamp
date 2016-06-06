@@ -42,8 +42,8 @@ public:
 private:
 	void registerMe(const do_register_trait&);
 	void unregisterMe(const do_register_trait&);
-	void onReloadChunkRequest(const vec3Di& position);
 
+	void onReloadChunkRequest(const vec3Di& position);
 	void clearChunk(const vec3Di& position);
 	void addToMesh(const vec3Di& position, const std::array<ofVec3f, 6>& shift);
 

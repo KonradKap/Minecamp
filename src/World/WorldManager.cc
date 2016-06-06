@@ -137,12 +137,13 @@ bool WorldManager::areInTheSameChunk(const vec3Di& first, const vec3Di& second) 
 
 const BlockPrototype& WorldManager::getBlock(const vec3Di& position) const
 {
-	return const_cast<WorldManager*>(this)->getBlock(position);
+	return *map_[position.x()][position.y()][position.z()];
 }
 
 BlockPrototype& WorldManager::getBlock(const vec3Di& position)
 {
-	return *map_[position.x()][position.y()][position.z()];
+	return const_cast<BlockPrototype&>(static_cast<const WorldManager*>(this)->getBlock(position));
+
 }
 
 const BlockPrototype& WorldManager::getBlock(const BlockType type) const
