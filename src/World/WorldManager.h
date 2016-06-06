@@ -48,9 +48,7 @@ public:
 	BlockPrototype& getBlock(const vec3Di& position);
 
 	bool isVisible(const vec3Di& position, Side side) const;
-	bool isWithin(const vec3Di& position) const;
-	std::vector<Side> isOnChunkEdge(const vec3Di& position) const;
-	bool areInTheSameChunk(const vec3Di& first, const vec3Di& second) const;
+	static bool isWithin(const vec3Di& position);
 
 	ofEvent<const vec3Di&>& getChunkReloadEvent();
 	ofEvent<const WorldManager::blockEventArgs&>& getBlockEvent();

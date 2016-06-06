@@ -39,3 +39,6 @@ bin/Minecamp
 .cproject
 .project
 config.make
+Doxyfile
+/html
+/latex

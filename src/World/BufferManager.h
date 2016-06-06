@@ -38,7 +38,9 @@ public:
 	const buffer_t& getBuffer() const;
 	const ofVboMesh& getBuffer(const vec3Di& position, BlockType type) const;
 
-	bool isValid(const vec3Di& position) const;
+	static bool isValid(const vec3Di& position);
+	static std::vector<Side> isOnChunkEdge(const vec3Di& position);
+	static bool areInTheSameChunk(const vec3Di& first, const vec3Di& second);
 private:
 	void registerMe(const do_register_trait&);
 	void unregisterMe(const do_register_trait&);

@@ -84,7 +84,7 @@ void BufferManager::onReloadChunkRequest(const vec3Di& position)
 	}
 }
 
-bool BufferManager::isValid(const vec3Di& position) const
+bool BufferManager::isValid(const vec3Di& position)
 {
 	if(position.x() < 0 or position.x() >= X_CHUNK_COUNT)
 		return false;
@@ -94,6 +94,23 @@ bool BufferManager::isValid(const vec3Di& position) const
 		return false;
 
 	return true;
+}
+
+
+std::vector<Side> BufferManager::isOnChunkEdge(const vec3Di& position)
+{
+	std::vector<Side> sides;
+	for(unsigned i = 0; i < unsigned(Side::COUNT); ++i)
+		if(!areInTheSameChunk(position, position+vec3Di::make_unit_vector(Side(i))))
+			sides.push_back(Side(i));
+
+	return sides;
+
+}
+
+bool BufferManager::areInTheSameChunk(const vec3Di& first, const vec3Di& second)
+{
+	return first/BufferManager::CHUNK_SIZE == second/BufferManager::CHUNK_SIZE;
 }
 
 void BufferManager::setup()

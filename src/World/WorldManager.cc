@@ -67,7 +67,7 @@ void WorldManager::onBlockEvent(const blockEventArgs& args)
 	const vec3Di BUFFER_INDEX = args.first/BufferManager::CHUNK_SIZE;
 	Registrable::notify(chunkReloadRequest_, BUFFER_INDEX);
 
-	std::vector<Side> neighbour_chunks = isOnChunkEdge(args.first);
+	std::vector<Side> neighbour_chunks = BufferManager::isOnChunkEdge(args.first);
 	for(auto side : neighbour_chunks)
 		Registrable::notify(chunkReloadRequest_, BUFFER_INDEX + vec3Di::make_unit_vector(side));
 
@@ -108,7 +108,7 @@ bool WorldManager::isVisible(const vec3Di& position, Side side) const
 	return false;
 }
 
-bool WorldManager::isWithin(const vec3Di& position) const
+bool WorldManager::isWithin(const vec3Di& position)
 {
 	if(position.x() < 0 or position.x() >= X_SIZE)
 		return false;
@@ -117,22 +117,6 @@ bool WorldManager::isWithin(const vec3Di& position) const
 	if(position.z() < 0 or position.z() >= Z_SIZE)
 		return false;
 	return true;
-}
-
-std::vector<Side> WorldManager::isOnChunkEdge(const vec3Di& position) const
-{
-	std::vector<Side> sides;
-	for(unsigned i = 0; i < unsigned(Side::COUNT); ++i)
-		if(!areInTheSameChunk(position, position+vec3Di::make_unit_vector(Side(i))))
-			sides.push_back(Side(i));
-
-	return sides;
-
-}
-
-bool WorldManager::areInTheSameChunk(const vec3Di& first, const vec3Di& second) const
-{
-	return first/BufferManager::CHUNK_SIZE == second/BufferManager::CHUNK_SIZE;
 }
 
 const BlockPrototype& WorldManager::getBlock(const vec3Di& position) const
