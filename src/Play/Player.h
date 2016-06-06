@@ -56,8 +56,7 @@ public:
 	constexpr static const double EYE_HEIGHT = 1.5;
 	static const int VELOCITY = 6;
 	static const int TVELOCITY=20;
-
-	static const int RANGE = 64;
+	static const int RANGE = 8;
 	static const int GRAVITY = 10;
 private:
 

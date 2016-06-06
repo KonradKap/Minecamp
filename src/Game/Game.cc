@@ -55,7 +55,14 @@ void Game::onGameStateEvent(const GameStateEventType& type)
 		states_.push_back(createMenu(MenuModel::MenuState::PAUSE));
 		break;
 	case GameStateEventType::SAVE:
+		for(auto& state : states_)
+			state.Registrable::registerMe();
+
 		Registrable::notify(getSaveRequestEvent());
+
+		for(auto& state : states_)
+			state.Registrable::unregisterMe();
+		states_.back().Registrable::registerMe();
 		break;
 	case GameStateEventType::PAUSE_BREAK:
 		states_.pop_back();
